@@ -1,0 +1,34 @@
+{
+  "author": "mubaidr@gmail.com",
+  "bugs": {
+    "url": "https://github.com/mubaidr/Javascript-Barcode-Reader/issues"
+  },
+  "description": "A Barcode scanner in javascript",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "11.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
+  },
+  "homepage": "https://github.com/mubaidr/Javascript-Barcode-Reader#readme",
+  "keywords": [
+    "barcode",
+    "javascript",
+    "scanner",
+    "node"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "javascript-barcode-reader",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mubaidr/Javascript-Barcode-Reader.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
