@@ -4,4 +4,3 @@ test/e2e/*.js
 **.min.js
 assets/
 static/scripts/
-src/decoder.js
