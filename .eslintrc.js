@@ -8,7 +8,7 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ['standard', 'prettier'],
+  extends: ['airbnb', 'prettier'],
   globals: {
     __static: true,
     fabric: true,
@@ -17,6 +17,7 @@ module.exports = {
     semi: 0,
     'linebreak-style': 0,
     'no-param-reassign': 0,
+    'no-shadow': 0,
     // allow debugger during development
     'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
