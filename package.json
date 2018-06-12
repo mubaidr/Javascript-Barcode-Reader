@@ -27,6 +27,10 @@
     "node"
   ],
   "license": "MIT",
+  "files": [
+    "src",
+    "dist"
+  ],
   "main": "src/index.js",
   "name": "javascript-barcode-reader",
   "repository": {
@@ -35,8 +39,9 @@
   },
   "scripts": {
     "build": "parcel build src/index.js --out-dir dist --out-file javascript-barcode-reader",
-    "dev": "parcel docs/index.html --out-dir build",
+    "build-docs": "parcel build docs-src/index.html --out-dir docs",
+    "dev": "parcel docs-src/index.html --out-dir docs",
     "lint": "eslint --fix src/"
   },
-  "version": "0.0.1"
+  "version": "0.0.2"
 }

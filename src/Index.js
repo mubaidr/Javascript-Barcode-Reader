@@ -11,7 +11,7 @@ const UPC_SET = {
   '3112': '9',
 }
 
-const barcodeDecoder = imgOrId => {
+const decoder = imgOrId => {
   const doc = document
   const img =
     typeof imgOrId === 'object' ? imgOrId : doc.getElementById(imgOrId)
@@ -130,7 +130,5 @@ const barcodeDecoder = imgOrId => {
 }
 
 if (module) {
-  module.exports = {
-    barcodeDecoder,
-  }
+  module.exports = { decoder }
 }
