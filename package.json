@@ -40,7 +40,7 @@
   "scripts": {
     "build": "parcel build src/index.js --out-dir dist --out-file javascript-barcode-reader",
     "build-docs": "parcel build docs-src/index.html --out-dir docs",
-    "dev": "parcel docs-src/index.html --out-dir docs",
+    "dev": "parcel docs-src/index.html --out-dir build",
     "lint": "eslint --fix src/"
   },
   "version": "0.0.2"
