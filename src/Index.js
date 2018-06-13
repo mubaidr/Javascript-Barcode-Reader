@@ -11,13 +11,15 @@ const UPC_SET = {
   '3112': '9',
 }
 
-const decoder = imgOrId => {
+const barcodeDecoder = (imgOrId, options) => {
   const doc = document
   const img =
     typeof imgOrId === 'object' ? imgOrId : doc.getElementById(imgOrId)
   const canvas = doc.createElement('canvas')
   const ctx = canvas.getContext('2d')
   const { width, height } = img
+
+  console.log(options)
 
   // check points for barcode location
   const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]
@@ -130,5 +132,5 @@ const decoder = imgOrId => {
 }
 
 if (module) {
-  module.exports = { decoder }
+  module.exports = { barcodeDecoder }
 }
