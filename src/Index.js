@@ -12,12 +12,23 @@ const UPC_SET = {
 }
 
 const barcodeDecoder = (imgOrId, options) => {
-  const doc = document
-  const img =
-    typeof imgOrId === 'object' ? imgOrId : doc.getElementById(imgOrId)
-  const canvas = doc.createElement('canvas')
-  const ctx = canvas.getContext('2d')
-  const { width, height } = img
+  let ctx
+  let width
+  let height
+
+  if (typeof imgOrId === 'string') {
+    const doc = document
+    const img =
+      typeof imgOrId === 'object' ? imgOrId : doc.getElementById(imgOrId)
+    const canvas = doc.createElement('canvas')
+    ctx = canvas.getContext('2d')
+    width = img.width
+    height = img.height
+  } else if (imgOrId) {
+    console.log(imgOrId)
+  } else {
+    throw new Error()
+  }
 
   console.log(options)
 
@@ -131,6 +142,12 @@ const barcodeDecoder = (imgOrId, options) => {
   return false
 }
 
-if (module) {
-  module.exports = { barcodeDecoder }
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = barcodeDecoder
+    module.exports = barcodeDecoder
+  }
+  exports.barcodeDecoder = barcodeDecoder
+} else {
+  root.barcodeDecoder = barcodeDecoder
 }
