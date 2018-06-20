@@ -14,6 +14,8 @@ module.exports = {
     fabric: true,
   },
   rules: {
+    'one-var': 0,
+    'prefer-const': 0,
     semi: 0,
     'linebreak-style': 0,
     'no-param-reassign': 0,
