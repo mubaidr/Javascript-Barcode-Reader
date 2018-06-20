@@ -43,5 +43,5 @@
     "dev": "parcel docs-src/index.html --out-dir build --no-cache",
     "lint": "eslint --fix src/"
   },
-  "version": "0.0.2"
+  "version": "0.1.0"
 }

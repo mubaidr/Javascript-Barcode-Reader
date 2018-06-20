@@ -1,4 +1,52 @@
-const decode = () => {}
+const UPC_SET = {
+  '3211': '0',
+  '2221': '1',
+  '2122': '2',
+  '1411': '3',
+  '1132': '4',
+  '1231': '5',
+  '1114': '6',
+  '1312': '7',
+  '1213': '8',
+  '3112': '9',
+}
+
+const decode = lines => {
+  let code = ''
+  // start indicator/reference lines
+  const bar = ~~((lines[1] + lines[2] + lines[3]) / 3) //eslint-disable-line
+
+  for (let i = 1; i < lines.length; i += 1) {
+    let group
+
+    if (code.length < 6) {
+      group = lines.slice(i * 4, i * 4 + 4)
+    } else {
+      group = lines.slice(i * 4 + 5, i * 4 + 9)
+    }
+
+    const digits = [
+      Math.round(group[0] / bar),
+      Math.round(group[1] / bar),
+      Math.round(group[2] / bar),
+      Math.round(group[3] / bar),
+    ]
+
+    code +=
+      UPC_SET[digits.join('')] || UPC_SET[digits.reverse().join('')] || 'X'
+
+    if (code.length === 12) {
+      return code
+      // eslint-disable-next-line
+      break
+    }
+  }
+  if (code.indexOf('X') === -1) {
+    return code || false
+  }
+
+  return false
+}
 
 module.exports = {
   decode,
