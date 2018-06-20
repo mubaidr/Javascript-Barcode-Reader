@@ -7,7 +7,10 @@ A Barcode scanner capapable of reading Code128, Code93, Code39, Standard/Industr
 <ul>
 <li><input type="checkbox" disabled checked> EAN-13</li>
 <li><input type="checkbox" disabled checked> Code 39</li>
-<li>Work in progress...</li>
+<li><input type="checkbox" disabled> Code 93 - Work in progress...</li>
+<li><input type="checkbox" disabled> Code 128</li>
+<li><input type="checkbox" disabled> Code 2 of 5</li>
+<li><input type="checkbox" disabled> Codabar.</li>
 </ul>
 
 ## Install

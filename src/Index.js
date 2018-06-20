@@ -1,7 +1,9 @@
+import DecoderCode93 from './code-93'
 import DecoderCode39 from './code-39'
 import DecoderEAN13 from './ean-13'
 
 const BARCODE_DECODERS = {
+  'code-93': DecoderCode93,
   'code-39': DecoderCode39,
   'ean-13': DecoderEAN13,
 }
