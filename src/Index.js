@@ -1,6 +1,6 @@
-import DecoderCode93 from './code-93'
-import DecoderCode39 from './code-39'
-import DecoderEAN13 from './ean-13'
+const DecoderCode93 = require('./code-93')
+const DecoderCode39 = require('./code-39')
+const DecoderEAN13 = require('./ean-13')
 
 const BARCODE_DECODERS = {
   'code-93': DecoderCode93,
