@@ -10,6 +10,10 @@ A Barcode scanner capapable of reading Code128, Code93, Code39, Standard/Industr
 
 ![dependencies](https://david-dm.org/mubaidr/javascript-barcode-reader.svg)
 
+## Demo
+
+http://mubaidr.js.org/Javascript-Barcode-Reader/
+
 ## Available decoders
 
 <ul>
