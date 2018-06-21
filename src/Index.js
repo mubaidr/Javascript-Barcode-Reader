@@ -8,30 +8,56 @@ const BARCODE_DECODERS = {
   'ean-13': DecoderEAN13,
 }
 
-const barcodeDecoder = (imgOrId, options) => {
-  const doc = document
-  const img =
-    typeof imgOrId === 'object' ? imgOrId : doc.getElementById(imgOrId)
-  const width = img.naturalWidth
-  const height = img.naturalHeight
+/**
+ *
+ * @param {*} image Image element || Canvas || ImageData
+ * @param {Object} options
+ */
+const barcodeDecoder = (imageSource, options) => {
+  let ImageData
 
-  const canvas = doc.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
-  const ctx = canvas.getContext('2d')
+  if (typeof imageSource === 'string')
+    imageSource = document.getElementById(imageSource)
+
+  let elementType = imageSource.tagName
+  if (elementType === 'IMG') {
+    const canvas = document.createElement('canvas')
+    canvas.width = imageSource.naturalWidth
+    canvas.height = imageSource.naturalHeight
+    const ctx = canvas.getContext('2d')
+
+    ctx.drawImage(imageSource, 0, 0)
+
+    ImageData = ctx.getImageData(
+      0,
+      0,
+      imageSource.naturalWidth,
+      imageSource.naturalHeight
+    )
+  } else if (elementType === 'CANVAS') {
+    ImageData = imageSource
+      .getContext('2d')
+      .getImageData(0, 0, imageSource.naturalWidth, imageSource.naturalHeight)
+  } else if (imageSource.data) {
+    ImageData = imageSource
+  } else {
+    throw new Error('Invalid image source specified!')
+  }
+
+  const { data, width, height } = ImageData
 
   // check points for barcode location
   const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]
   let numLines = spoints.length
   const slineStep = height / (numLines + 1)
 
-  ctx.drawImage(img, 0, 0)
-
   // eslint-disable-next-line
   while ((numLines -= 1)) {
     // create section of height 2
-    const pxLine = ctx.getImageData(0, slineStep * spoints[numLines], width, 2)
-      .data
+    const start = 4 * width * Math.floor(slineStep * spoints[numLines])
+    const end =
+      4 * width * Math.floor(slineStep * spoints[numLines]) + 2 * 4 * width
+    const pxLine = data.slice(start, end)
     const sum = []
     let min = 0
     let max = 0

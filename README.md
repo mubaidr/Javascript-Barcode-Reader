@@ -7,7 +7,9 @@ A Barcode scanner capapable of reading Code128, Code93, Code39, Standard/Industr
 <ul>
 <li><input type="checkbox" disabled checked> EAN-13</li>
 <li><input type="checkbox" disabled checked> Code 39</li>
-<li><input type="checkbox" disabled> Code 93 - Work in progress...</li>
+</ul>
+<ul>Work in progress...
+<li><input type="checkbox" disabled> Code 93</li>
 <li><input type="checkbox" disabled> Code 128</li>
 <li><input type="checkbox" disabled> Code 2 of 5</li>
 <li><input type="checkbox" disabled> Codabar.</li>
@@ -25,7 +27,7 @@ npm install javascript-barcode-reader
 import { barcodeDecoder } from 'javascript-barcode-reader'
 
 const code = barcodeDecoder(
-  '#imageID' /* Image ID || Image element || Image Object || ImageData || Canvas */,
+  '#imageID' /* Image ID || Image || Canvas || Canvas ImageData */,
   { barcode: 'code-39' }
 )
 ```
