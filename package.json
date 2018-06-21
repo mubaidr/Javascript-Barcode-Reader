@@ -3,7 +3,7 @@
   "bugs": {
     "url": "https://github.com/mubaidr/Javascript-Barcode-Reader/issues"
   },
-  "description": "A Barcode scanner in javascript",
+  "description": "Barcode reader solution in Javascript for Browser and Node.js",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -43,5 +43,5 @@
     "dev": "parcel docs-src/index.html --out-dir build --no-cache",
     "lint": "eslint --fix src/"
   },
-  "version": "0.1.3"
+  "version": "0.1.4"
 }

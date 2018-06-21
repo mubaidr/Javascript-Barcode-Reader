@@ -45,6 +45,8 @@ const barcodeDecoder = (imageSource, options) => {
   }
 
   const { data, width, height } = ImageData
+  imageSource = null
+  ImageData = null
 
   // check points for barcode location
   const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]
@@ -123,7 +125,7 @@ const barcodeDecoder = (imageSource, options) => {
     // Run the decoder
     return BARCODE_DECODERS[options.barcode].decode(lines)
   }
-  return false
+  return null
 }
 
 if (typeof exports !== 'undefined') {
