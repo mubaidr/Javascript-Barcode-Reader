@@ -40,7 +40,7 @@
   },
   "scripts": {
     "build": "parcel build src/index.js --out-dir dist --out-file javascript-barcode-reader",
-    "build-docs": "rimraf docs/ && parcel build docs-src/index.html --out-dir docs",
+    "build-docs": "rimraf docs/ && parcel build docs-src/index.html --out-dir docs --public-url ./",
     "dev": "rimraf build/ && parcel docs-src/index.html --out-dir build --no-cache",
     "lint": "eslint --fix src/"
   },
