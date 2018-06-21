@@ -16,8 +16,13 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.9.1",
     "eslint-plugin-standard": "^3.1.0",
-    "parcel-bundler": "^1.8.1"
+    "parcel-bundler": "^1.8.1",
+    "rimraf": "^2.6.2"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "homepage": "https://github.com/mubaidr/Javascript-Barcode-Reader#readme",
   "keywords": [
     "barcode",
@@ -27,10 +32,6 @@
     "node"
   ],
   "license": "MIT",
-  "files": [
-    "src",
-    "dist"
-  ],
   "main": "src/index.js",
   "name": "javascript-barcode-reader",
   "repository": {
@@ -39,8 +40,8 @@
   },
   "scripts": {
     "build": "parcel build src/index.js --out-dir dist --out-file javascript-barcode-reader",
-    "build-docs": "parcel build docs-src/index.html --out-dir docs",
-    "dev": "parcel docs-src/index.html --out-dir build --no-cache",
+    "build-docs": "rimraf docs/ && parcel build docs-src/index.html --out-dir docs",
+    "dev": "rimraf build/ && parcel docs-src/index.html --out-dir build --no-cache",
     "lint": "eslint --fix src/"
   },
   "version": "0.1.4"
