@@ -63,7 +63,7 @@ const CHAR_SET = [
 
 const decode = lines => {
   // manualy push last white space
-  lines.push(3)
+  lines.push(0)
   let code = ''
 
   for (let i = 1; i < lines.length; i += 10) {
