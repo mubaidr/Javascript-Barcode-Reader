@@ -131,5 +131,5 @@ const barcodeDecoder = (imageSource, options) => {
 if (module && module.exports) {
   module.exports = barcodeDecoder
 } else {
-  root.barcodeDecoder = barcodeDecoder
+  root.javascriptBarcodeReader = barcodeDecoder
 }

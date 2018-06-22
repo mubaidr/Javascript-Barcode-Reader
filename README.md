@@ -33,12 +33,26 @@ http://mubaidr.js.org/Javascript-Barcode-Reader/
 npm install javascript-barcode-reader
 ```
 
+or use cdn:
+
+[https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.js)
+
 ## How to use
 
 ```js
-import { barcodeDecoder } from 'javascript-barcode-reader'
+// Node
+const javascriptBarcodeReader = require('javascript-barcode-reader')
 
-const code = barcodeDecoder(
+const code = javascriptBarcodeReader(
+  '#imageID' /* Image ID || Image || Canvas || Canvas ImageData */,
+  { barcode: 'code-39' }
+)
+
+// Browser
+// Include link to script file from cdn
+// or Downlaod & use manualy from `dist` folder
+
+const code = javascriptBarcodeReader(
   '#imageID' /* Image ID || Image || Canvas || Canvas ImageData */,
   { barcode: 'code-39' }
 )
