@@ -11,7 +11,7 @@ const UPC_SET = {
   '3112': '9',
 }
 
-const decode = lines => {
+module.exports = lines => {
   let code = ''
   // start indicator/reference lines
   const bar = ~~((lines[1] + lines[2] + lines[3]) / 3) //eslint-disable-line
@@ -46,8 +46,4 @@ const decode = lines => {
   }
 
   return false
-}
-
-module.exports = {
-  decode,
 }

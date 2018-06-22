@@ -1,6 +1,6 @@
-import DecoderCode93 from './code-93'
-import DecoderCode39 from './code-39'
-import DecoderEAN13 from './ean-13'
+const DecoderEAN13 = require('./ean-13')
+const DecoderCode39 = require('./code-39')
+const DecoderCode93 = require('./code-93')
 
 const BARCODE_DECODERS = {
   'code-93': DecoderCode93,
@@ -123,14 +123,12 @@ const barcodeDecoder = (imageSource, options) => {
     // TODO:  If not found in first step, continue searching until while loop
 
     // Run the decoder
-    return BARCODE_DECODERS[options.barcode].decode(lines)
+    return BARCODE_DECODERS[options.barcode](lines)
   }
   return null
 }
 
-if (typeof exports !== 'undefined') {
-  exports.barcodeDecoder = barcodeDecoder
-} else if (typeof module !== 'undefined' && module.exports) {
+if (module && module.exports) {
   module.exports = barcodeDecoder
 } else {
   root.barcodeDecoder = barcodeDecoder

@@ -61,7 +61,7 @@ const CHAR_SET = [
   '*',
 ]
 
-const decode = lines => {
+module.exports = lines => {
   // manualy push last white space
   lines.push(3)
   let code = ''
@@ -84,8 +84,4 @@ const decode = lines => {
   }
 
   return code.substring(1, code.length - 1)
-}
-
-module.exports = {
-  decode,
 }
