@@ -14,7 +14,7 @@ const BARCODE_DECODERS = {
  * @param {Object} options
  */
 const barcodeDecoder = (imageSource, options) => {
-  let ImageData
+  let imageDataInput
 
   if (typeof imageSource === 'string')
     imageSource = document.getElementById(imageSource)
@@ -28,25 +28,25 @@ const barcodeDecoder = (imageSource, options) => {
 
     ctx.drawImage(imageSource, 0, 0)
 
-    ImageData = ctx.getImageData(
+    imageDataInput = ctx.getImageData(
       0,
       0,
       imageSource.naturalWidth,
       imageSource.naturalHeight
     )
   } else if (elementType === 'CANVAS') {
-    ImageData = imageSource
+    imageDataInput = imageSource
       .getContext('2d')
       .getImageData(0, 0, imageSource.naturalWidth, imageSource.naturalHeight)
   } else if (imageSource.data) {
-    ImageData = imageSource
+    imageDataInput = imageSource
   } else {
     throw new Error('Invalid image source specified!')
   }
 
-  const { data, width, height } = ImageData
+  const { data, width, height } = imageDataInput
   imageSource = null
-  ImageData = null
+  imageDataInput = null
 
   // Debug input data
 
@@ -61,7 +61,7 @@ const barcodeDecoder = (imageSource, options) => {
   }
   ctxTemp.putImageData(imgData, 0, 0)
   document.body.appendChild(canvasTemp)
-*/
+  */
 
   // check points for barcode location
   const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]
