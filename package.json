@@ -44,5 +44,5 @@
     "dev": "rimraf build/ && parcel docs-src/index.html --out-dir build --open",
     "lint": "eslint --fix src/"
   },
-  "version": "0.1.7"
+  "version": "0.1.8"
 }
