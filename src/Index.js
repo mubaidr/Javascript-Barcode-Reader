@@ -48,20 +48,22 @@ const barcodeDecoder = (imageSource, options) => {
   imageSource = null
   imageDataInput = null
 
-  // Debug input data
-
-  /* const canvasTemp = document.createElement('canvas')
+  // start debug code
+  /*
+  const canvasTemp = document.createElement('canvas')
+  const ctxTemp = canvasTemp.getContext('2d')
+  canvasTemp.style.border = '2px solid red'
   canvasTemp.width = width
   canvasTemp.height = height
-  const ctxTemp = canvasTemp.getContext('2d')
 
   let imgData = ctxTemp.createImageData(width, height)
-  for (let i = 0; i < imgData.data.length; i += 4) {
+  for (let i = 0; i < imgData.data.length; i += 1) {
     imgData.data[i] = data[i]
   }
   ctxTemp.putImageData(imgData, 0, 0)
   document.body.appendChild(canvasTemp)
   */
+  // end debug code
 
   // check points for barcode location
   const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]

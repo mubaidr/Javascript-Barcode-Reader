@@ -83,5 +83,5 @@ module.exports = lines => {
       ]
   }
 
-  return code.substring(1, code.length - 1)
+  return code.replace('*', '')
 }
