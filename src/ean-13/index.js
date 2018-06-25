@@ -32,18 +32,17 @@ module.exports = lines => {
       Math.round(group[3] / bar),
     ]
 
-    code +=
+    const result =
       UPC_SET[digits.join('')] || UPC_SET[digits.reverse().join('')] || 'X'
 
-    if (code.length === 12) {
-      return code
-      // eslint-disable-next-line
-      break
+    if (result) {
+      code += result
+    } else {
+      return result
     }
-  }
-  if (code.indexOf('X') === -1) {
-    return code || false
+
+    if (code.length === 12) break
   }
 
-  return false
+  return code
 }

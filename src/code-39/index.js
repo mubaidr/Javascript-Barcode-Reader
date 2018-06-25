@@ -77,11 +77,17 @@ module.exports = lines => {
     const barSeg = noob.filter((item, index) => index % 2 === 0).join('')
     const whiteSeg = noob.filter((item, index) => index % 2 !== 0).join('')
 
-    code +=
+    const result =
       CHAR_SET[
         parseInt(BAR_SET[barSeg], 10) - 1 + parseInt(GROUP_SET[whiteSeg], 10)
       ]
+
+    if (result) {
+      code += result
+    } else {
+      return result
+    }
   }
 
-  return code.replace('*', '')
+  return code.replace(/\*/g, '')
 }

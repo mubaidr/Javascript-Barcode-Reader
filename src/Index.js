@@ -137,10 +137,13 @@ const barcodeDecoder = (imageSource, options) => {
       }
     }
 
-    // TODO:  If not found in first step, continue searching until while loop
-
     // Run the decoder
-    return BARCODE_DECODERS[options.barcode](lines)
+    const result = BARCODE_DECODERS[options.barcode](lines)
+    if (result) {
+      return result
+    }
+    // eslint-disable-next-line
+    continue
   }
   return null
 }
