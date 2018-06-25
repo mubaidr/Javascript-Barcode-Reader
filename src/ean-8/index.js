@@ -19,7 +19,7 @@ module.exports = lines => {
   for (let i = 1; i < lines.length; i += 1) {
     let group
 
-    if (code.length < 6) {
+    if (code.length < 4) {
       group = lines.slice(i * 4, i * 4 + 4)
     } else {
       group = lines.slice(i * 4 + 5, i * 4 + 9)
@@ -41,7 +41,7 @@ module.exports = lines => {
       return result
     }
 
-    if (code.length === 12) break
+    if (code.length === 8) break
   }
 
   return code
