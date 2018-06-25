@@ -69,7 +69,7 @@ module.exports = lines => {
   for (let i = 1; i < lines.length; i += 10) {
     const segment = lines.slice(i, i + 10)
 
-    const barThreshold = Math.round(
+    const barThreshold = Math.ceil(
       segment.reduce((pre, item) => pre + item, 0) / segment.length
     )
 
