@@ -139,11 +139,16 @@ const barcodeDecoder = (imageSource, options) => {
       }
     }
 
+    // eslint-disable-next-line
+    if (lines.length <= 1) continue
+
     // Run the decoder
     const result = BARCODE_DECODERS[options.barcode](lines)
+
     if (result) {
       return result
     }
+
     // eslint-disable-next-line
     continue
   }

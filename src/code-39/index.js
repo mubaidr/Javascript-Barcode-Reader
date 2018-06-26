@@ -66,7 +66,8 @@ module.exports = lines => {
   lines.push(0)
   let code = ''
 
-  for (let i = 1; i < lines.length; i += 10) {
+  // leave the padded *
+  for (let i = 11; i < lines.length - 10; i += 10) {
     const segment = lines.slice(i, i + 10)
 
     const barThreshold = Math.ceil(
@@ -85,9 +86,9 @@ module.exports = lines => {
     if (result) {
       code += result
     } else {
-      return result
+      return false
     }
   }
 
-  return code.replace(/\*/g, '')
+  return code
 }
