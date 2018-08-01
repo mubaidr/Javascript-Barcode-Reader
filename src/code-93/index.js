@@ -63,13 +63,14 @@ const CHAR_SET = [
 
 module.exports = lines => {
   // manualy push last white space
-  lines.push(3)
+  lines.push(0)
   let code = ''
 
-  for (let i = 1; i < lines.length; i += 10) {
+  // leave the padded *
+  for (let i = 11; i < lines.length - 10; i += 10) {
     const segment = lines.slice(i, i + 10)
 
-    const barThreshold = Math.round(
+    const barThreshold = Math.ceil(
       segment.reduce((pre, item) => pre + item, 0) / segment.length
     )
 
@@ -77,11 +78,17 @@ module.exports = lines => {
     const barSeg = noob.filter((item, index) => index % 2 === 0).join('')
     const whiteSeg = noob.filter((item, index) => index % 2 !== 0).join('')
 
-    code +=
+    const result =
       CHAR_SET[
         parseInt(BAR_SET[barSeg], 10) - 1 + parseInt(GROUP_SET[whiteSeg], 10)
       ]
+
+    if (result) {
+      code += result
+    } else {
+      return false
+    }
   }
 
-  return code.substring(1, code.length - 1)
+  return code
 }
