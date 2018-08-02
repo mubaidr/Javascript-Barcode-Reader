@@ -18,6 +18,7 @@ http://mubaidr.js.org/Javascript-Barcode-Reader/
 
 <ul>
 <li><input type="checkbox" disabled checked> EAN-13</li>
+<li><input type="checkbox" disabled checked> EAN-8</li>
 <li><input type="checkbox" disabled checked> Code 39</li>
 </ul>
 <ul>Work in progress...

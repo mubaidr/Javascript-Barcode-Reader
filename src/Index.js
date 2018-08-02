@@ -149,14 +149,16 @@ const barcodeDecoder = (imageSource, options) => {
       return result
     }
 
-    // eslint-disable-next-line
-    continue
+    // only one iteration when dev mode
+    if (process.env.NODE_ENV === 'development') {
+      numLines = 1
+    }
   }
   return null
 }
 
 if (module && module.exports) {
   module.exports = barcodeDecoder
-} else {
-  root.javascriptBarcodeReader = barcodeDecoder
+} else if (window) {
+  window.javascriptBarcodeReader = barcodeDecoder
 }
