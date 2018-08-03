@@ -20,9 +20,9 @@ http://mubaidr.js.org/Javascript-Barcode-Reader/
 <li><input type="checkbox" disabled checked> EAN-13</li>
 <li><input type="checkbox" disabled checked> EAN-8</li>
 <li><input type="checkbox" disabled checked> Code 39</li>
+<li><input type="checkbox" disabled checked> Code 93</li>
 </ul>
 <ul>Work in progress...
-<li><input type="checkbox" disabled> Code 93</li>
 <li><input type="checkbox" disabled> Code 128</li>
 <li><input type="checkbox" disabled> Code 2 of 5</li>
 <li><input type="checkbox" disabled> Codabar.</li>

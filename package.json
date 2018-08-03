@@ -45,5 +45,5 @@
     "dev": "cross-env NODE_ENV=development && rimraf build/ && parcel docs-src/index.html --out-dir build --open",
     "lint": "eslint --fix src/"
   },
-  "version": "0.2.3"
+  "version": "0.2.4"
 }
