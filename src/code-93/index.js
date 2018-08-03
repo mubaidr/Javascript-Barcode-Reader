@@ -50,10 +50,7 @@ const CHAR_SET = [
 ]
 
 module.exports = lines => {
-  // manualy push last white space
-  // lines.push(0)
   let code = []
-
   const binary = []
 
   const barThreshold = Math.ceil(

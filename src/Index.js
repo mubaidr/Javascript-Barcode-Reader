@@ -2,12 +2,14 @@ const DecoderEAN13 = require('./ean-13')
 const DecoderEAN8 = require('./ean-8')
 const DecoderCode39 = require('./code-39')
 const DecoderCode93 = require('./code-93')
+const DecoderCode2of5 = require('./2of5')
 
 const BARCODE_DECODERS = {
   'code-93': DecoderCode93,
   'code-39': DecoderCode39,
   'ean-13': DecoderEAN13,
   'ean-8': DecoderEAN8,
+  'code-2of5': DecoderCode2of5,
 }
 
 /**
@@ -143,7 +145,7 @@ const barcodeDecoder = (imageSource, options) => {
     if (lines.length <= 1) continue
 
     // Run the decoder
-    const result = BARCODE_DECODERS[options.barcode](lines)
+    const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
     if (result) {
       return result
