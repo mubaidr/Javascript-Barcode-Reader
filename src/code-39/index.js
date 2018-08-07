@@ -1,94 +1,67 @@
-const BAR_SET = {
-  '10001': '1',
-  '01001': '2',
-  '11000': '3',
-  '00101': '4',
-  '10100': '5',
-  '01100': '6',
-  '00011': '7',
-  '10010': '8',
-  '01010': '9',
-  '00110': '10',
+const CHAR_SET = {
+  nnnwwnwnn: '0',
+  wnnwnnnnw: '1',
+  nnwwnnnnw: '2',
+  wnwwnnnnn: '3',
+  nnnwwnnnw: '4',
+  wnnwwnnnn: '5',
+  nnwwwnnnn: '6',
+  nnnwnnwnw: '7',
+  wnnwnnwnn: '8',
+  nnwwnnwnn: '9',
+  wnnnnwnnw: 'A',
+  nnwnnwnnw: 'B',
+  wnwnnwnnn: 'C',
+  nnnnwwnnw: 'D',
+  wnnnwwnnn: 'E',
+  nnwnwwnnn: 'F',
+  nnnnnwwnw: 'G',
+  wnnnnwwnn: 'H',
+  nnwnnwwnn: 'I',
+  nnnnwwwnn: 'J',
+  wnnnnnnww: 'K',
+  nnwnnnnww: 'L',
+  wnwnnnnwn: 'M',
+  nnnnwnnww: 'N',
+  wnnnwnnwn: 'O',
+  nnwnwnnwn: 'P',
+  nnnnnnwww: 'Q',
+  wnnnnnwwn: 'R',
+  nnwnnnwwn: 'S',
+  nnnnwnwwn: 'T',
+  wwnnnnnnw: 'U',
+  nwwnnnnnw: 'V',
+  wwwnnnnnn: 'W',
+  nwnnwnnnw: 'X',
+  wwnnwnnnn: 'Y',
+  nwwnwnnnn: 'Z',
+  nwnnnnwnw: '-',
+  wwnnnnwnn: '.',
+  nwwnnnwnn: ' ',
+  nwnwnwnnn: '$',
+  nwnwnnnwn: '/',
+  nwnnnwnwn: '+',
+  nnnwnwnwn: '%',
+  nwnnwnwnn: '*',
 }
-
-const GROUP_SET = {
-  '01000': '0',
-  '00100': '10',
-  '00010': '20',
-  '10000': '30',
-}
-
-const CHAR_SET = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '0',
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z',
-  '-',
-  '.',
-  '␣',
-  '*',
-]
 
 module.exports = lines => {
-  // manualy push last white space
-  lines.push(0)
-  let code = ''
+  let code = []
 
-  // leave the padded *
-  for (let i = 11; i < lines.length - 10; i += 10) {
-    const segment = lines.slice(i, i + 10)
+  const barThreshold = Math.ceil(
+    lines.reduce((pre, item) => pre + item, 0) / lines.length
+  )
 
-    const barThreshold = Math.ceil(
-      segment.reduce((pre, item) => pre + item, 0) / segment.length
-    )
+  // Read one encoded character at a time.
+  while (lines.length > 0) {
+    const sequenceBar = lines
+      .splice(0, 10)
+      .map(line => (line > barThreshold ? 'w' : 'n'))
 
-    const noob = segment.map(item => (item > barThreshold ? 1 : 0))
-    const barSeg = noob.filter((item, index) => index % 2 === 0).join('')
-    const whiteSeg = noob.filter((item, index) => index % 2 !== 0).join('')
-
-    const result =
-      CHAR_SET[
-        parseInt(BAR_SET[barSeg], 10) - 1 + parseInt(GROUP_SET[whiteSeg], 10)
-      ]
-
-    if (result) {
-      code += result
-    } else {
-      return false
-    }
+    code.push(CHAR_SET[sequenceBar.slice(0, 9).join('')])
   }
 
-  return code
+  if (code.pop() !== '*' || code.shift() !== '*') return null
+
+  return code.join('')
 }
