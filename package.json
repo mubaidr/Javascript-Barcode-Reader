@@ -5,7 +5,6 @@
   },
   "description": "Barcode reader solution in Javascript for Browser and Node.js",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.2.0",
@@ -42,7 +41,7 @@
   "scripts": {
     "build": "parcel build src/index.js --out-dir dist --out-file javascript-barcode-reader",
     "build-docs": "rimraf docs/ && parcel build docs-src/index.html --out-dir docs --public-url ./",
-    "dev": "cross-env NODE_ENV=development && rimraf build/ && parcel docs-src/index.html --out-dir build --open",
+    "dev": "cross-env NODE_ENV=development && parcel serve docs-src/index.html --out-dir .cache",
     "lint": "eslint --fix src/"
   },
   "version": "0.2.5"
