@@ -3,6 +3,8 @@ const DecoderEAN8 = require('./ean-8')
 const DecoderCode39 = require('./code-39')
 const DecoderCode93 = require('./code-93')
 const DecoderCode2of5 = require('./2of5')
+const DecoderCodabar = require('./codabar')
+const DecoderCode128 = require('./code-128')
 
 const BARCODE_DECODERS = {
   'code-93': DecoderCode93,
@@ -10,6 +12,8 @@ const BARCODE_DECODERS = {
   'ean-13': DecoderEAN13,
   'ean-8': DecoderEAN8,
   'code-2of5': DecoderCode2of5,
+  'code-128': DecoderCode128,
+  codabar: DecoderCodabar,
 }
 
 /**
