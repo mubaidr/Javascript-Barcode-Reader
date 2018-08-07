@@ -36,7 +36,7 @@ npm install javascript-barcode-reader
 
 or use cdn:
 
-[https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.js)
+[javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.js)
 
 ## How to use
 
@@ -46,7 +46,7 @@ const javascriptBarcodeReader = require('javascript-barcode-reader')
 
 const code = javascriptBarcodeReader('#imageID' /* ImageData */, {
   barcode: 'code-2of5',
-  type: 'industrial', //interleaved optional type
+  type: 'industrial', //standard/interleaved optional type
 })
 
 // Browser
@@ -55,7 +55,9 @@ const code = javascriptBarcodeReader('#imageID' /* ImageData */, {
 
 const code = javascriptBarcodeReader(
   '#imageID' /* Image ID || Image || Canvas || Canvas ImageData */,
-  { barcode: 'code-2of5',
-  type: 'industrial', //interleaved optional type }
+  {
+    barcode: 'code-2of5',
+    type: 'industrial', //standard/interleaved optional type
+  }
 )
 ```
