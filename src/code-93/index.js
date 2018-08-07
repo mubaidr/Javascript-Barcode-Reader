@@ -53,22 +53,19 @@ module.exports = lines => {
   let code = []
   const binary = []
 
+  // remove termination bar
+  lines.pop()
+
   const barThreshold = Math.ceil(
-    lines.slice(1).reduce((pre, item) => pre + item, 0) / lines.length
+    lines.reduce((pre, item) => pre + item, 0) / lines.length
   )
 
-  let sum = 0
-  let count = 0
-  for (let i = 0; i < lines.length; i += 1) {
-    if (lines[i] < barThreshold) {
-      sum += lines[i]
-      count += 1
-    }
-  }
-  const minBarWidth = Math.ceil(sum / count)
-
-  lines.shift()
-  lines.pop()
+  const minBarWidth = Math.ceil(
+    lines.reduce((pre, item) => {
+      if (item < barThreshold) return (pre + item) / 2
+      return pre
+    }, 0)
+  )
 
   // leave the padded *
   for (let i = 0; i < lines.length; i += 1) {
@@ -91,15 +88,10 @@ module.exports = lines => {
     )
   }
 
-  if (code[0] === '*') {
-    code.shift()
-  }
-  if (code[code.length - 1] === '*') {
-    code.pop()
-  }
+  if (code.shift() !== '*' || code.pop() !== '*') return null
 
   const K = code.pop()
-  sum = 0
+  let sum = 0
   let letter,
     Value,
     findValue = item => Object.values(item)[0] === letter
