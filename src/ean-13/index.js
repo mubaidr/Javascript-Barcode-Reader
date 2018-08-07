@@ -13,6 +13,8 @@ const UPC_SET = {
 
 module.exports = lines => {
   let code = ''
+  // manually add start dummy line
+  lines.unshift(0)
   // start indicator/reference lines
   const bar = ~~((lines[1] + lines[2] + lines[3]) / 3) //eslint-disable-line
 

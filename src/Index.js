@@ -134,6 +134,9 @@ const barcodeDecoder = (imageSource, options) => {
     for (let col = 0; col < width; col += 1) {
       if (bmp[col] === curr) {
         count += 1
+        if (col === width - 1) {
+          lines.push(count)
+        }
       } else {
         lines.push(count)
         count = 1
@@ -143,6 +146,10 @@ const barcodeDecoder = (imageSource, options) => {
 
     // eslint-disable-next-line
     if (lines.length <= 1) continue
+
+    // remove empty whitespaces on side of barcode
+    lines.shift()
+    lines.pop()
 
     // Run the decoder
     const result = BARCODE_DECODERS[options.barcode](lines, options.type)
