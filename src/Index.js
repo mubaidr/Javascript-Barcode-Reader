@@ -6,6 +6,7 @@ const DecoderCode2of5 = require('./2of5')
 const DecoderCodabar = require('./codabar')
 const DecoderCode128 = require('./code-128')
 
+// TODO: test time travel debugging
 const BARCODE_DECODERS = {
   'code-93': DecoderCode93,
   'code-39': DecoderCode39,
