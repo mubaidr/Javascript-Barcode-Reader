@@ -11,7 +11,13 @@ for (let i = 0; i < buttons.length; i += 1) {
   )
 
   button.onclick = () => {
-    // eslint-disable-next-line
-    alert(barcodeDecoder(img, { barcode: type, type: subType }))
+    const res = barcodeDecoder(img, { barcode: type, type: subType })
+    // only one iteration when dev mode
+    if (process && process.env.NODE_ENV === 'development') {
+      console.log(res)
+    } else {
+      // eslint-disable-next-line
+      alert(res)
+    }
   }
 }

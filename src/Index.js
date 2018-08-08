@@ -164,7 +164,7 @@ const barcodeDecoder = (imageSource, options) => {
     }
 
     // only one iteration when dev mode
-    if (process.env.NODE_ENV === 'development') {
+    if (process && process.env.NODE_ENV === 'development') {
       numLines = 1
     }
   }
