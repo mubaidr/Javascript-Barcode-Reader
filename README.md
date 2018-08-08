@@ -21,11 +21,11 @@ http://mubaidr.js.org/Javascript-Barcode-Reader/
 <li><input type="checkbox" disabled checked> EAN-8</li>
 <li><input type="checkbox" disabled checked> Code 39</li>
 <li><input type="checkbox" disabled checked> Code 93</li>
-<li><input type="checkbox" disabled> Code 2 of 5 (Industrial & Interleaved)</li>
+<li><input type="checkbox" disabled checked> Code 2 of 5 (Industrial & Interleaved)</li>
+<li><input type="checkbox" disabled checked> Codabar</li>
 </ul>
 <ul>Work in progress...
 <li><input type="checkbox" disabled> Code 128 (UCC/EAN-128)</li>
-<li><input type="checkbox" disabled> Codabar.</li>
 </ul>
 
 ## Install
@@ -44,7 +44,7 @@ or use cdn:
 // Node.js
 const javascriptBarcodeReader = require('javascript-barcode-reader')
 
-const code = javascriptBarcodeReader('#imageID' /* ImageData */, {
+const code = javascriptBarcodeReader(ImageData /* ImageData */, {
   barcode: 'code-2of5',
   type: 'industrial', //standard/interleaved optional type
 })
@@ -54,7 +54,7 @@ const code = javascriptBarcodeReader('#imageID' /* ImageData */, {
 // or Downlaod & use manualy from `dist` folder
 
 const code = javascriptBarcodeReader(
-  '#imageID' /* Image ID || Image || Canvas || Canvas ImageData */,
+  Image /* Image ID || Image || Canvas || ImageData */,
   {
     barcode: 'code-2of5',
     type: 'industrial', //standard/interleaved optional type
