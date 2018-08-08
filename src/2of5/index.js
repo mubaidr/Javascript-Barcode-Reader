@@ -13,7 +13,6 @@ const CHAR_SET = [
 
 module.exports = (lines, type = 'standard') => {
   let code = []
-  const sequenceBar = []
 
   const barThreshold = Math.ceil(
     lines.reduce((pre, item) => (pre + item) / 2, 0)
@@ -69,15 +68,13 @@ module.exports = (lines, type = 'standard') => {
 
     // Read one encoded character at a time.
     while (lines.length > 0) {
-      lines
+      const a = lines
         .splice(0, 10)
         .filter((item, index) => index % 2 === 0)
-        .map(line => sequenceBar.push(line > barThreshold ? 'w' : 'n'))
-    }
+        .map(line => (line > barThreshold ? 'w' : 'n'))
+        .join('')
 
-    // Convert bars pattern to integers.
-    while (sequenceBar.length > 0) {
-      code.push(CHAR_SET.indexOf(sequenceBar.splice(0, 5).join('')))
+      code.push(CHAR_SET.indexOf(a))
     }
   }
 
