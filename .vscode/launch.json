@@ -1,15 +1,18 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
   "configurations": [
     {
-      "type": "chrome",
+      "breakOnLoad": true,
+      "cwd": "${workspaceRoot}",
+      "name": "Debug",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
+      "sourceMapPathOverrides": {
+        "*": "${workspaceRoot}/src/*"
+      },
+      "sourceMaps": true,
+      "type": "chrome",
       "url": "http://localhost:1234",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}/build"
     }
-  ]
+  ],
+  "version": "0.2.0"
 }

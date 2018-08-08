@@ -32,7 +32,7 @@
     "node"
   ],
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "docs-src/index.html",
   "name": "javascript-barcode-reader",
   "repository": {
     "type": "git",
@@ -41,7 +41,7 @@
   "scripts": {
     "build": "parcel build src/index.js --out-dir dist --out-file javascript-barcode-reader",
     "build-docs": "rimraf docs/ && parcel build docs-src/index.html --out-dir docs --public-url ./",
-    "dev": "cross-env NODE_ENV=development && parcel serve docs-src/index.html --out-dir .cache",
+    "dev": "cross-env NODE_ENV=development && parcel docs-src/index.html --out-dir build",
     "lint": "eslint --fix src/"
   },
   "version": "0.2.5"
