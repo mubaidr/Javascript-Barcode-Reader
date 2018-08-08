@@ -11,7 +11,7 @@ const CHAR_SET = [
   'nwnwn',
 ]
 
-module.exports = (lines, type = 'interleaved') => {
+module.exports = (lines, type = 'standard') => {
   let code = []
   const sequenceBar = []
 
@@ -19,32 +19,39 @@ module.exports = (lines, type = 'interleaved') => {
     lines.reduce((pre, item) => (pre + item) / 2, 0)
   )
 
-  const minBarWidth = Math.ceil(
-    lines.reduce((pre, item) => {
-      if (item < barThreshold) return (pre + item) / 2
-      return pre
-    }, 0)
-  )
-
   if (type === 'interleaved') {
-    // TODO: finish this
-    console.log(lines, barThreshold, minBarWidth, type)
     // extract start/ends pair
     const startChar = lines
       .splice(0, 4)
-      .map(line => (line < barThreshold ? 'n' : 'w'))
+      .map(line => (line > barThreshold ? 'w' : 'n'))
       .join('')
 
     const endChar = lines
       .splice(lines.length - 3, 3)
-      // .filter((item, index) => index % 2 === 0)
-      .map(line => (line < barThreshold ? 'n' : 'w'))
+      .map(line => (line > barThreshold ? 'w' : 'n'))
       .join('')
 
-    console.log(startChar, endChar)
-
     if (startChar !== 'nnnn' || endChar !== 'wnn') return null
-  } else {
+
+    // Read one encoded character at a time.
+    while (lines.length > 0) {
+      const seg = lines.splice(0, 10)
+
+      const a = seg
+        .filter((item, index) => index % 2 === 0)
+        .map(line => (line > barThreshold ? 'w' : 'n'))
+        .join('')
+
+      code.push(CHAR_SET.indexOf(a))
+
+      const b = seg
+        .filter((item, index) => index % 2 !== 0)
+        .map(line => (line > barThreshold ? 'w' : 'n'))
+        .join('')
+
+      code.push(CHAR_SET.indexOf(b))
+    }
+  } else if (type === 'standard') {
     // extract start/ends pair
     const startChar = lines
       .splice(0, 6)
