@@ -44,5 +44,5 @@
     "dev": "cross-env NODE_ENV=development && parcel docs-src/index.html --out-dir build",
     "lint": "eslint --fix src/"
   },
-  "version": "0.2.8"
+  "version": "0.3.0"
 }
