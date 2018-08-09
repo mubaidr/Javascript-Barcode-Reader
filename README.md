@@ -23,9 +23,7 @@ http://mubaidr.js.org/Javascript-Barcode-Reader/
 <li><input type="checkbox" disabled checked> Code 93</li>
 <li><input type="checkbox" disabled checked> Code 2 of 5 (Industrial & Interleaved)</li>
 <li><input type="checkbox" disabled checked> Codabar</li>
-</ul>
-<ul>Work in progress...
-<li><input type="checkbox" disabled> Code 128 (UCC/EAN-128)</li>
+<li><input type="checkbox" disabled checked> Code 128 (UCC/EAN-128)</li>
 </ul>
 
 ## Install
