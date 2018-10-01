@@ -5,6 +5,7 @@
   },
   "description": "Barcode reader solution in Javascript for Browser and Node.js",
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.2.0",
@@ -32,7 +33,7 @@
     "node"
   ],
   "license": "MIT",
-  "main": "docs-src/index.html",
+  "main": "src/index.js",
   "name": "javascript-barcode-reader",
   "repository": {
     "type": "git",
@@ -44,5 +45,5 @@
     "dev": "cross-env NODE_ENV=development && parcel docs-src/index.html --out-dir build",
     "lint": "eslint --fix src/"
   },
-  "version": "0.3.0"
+  "version": "0.3.1"
 }

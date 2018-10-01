@@ -1,4 +1,4 @@
-import barcodeDecoder from '../src'
+const barcodeDecoder = require('../src')
 
 const buttons = document.getElementsByTagName('button')
 
