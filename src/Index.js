@@ -6,7 +6,6 @@ const DecoderCode2of5 = require('./2of5')
 const DecoderCodabar = require('./codabar')
 const DecoderCode128 = require('./code-128')
 
-// TODO: test time travel debugging
 const BARCODE_DECODERS = {
   'code-93': DecoderCode93,
   'code-39': DecoderCode39,
@@ -17,45 +16,64 @@ const BARCODE_DECODERS = {
   codabar: DecoderCodabar,
 }
 
+function readImage(imageSource) {
+  let imageDataInput
+
+  if (
+    (!document || !window) &&
+    (typeof module !== 'undefined' && module.exports)
+  ) {
+    // this is node.js
+    if (typeof imageSource === 'string' || imageSource instanceof Buffer) {
+      // eslint-disable-next-line
+      const jimp = require('jimp')
+      jimp.read(imageSource).then(image => image.bitmap)
+    } else if (imageSource.data) {
+      imageDataInput = imageSource
+    } else {
+      throw new Error('Invalid image source specified!')
+    }
+  } else {
+    // this is browser
+    if (typeof imageSource === 'string')
+      imageSource = document.getElementById(imageSource)
+
+    let elementType = imageSource.tagName
+    if (elementType === 'IMG') {
+      const canvas = document.createElement('canvas')
+      canvas.width = imageSource.naturalWidth
+      canvas.height = imageSource.naturalHeight
+      const ctx = canvas.getContext('2d')
+
+      ctx.drawImage(imageSource, 0, 0)
+
+      imageDataInput = ctx.getImageData(
+        0,
+        0,
+        imageSource.naturalWidth,
+        imageSource.naturalHeight
+      )
+    } else if (elementType === 'CANVAS') {
+      imageDataInput = imageSource
+        .getContext('2d')
+        .getImageData(0, 0, imageSource.naturalWidth, imageSource.naturalHeight)
+    } else if (imageSource.data) {
+      imageDataInput = imageSource
+    } else {
+      throw new Error('Invalid image source specified!')
+    }
+  }
+
+  return imageDataInput
+}
+
 /**
  *
- * @param {*} image Image element || Canvas || ImageData
+ * @param {*} image Image element || Canvas || ImageData || Image Path in Node.js
  * @param {Object} options
  */
 const barcodeDecoder = (imageSource, options) => {
-  let imageDataInput
-
-  if (typeof imageSource === 'string')
-    imageSource = document.getElementById(imageSource)
-
-  let elementType = imageSource.tagName
-  if (elementType === 'IMG') {
-    const canvas = document.createElement('canvas')
-    canvas.width = imageSource.naturalWidth
-    canvas.height = imageSource.naturalHeight
-    const ctx = canvas.getContext('2d')
-
-    ctx.drawImage(imageSource, 0, 0)
-
-    imageDataInput = ctx.getImageData(
-      0,
-      0,
-      imageSource.naturalWidth,
-      imageSource.naturalHeight
-    )
-  } else if (elementType === 'CANVAS') {
-    imageDataInput = imageSource
-      .getContext('2d')
-      .getImageData(0, 0, imageSource.naturalWidth, imageSource.naturalHeight)
-  } else if (imageSource.data) {
-    imageDataInput = imageSource
-  } else {
-    throw new Error('Invalid image source specified!')
-  }
-
-  const { data, width, height } = imageDataInput
-  imageSource = null
-  imageDataInput = null
+  const { data, width, height } = readImage(imageSource)
 
   // start debug code
   /*

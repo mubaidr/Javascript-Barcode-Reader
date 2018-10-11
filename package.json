@@ -3,6 +3,9 @@
   "bugs": {
     "url": "https://github.com/mubaidr/Javascript-Barcode-Reader/issues"
   },
+  "dependencies": {
+    "jimp": "^0.5.3"
+  },
   "description": "Barcode reader solution in Javascript for Browser and Node.js",
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -17,8 +20,12 @@
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-standard": "^4.0.0",
-    "parcel-bundler": "^1.9.7",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "rollup": "^0.66.6",
+    "rollup-plugin-babel-minify": "^6.1.1",
+    "rollup-plugin-buble": "^0.19.4",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0"
   },
   "files": [
     "src",
@@ -40,10 +47,10 @@
     "url": "git+https://github.com/mubaidr/Javascript-Barcode-Reader.git"
   },
   "scripts": {
-    "build": "parcel build src/index.js --out-dir dist --out-file javascript-barcode-reader",
-    "build-docs": "rimraf docs/ && parcel build docs-src/index.html --out-dir docs --public-url ./",
-    "dev": "cross-env NODE_ENV=development && parcel docs-src/index.html --out-dir build",
+    "build": "rollup --config rollup.config.js",
+    "build-docs": "",
+    "dev": "cross-env NODE_ENV=development",
     "lint": "eslint --fix src/"
   },
-  "version": "0.3.1"
+  "version": "0.4.0"
 }

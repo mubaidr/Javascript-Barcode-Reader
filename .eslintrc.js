@@ -9,10 +9,7 @@ module.exports = {
     node: true,
   },
   extends: ['airbnb', 'prettier'],
-  globals: {
-    __static: true,
-    fabric: true,
-  },
+  globals: {},
   rules: {
     'one-var': 0,
     'prefer-const': 0,
