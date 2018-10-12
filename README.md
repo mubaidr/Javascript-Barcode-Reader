@@ -7,7 +7,7 @@ A Barcode scanner capapable of reading Code128 (UCC/EAN-128), Code93, Code39, St
 </a>
 
 [![NPM](https://nodei.co/npm/javascript-barcode-reader.png?compact=true)](https://nodei.co/npm/javascript-barcode-reader/)
-
+[![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
 ![dependencies](https://david-dm.org/mubaidr/javascript-barcode-reader.svg)
 
 ## Demo
