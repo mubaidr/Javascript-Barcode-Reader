@@ -21,7 +21,7 @@ const BARCODE_DECODERS = {
  * @param {String=} options.type Type of Barcode
  * @returns {String} Extracted barcode string
  */
-const barcodeDecoder = async (image, options) => {
+async function barcodeDecoder(image, options) {
   const { data, width, height } = await UTILITIES.getImageDataFromSource(image)
   // const noOfPixels = data.length / (width * height)
   // TODO: use noOfPixels in loops

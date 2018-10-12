@@ -5,7 +5,7 @@ const Jimp = require('jimp')
  * @param {*} source Image source
  * @param {Function} callback Callback to pass the imageData
  */
-function getImageDataFromSource(source) {
+async function getImageDataFromSource(source) {
   return new Promise((resolve, reject) => {
     // if Node.js
     if (process && process.release && process.release.name === 'node') {

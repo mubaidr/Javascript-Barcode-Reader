@@ -10,11 +10,24 @@ export default [
     external: ['jimp'],
     input: 'src/index.js',
     output: {
+      file: 'dist/javascript-barcode-reader.min.js',
+      format: 'iife',
+      name: 'javascriptBarcodeReader',
+      sourcemap: true,
+      sourcemapFile: 'dist/javascript-barcode-reader.min.js.map',
+    },
+    plugins: [buble(), resolve(), commonjs(), production && minify()],
+  },
+  {
+    external: ['jimp'],
+    input: 'src/index.js',
+    output: {
       file: 'dist/javascript-barcode-reader.js',
       format: 'iife',
       name: 'javascriptBarcodeReader',
-      source: true,
+      sourcemap: true,
+      sourcemapFile: 'dist/javascript-barcode-reader.js.map',
     },
-    plugins: [buble(), resolve(), commonjs(), production && minify()],
+    plugins: [buble(), resolve(), commonjs()],
   },
 ]
