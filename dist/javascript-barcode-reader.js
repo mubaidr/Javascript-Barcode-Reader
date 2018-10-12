@@ -9,6 +9,10 @@ var javascriptBarcodeReader = (function (jimp) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
 	}
 
+	function isNode() {
+	  // TODO: implement this
+	}
+
 	/**
 	 * Reads image source and returns imageData as only callback parameter
 	 * @param {*} source Image source
@@ -16,13 +20,18 @@ var javascriptBarcodeReader = (function (jimp) {
 	 */
 	async function getImageDataFromSource(source) {
 	  return new Promise(function (resolve, reject) {
+	    if (source.data && source.width && source.height) {
+	      return resolve(source)
+	    }
+
 	    // if Node.js
-	    if (process && process.release && process.release.name === 'node') {
-	      if (source.data && source.width && source.height) {
-	        resolve(source);
-	      } else if (typeof source === 'string') {
+	    if (isNode()) {
+	      if (typeof source === 'string') {
 	        jimp.read(source, function (err, image) {
-	          if (err) { reject(err); }
+	          if (err) {
+	            reject(err);
+	            return
+	          }
 
 	          var ref = image.bitmap;
 	          var data = ref.data;
@@ -31,38 +40,39 @@ var javascriptBarcodeReader = (function (jimp) {
 	          resolve({ data: data.toJSON().data, width: width, height: height });
 	        });
 	      } else {
-	        reject(new Error('Invalid image source specified!'));
+	        return reject(new Error('Invalid image source specified!'))
 	      }
 	    }
 	    // if Browser
 	    else if (typeof source === 'string') {
 	      source = document.getElementById(source);
-	      if (!source) { reject(new Error('Invalid image source specified!')); }
-
-	      var elementType = source.tagName;
-	      if (elementType === 'IMG') {
-	        var canvas = document.createElement('canvas');
-	        canvas.width = source.naturalWidth;
-	        canvas.height = source.naturalHeight;
-	        var ctx = canvas.getContext('2d');
-
-	        ctx.drawImage(source, 0, 0);
-
-	        resolve(
-	          ctx.getImageData(0, 0, source.naturalWidth, source.naturalHeight)
-	        );
-	      } else if (elementType === 'CANVAS') {
-	        resolve(
-	          source
-	            .getContext('2d')
-	            .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
-	        );
-	      }
-	    } else if (source.data) {
-	      resolve(source);
-	    } else {
-	      reject(new Error('Invalid image source specified!'));
+	      if (!source) { return reject(new Error('Invalid image source specified!')) }
 	    }
+
+	    var elementType = source.tagName;
+
+	    if (elementType === 'IMG') {
+	      var canvas = document.createElement('canvas');
+	      canvas.width = source.naturalWidth;
+	      canvas.height = source.naturalHeight;
+	      var ctx = canvas.getContext('2d');
+
+	      ctx.drawImage(source, 0, 0);
+
+	      return resolve(
+	        ctx.getImageData(0, 0, source.naturalWidth, source.naturalHeight)
+	      )
+	    }
+
+	    if (elementType === 'CANVAS') {
+	      return resolve(
+	        source
+	          .getContext('2d')
+	          .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
+	      )
+	    }
+
+	    return reject(new Error('Invalid image source specified!'))
 	  })
 	}
 
@@ -1090,11 +1100,6 @@ var javascriptBarcodeReader = (function (jimp) {
 	      if (result) {
 	        resolve(result);
 	      }
-
-	      // only one iteration when dev mode
-	      if (process && process.env.NODE_ENV === 'development') {
-	        numLines = 1;
-	      }
 	    }
 
 	    reject(new Error('Failed to extract barcode!'));
@@ -1110,5 +1115,5 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	return src;
 
-}(jimp));
+}(document));
 //# sourceMappingURL=javascript-barcode-reader.js.map

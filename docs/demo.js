@@ -1,4 +1,4 @@
-const barcodeDecoder = require('../src')
+/* globals javascriptBarcodeReader */
 
 const buttons = document.getElementsByTagName('button')
 
@@ -11,13 +11,12 @@ for (let i = 0; i < buttons.length; i += 1) {
   )
 
   button.onclick = () => {
-    const res = barcodeDecoder(img, { barcode: type, type: subType })
-    // only one iteration when dev mode
-    if (process && process.env.NODE_ENV === 'development') {
-      console.log(res)
-    } else {
-      // eslint-disable-next-line
-      alert(res)
-    }
+    javascriptBarcodeReader(img, {
+      barcode: type,
+      type: subType,
+    }).then(code => {
+      console.log(`Code : ${code}`)
+      alert(`Code : ${code}`) // eslint-disable-line
+    })
   }
 }

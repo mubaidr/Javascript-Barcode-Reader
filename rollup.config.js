@@ -10,18 +10,29 @@ export default [
     external: ['jimp'],
     input: 'src/index.js',
     output: {
+      globals: {
+        jimp: 'document', // fake jimp to document to avoid jimp load error
+      },
       file: 'dist/javascript-barcode-reader.min.js',
       format: 'iife',
       name: 'javascriptBarcodeReader',
       sourcemap: true,
       sourcemapFile: 'dist/javascript-barcode-reader.min.js.map',
     },
-    plugins: [buble(), resolve(), commonjs(), production && minify()],
+    plugins: [
+      buble(),
+      resolve(),
+      commonjs(),
+      production && minify({ comments: false }),
+    ],
   },
   {
     external: ['jimp'],
     input: 'src/index.js',
     output: {
+      globals: {
+        jimp: 'document', // fake jimp to document to avoid jimp load error
+      },
       file: 'dist/javascript-barcode-reader.js',
       format: 'iife',
       name: 'javascriptBarcodeReader',
@@ -29,5 +40,8 @@ export default [
       sourcemapFile: 'dist/javascript-barcode-reader.js.map',
     },
     plugins: [buble(), resolve(), commonjs()],
+    watch: {
+      clearScreen: false,
+    },
   },
 ]

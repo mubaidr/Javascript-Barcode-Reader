@@ -10,7 +10,7 @@
       },
       "sourceMaps": true,
       "type": "chrome",
-      "url": "http://localhost:1234",
+      "url": "http://localhost:5000/docs",
       "webRoot": "${workspaceFolder}/build"
     }
   ],

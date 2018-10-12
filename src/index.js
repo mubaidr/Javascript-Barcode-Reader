@@ -115,11 +115,6 @@ async function barcodeDecoder(image, options) {
       if (result) {
         resolve(result)
       }
-
-      // only one iteration when dev mode
-      if (process && process.env.NODE_ENV === 'development') {
-        numLines = 1
-      }
     }
 
     reject(new Error('Failed to extract barcode!'))
