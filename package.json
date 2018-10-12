@@ -4,22 +4,24 @@
     "url": "https://github.com/mubaidr/Javascript-Barcode-Reader/issues"
   },
   "dependencies": {
-    "jimp": "^0.5.3"
+    "jimp": "^0.5.4"
   },
   "description": "Barcode reader solution in Javascript for Browser and Node.js",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "cross-env": "^5.2.0",
-    "eslint": "^5.2.0",
-    "eslint-config-airbnb": "^17.0.0",
-    "eslint-config-prettier": "^3.0.1",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.0",
-    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-standard": "^4.0.0",
+    "jest": "^23.6.0",
+    "parcel-bundler": "^1.10.3",
     "rimraf": "^2.6.2",
     "rollup": "^0.66.6",
     "rollup-plugin-babel-minify": "^6.1.1",
@@ -47,10 +49,12 @@
     "url": "git+https://github.com/mubaidr/Javascript-Barcode-Reader.git"
   },
   "scripts": {
-    "build": "rollup --config rollup.config.js",
-    "build-docs": "",
-    "dev": "cross-env NODE_ENV=development",
-    "lint": "eslint --fix src/"
+    "build": "rollup -c",
+    "build-docs": "rimraf docs/ && parcel build docs-src/index.html --out-dir docs --public-url ./",
+    "dev": "cross-env NODE_ENV=development && parcel docs-src/index.html --out-dir build",
+    "lint": "eslint --fix src/",
+    "parcel": "parcel build ./src/index.js --out-dir .tmp",
+    "test": "jest"
   },
   "version": "0.4.0"
 }

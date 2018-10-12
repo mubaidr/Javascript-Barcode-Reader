@@ -38,24 +38,54 @@ or use cdn:
 
 ## How to use
 
+### Node.js
+
 ```js
-// Node.js
 const javascriptBarcodeReader = require('javascript-barcode-reader')
 
-const code = javascriptBarcodeReader(ImageData /* ImageData */, {
-  barcode: 'code-2of5',
-  type: 'industrial', //standard/interleaved optional type
-})
-
-// Browser
-// Include link to script file from cdn
-// or Downlaod & use manualy from `dist` folder
-
-const code = javascriptBarcodeReader(
-  Image /* Image ID || Image || Canvas || ImageData */,
+//using promises
+javascriptBarcodeReader(
+  Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
   {
     barcode: 'code-2of5',
-    type: 'industrial', //standard/interleaved optional type
+    type: 'industrial', //optional type
+  }
+).then(code => {
+  console.log(code)
+})
+
+// using async/await
+const code = await javascriptBarcodeReader(
+  Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
+  {
+    barcode: 'code-2of5',
+    type: 'industrial', //optional type
+  }
+)
+```
+
+### Browser
+
+`javascriptBarcodeReader` will be available as global variable in Browser
+
+```js
+//using promises
+javascriptBarcodeReader(
+  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData */,
+  {
+    barcode: 'code-2of5',
+    type: 'industrial', //optional type
+  }
+).then(code => {
+  console.log(code)
+})
+
+// using async/await
+const code = await javascriptBarcodeReader(
+  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData */,
+  {
+    barcode: 'code-2of5',
+    type: 'industrial', //optional type
   }
 )
 ```
