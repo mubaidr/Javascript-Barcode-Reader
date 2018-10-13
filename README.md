@@ -1,14 +1,14 @@
 # Javascript-Barcode-Reader
 
-A Barcode scanner capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes in javascript.
+A Barcode scanner capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes in javascript for Node.js and Browsers.
 
 <a href="https://patreon.com/mubaidr">
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="42">
 </a>
 
 [![NPM](https://nodei.co/npm/javascript-barcode-reader.png?compact=true)](https://nodei.co/npm/javascript-barcode-reader/)
+
 [![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
-![dependencies](https://david-dm.org/mubaidr/javascript-barcode-reader.svg)
 
 ## Demo
 
@@ -34,7 +34,7 @@ npm install javascript-barcode-reader
 
 or use cdn:
 
-[javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.js)
+[javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.min.js)
 
 ## How to use
 
@@ -43,7 +43,7 @@ or use cdn:
 ```js
 const javascriptBarcodeReader = require('javascript-barcode-reader')
 
-//using promises
+//using promise
 javascriptBarcodeReader(
   Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
   {
@@ -54,7 +54,7 @@ javascriptBarcodeReader(
   console.log(code)
 })
 
-// using async/await
+// using await
 const code = await javascriptBarcodeReader(
   Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
   {
@@ -66,10 +66,10 @@ const code = await javascriptBarcodeReader(
 
 ### Browser
 
-`javascriptBarcodeReader` will be available as global variable in Browser
+`javascriptBarcodeReader` will be available as global in Browsers.
 
 ```js
-//using promises
+//using promise
 javascriptBarcodeReader(
   Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData */,
   {
@@ -80,7 +80,7 @@ javascriptBarcodeReader(
   console.log(code)
 })
 
-// using async/await
+// using await
 const code = await javascriptBarcodeReader(
   Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData */,
   {

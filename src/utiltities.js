@@ -1,8 +1,9 @@
 const Jimp = require('jimp')
 
-function isNode() {
-  // TODO: implement this
-}
+const isNode =
+  typeof process === 'object' &&
+  process.release &&
+  process.release.name === 'node'
 
 /**
  * Reads image source and returns imageData as only callback parameter
@@ -16,9 +17,9 @@ async function getImageDataFromSource(source) {
     }
 
     // if Node.js
-    if (isNode()) {
+    if (isNode) {
       if (typeof source === 'string') {
-        Jimp.read(source, (err, image) => {
+        return Jimp.read(source, (err, image) => {
           if (err) {
             reject(err)
             return
@@ -27,12 +28,13 @@ async function getImageDataFromSource(source) {
           const { data, width, height } = image.bitmap
           resolve({ data: data.toJSON().data, width, height })
         })
-      } else {
-        return reject(new Error('Invalid image source specified!'))
       }
+
+      return reject(new Error('Invalid image source specified!'))
     }
+
     // if Browser
-    else if (typeof source === 'string') {
+    if (typeof source === 'string') {
       source = document.getElementById(source)
       if (!source) return reject(new Error('Invalid image source specified!'))
     }

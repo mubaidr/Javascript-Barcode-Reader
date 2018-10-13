@@ -9,9 +9,10 @@ var javascriptBarcodeReader = (function (jimp) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
 	}
 
-	function isNode() {
-	  // TODO: implement this
-	}
+	var isNode =
+	  typeof process === 'object' &&
+	  process.release &&
+	  process.release.name === 'node';
 
 	/**
 	 * Reads image source and returns imageData as only callback parameter
@@ -25,9 +26,9 @@ var javascriptBarcodeReader = (function (jimp) {
 	    }
 
 	    // if Node.js
-	    if (isNode()) {
+	    if (isNode) {
 	      if (typeof source === 'string') {
-	        jimp.read(source, function (err, image) {
+	        return jimp.read(source, function (err, image) {
 	          if (err) {
 	            reject(err);
 	            return
@@ -38,13 +39,14 @@ var javascriptBarcodeReader = (function (jimp) {
 	          var width = ref.width;
 	          var height = ref.height;
 	          resolve({ data: data.toJSON().data, width: width, height: height });
-	        });
-	      } else {
-	        return reject(new Error('Invalid image source specified!'))
+	        })
 	      }
+
+	      return reject(new Error('Invalid image source specified!'))
 	    }
+
 	    // if Browser
-	    else if (typeof source === 'string') {
+	    if (typeof source === 'string') {
 	      source = document.getElementById(source);
 	      if (!source) { return reject(new Error('Invalid image source specified!')) }
 	    }
