@@ -71,7 +71,7 @@ const code = await javascriptBarcodeReader(
 ```js
 //using promise
 javascriptBarcodeReader(
-  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData */,
+  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
@@ -82,7 +82,7 @@ javascriptBarcodeReader(
 
 // using await
 const code = await javascriptBarcodeReader(
-  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData */,
+  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type

@@ -15,19 +15,55 @@ var javascriptBarcodeReader = (function (jimp) {
 	  process.release.name === 'node';
 
 	/**
+	 * Creates image data from HTML image
+	 * @param {HTMLImageElement} image HTML Image element
+	 */
+	function createImageData(image) {
+	  var canvas = document.createElement('canvas');
+	  var ctx = canvas.getContext('2d');
+	  var width = image.naturalWidth;
+	  var height = image.naturalHeight;
+
+	  canvas.width = width;
+	  canvas.height = height;
+
+	  ctx.drawImage(image, 0, 0);
+
+	  return ctx.getImageData(0, 0, image.naturalWidth, image.naturalHeight)
+	}
+
+	/**
 	 * Reads image source and returns imageData as only callback parameter
 	 * @param {*} source Image source
 	 * @param {Function} callback Callback to pass the imageData
 	 */
 	async function getImageDataFromSource(source) {
 	  return new Promise(function (resolve, reject) {
+	    var tagName = source.tagName;
+
+	    // Pixel Data
 	    if (source.data && source.width && source.height) {
 	      return resolve(source)
 	    }
 
-	    // if Node.js
-	    if (isNode) {
-	      if (typeof source === 'string') {
+	    // HTML Image element
+	    if (tagName === 'IMG') {
+	      return resolve(createImageData(source))
+	    }
+
+	    // HTML Canvas element
+	    if (tagName === 'CANVAS') {
+	      return resolve(
+	        source
+	          .getContext('2d')
+	          .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
+	      )
+	    }
+
+	    // String source
+	    if (typeof source === 'string') {
+	      // Read file in Node.js
+	      if (isNode) {
 	        return jimp.read(source, function (err, image) {
 	          if (err) {
 	            reject(err);
@@ -38,40 +74,24 @@ var javascriptBarcodeReader = (function (jimp) {
 	          var data = ref.data;
 	          var width = ref.width;
 	          var height = ref.height;
-	          resolve({ data: data.toJSON().data, width: width, height: height });
+	          resolve({
+	            data: data.toJSON().data,
+	            width: width,
+	            height: height,
+	          });
 	        })
 	      }
 
-	      return reject(new Error('Invalid image source specified!'))
-	    }
-
-	    // if Browser
-	    if (typeof source === 'string') {
-	      source = document.getElementById(source);
-	      if (!source) { return reject(new Error('Invalid image source specified!')) }
-	    }
-
-	    var elementType = source.tagName;
-
-	    if (elementType === 'IMG') {
-	      var canvas = document.createElement('canvas');
-	      canvas.width = source.naturalWidth;
-	      canvas.height = source.naturalHeight;
-	      var ctx = canvas.getContext('2d');
-
-	      ctx.drawImage(source, 0, 0);
-
-	      return resolve(
-	        ctx.getImageData(0, 0, source.naturalWidth, source.naturalHeight)
-	      )
-	    }
-
-	    if (elementType === 'CANVAS') {
-	      return resolve(
-	        source
-	          .getContext('2d')
-	          .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
-	      )
+	      // Find Elment by ID
+	      var imgElem = document.getElementById(source);
+	      if (imgElem) {
+	        return resolve(createImageData(imgElem))
+	      }
+	      // Load Image from source
+	      var img = new Image();
+	      img.onerror = function () { return reject(new Error('Invalid image source specified!')); };
+	      img.onload = function () { return resolve(createImageData(img)); };
+	      img.src = source;
 	    }
 
 	    return reject(new Error('Invalid image source specified!'))
