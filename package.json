@@ -53,7 +53,7 @@
     "build": "rollup -c",
     "dev": "run-p watch start",
     "lint": "eslint --fix src/",
-    "start": "serve",
+    "start": "serve ./docs/",
     "test": "jest",
     "watch": "rollup -c -w"
   },

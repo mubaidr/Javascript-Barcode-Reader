@@ -8,7 +8,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode codabar', async () => {
-    const result = await jbr(path.resolve('sample-images/codabar.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/codabar.jpg'), {
       barcode: 'codabar',
     })
 
@@ -16,7 +16,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode 2 of 5', async () => {
-    const result = await jbr(path.resolve('sample-images/code-2of5.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/code-2of5.jpg'), {
       barcode: 'code-2of5',
     })
 
@@ -25,7 +25,7 @@ describe('javascript-barcode-reader', () => {
 
   it('should detect barcode 2 of 5 interleaved', async () => {
     const result = await jbr(
-      path.resolve('sample-images/code-2of5-interleaved.jpg'),
+      path.resolve('docs/sample-images/code-2of5-interleaved.jpg'),
       {
         barcode: 'code-2of5',
         type: 'interleaved',
@@ -36,7 +36,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode 39', async () => {
-    const result = await jbr(path.resolve('sample-images/code-39.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/code-39.jpg'), {
       barcode: 'code-39',
     })
 
@@ -44,7 +44,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode 93', async () => {
-    const result = await jbr(path.resolve('sample-images/code-93.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/code-93.jpg'), {
       barcode: 'code-93',
     })
 
@@ -52,7 +52,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode 128', async () => {
-    const result = await jbr(path.resolve('sample-images/code-128.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/code-128.jpg'), {
       barcode: 'code-128',
     })
 
@@ -60,7 +60,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode 2 of 5', async () => {
-    const result = await jbr(path.resolve('sample-images/code-2of5.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/code-2of5.jpg'), {
       barcode: 'code-2of5',
     })
 
@@ -68,7 +68,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode EAN-8', async () => {
-    const result = await jbr(path.resolve('sample-images/ean-8.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/ean-8.jpg'), {
       barcode: 'ean-8',
     })
 
@@ -76,7 +76,7 @@ describe('javascript-barcode-reader', () => {
   })
 
   it('should detect barcode EAN-13', async () => {
-    const result = await jbr(path.resolve('sample-images/ean-13.jpg'), {
+    const result = await jbr(path.resolve('docs/sample-images/ean-13.jpg'), {
       barcode: 'ean-13',
     })
 
