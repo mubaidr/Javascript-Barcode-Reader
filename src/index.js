@@ -23,8 +23,7 @@ const BARCODE_DECODERS = {
  */
 async function barcodeDecoder(image, options) {
   const { data, width, height } = await UTILITIES.getImageDataFromSource(image)
-  // const noOfPixels = data.length / (width * height)
-  // TODO: use noOfPixels in loops
+  const channels = data.length / (width * height)
 
   // check points for barcode location
   const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]
@@ -35,9 +34,10 @@ async function barcodeDecoder(image, options) {
     // eslint-disable-next-line
     while ((numLines -= 1)) {
       // create section of height 2
-      const start = 4 * width * Math.floor(slineStep * spoints[numLines])
+      const start = channels * width * Math.floor(slineStep * spoints[numLines])
       const end =
-        4 * width * Math.floor(slineStep * spoints[numLines]) + 2 * 4 * width
+        channels * width * Math.floor(slineStep * spoints[numLines]) +
+        2 * channels * width
       const pxLine = data.slice(start, end)
       const sum = []
       let min = 0
@@ -46,7 +46,7 @@ async function barcodeDecoder(image, options) {
       // grey scale section and sum of columns pixels in section
       for (let row = 0; row < 2; row += 1) {
         for (let col = 0; col < width; col += 1) {
-          const i = (row * width + col) * 4
+          const i = (row * width + col) * channels
           const g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9
           const s = sum[col]
 
@@ -54,7 +54,7 @@ async function barcodeDecoder(image, options) {
           pxLine[i + 1] = g
           pxLine[i + 2] = g
 
-          sum[col] = g + (s === undefined ? 0 : s)
+          sum[col] = g + (s || 0)
         }
       }
 
@@ -64,8 +64,7 @@ async function barcodeDecoder(image, options) {
 
         if (s < min) {
           min = s
-        }
-        if (s > max) {
+        } else {
           max = s
         }
       }
@@ -77,7 +76,7 @@ async function barcodeDecoder(image, options) {
       for (let col = 0; col < width; col += 1) {
         let matches = 0
         for (let row = 0; row < 2; row += 1) {
-          if (pxLine[(row * width + col) * 4] > pivot) {
+          if (pxLine[(row * width + col) * channels] > pivot) {
             matches += 1
           }
         }
@@ -102,22 +101,21 @@ async function barcodeDecoder(image, options) {
         }
       }
 
-      // eslint-disable-next-line
-      if (lines.length <= 1) continue
-
       // remove empty whitespaces on side of barcode
       lines.shift()
       lines.pop()
 
-      // Run the decoder
-      const result = BARCODE_DECODERS[options.barcode](lines, options.type)
+      if (lines.length) {
+        // Run the decoder
+        const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
-      if (result) {
-        resolve(result)
+        if (result) {
+          return resolve(result)
+        }
       }
     }
 
-    reject(new Error('Failed to extract barcode!'))
+    return reject(new Error('Failed to extract barcode!'))
   })
 }
 

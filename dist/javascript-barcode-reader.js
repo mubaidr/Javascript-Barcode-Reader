@@ -1030,8 +1030,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	  var data = ref.data;
 	  var width = ref.width;
 	  var height = ref.height;
-	  // const noOfPixels = data.length / (width * height)
-	  // TODO: use noOfPixels in loops
+	  var channels = data.length / (width * height);
 
 	  // check points for barcode location
 	  var spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5];
@@ -1042,9 +1041,10 @@ var javascriptBarcodeReader = (function (jimp) {
 	    // eslint-disable-next-line
 	    while ((numLines -= 1)) {
 	      // create section of height 2
-	      var start = 4 * width * Math.floor(slineStep * spoints[numLines]);
+	      var start = channels * width * Math.floor(slineStep * spoints[numLines]);
 	      var end =
-	        4 * width * Math.floor(slineStep * spoints[numLines]) + 2 * 4 * width;
+	        channels * width * Math.floor(slineStep * spoints[numLines]) +
+	        2 * channels * width;
 	      var pxLine = data.slice(start, end);
 	      var sum = [];
 	      var min = 0;
@@ -1053,7 +1053,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	      // grey scale section and sum of columns pixels in section
 	      for (var row = 0; row < 2; row += 1) {
 	        for (var col = 0; col < width; col += 1) {
-	          var i = (row * width + col) * 4;
+	          var i = (row * width + col) * channels;
 	          var g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9;
 	          var s = sum[col];
 
@@ -1061,7 +1061,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	          pxLine[i + 1] = g;
 	          pxLine[i + 2] = g;
 
-	          sum[col] = g + (s === undefined ? 0 : s);
+	          sum[col] = g + (s || 0);
 	        }
 	      }
 
@@ -1071,8 +1071,7 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	        if (s$1 < min) {
 	          min = s$1;
-	        }
-	        if (s$1 > max) {
+	        } else {
 	          max = s$1;
 	        }
 	      }
@@ -1084,7 +1083,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	      for (var col$1 = 0; col$1 < width; col$1 += 1) {
 	        var matches = 0;
 	        for (var row$1 = 0; row$1 < 2; row$1 += 1) {
-	          if (pxLine[(row$1 * width + col$1) * 4] > pivot) {
+	          if (pxLine[(row$1 * width + col$1) * channels] > pivot) {
 	            matches += 1;
 	          }
 	        }
@@ -1109,22 +1108,21 @@ var javascriptBarcodeReader = (function (jimp) {
 	        }
 	      }
 
-	      // eslint-disable-next-line
-	      if (lines.length <= 1) { continue }
-
 	      // remove empty whitespaces on side of barcode
 	      lines.shift();
 	      lines.pop();
 
-	      // Run the decoder
-	      var result = BARCODE_DECODERS[options.barcode](lines, options.type);
+	      if (lines.length) {
+	        // Run the decoder
+	        var result = BARCODE_DECODERS[options.barcode](lines, options.type);
 
-	      if (result) {
-	        resolve(result);
+	        if (result) {
+	          return resolve(result)
+	        }
 	      }
 	    }
 
-	    reject(new Error('Failed to extract barcode!'));
+	    return reject(new Error('Failed to extract barcode!'))
 	  })
 	}
 
