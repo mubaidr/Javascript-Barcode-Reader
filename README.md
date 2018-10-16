@@ -28,11 +28,19 @@ http://mubaidr.js.org/Javascript-Barcode-Reader/
 
 ## Install
 
+Recommended way to install is by using package manager (npm, yarn etc):
+
 ```bash
 npm install javascript-barcode-reader
 ```
 
 or use cdn:
+
+```html
+<script src="//unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.min.js"></script>
+```
+
+or download manually: 
 
 [javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.min.js)
 
