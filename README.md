@@ -2,13 +2,13 @@
 
 A Barcode scanner capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes in javascript for Node.js and Browsers.
 
-<a href="https://patreon.com/mubaidr">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="42">
-</a>
-
+[![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
+<br>
 [![NPM](https://nodei.co/npm/javascript-barcode-reader.png?compact=true)](https://nodei.co/npm/javascript-barcode-reader/)
 
-[![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
+<a href="https://patreon.com/mubaidr">
+  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="45">
+</a>
 
 ## Demo
 
@@ -53,7 +53,7 @@ const javascriptBarcodeReader = require('javascript-barcode-reader')
 
 //using promise
 javascriptBarcodeReader(
-  Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
+  Image, /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
@@ -64,7 +64,7 @@ javascriptBarcodeReader(
 
 // using await
 const code = await javascriptBarcodeReader(
-  Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
+  Image, /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
@@ -79,7 +79,7 @@ const code = await javascriptBarcodeReader(
 ```js
 //using promise
 javascriptBarcodeReader(
-  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
+  Image, /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
@@ -90,10 +90,54 @@ javascriptBarcodeReader(
 
 // using await
 const code = await javascriptBarcodeReader(
-  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
+  Image, /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
   }
 )
 ```
+
+## Tips
+
+- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail. 
+- Always catch promise, if script does not find any barcoe in the image it throws promise rejection. 
+
+## Known Issues
+
+This script does not implement logic to locate/rotate barcode in the given image. 
+
+## Contributing
+
+All the modules are contianed in `src` directory. If you implement a new module or update an existing one, then make sure to add/run tests by running:
+
+```bash
+npm test
+```
+
+Tests are defined in the `__tests__` directory using `Jest`.
+There is no need to run build script. 
+
+## Licence
+
+MIT License
+
+Copyright (c) 2018 Muhammad Ubaid Raza
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
