@@ -101,7 +101,7 @@ const code = await javascriptBarcodeReader(
 ## Tips
 
 - Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail. 
-- Always catch promise, if script does not find any barcoe in the image it throws promise rejection. 
+- Always catch promise, if script does not find any barcode in the image it throws promise rejection. 
 
 ## Known Issues
 
@@ -116,7 +116,8 @@ npm test
 ```
 
 Tests are defined in the `__tests__` directory using `Jest`.
-There is no need to run build script. 
+
+There is no need to run build script before creating pull request. 
 
 ## Licence
 
