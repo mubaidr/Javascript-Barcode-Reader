@@ -59,14 +59,6 @@ describe('javascript-barcode-reader', () => {
     expect(result).toBe('ABC-abc-1234')
   })
 
-  it('should detect barcode 2 of 5', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/code-2of5.jpg'), {
-      barcode: 'code-2of5',
-    })
-
-    expect(result).toBe('12345670')
-  })
-
   it('should detect barcode EAN-8', async () => {
     const result = await jbr(path.resolve('docs/sample-images/ean-8.jpg'), {
       barcode: 'ean-8',
