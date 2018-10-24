@@ -40,7 +40,7 @@ or use cdn:
 <script src="//unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.min.js"></script>
 ```
 
-or download manually: 
+or download manually:
 
 [javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.min.js)
 
@@ -53,23 +53,31 @@ const javascriptBarcodeReader = require('javascript-barcode-reader')
 
 //using promise
 javascriptBarcodeReader(
-  Image, /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */
-  {
-    barcode: 'code-2of5',
-    type: 'industrial', //optional type
-  }
-).then(code => {
-  console.log(code)
-})
-
-// using await
-const code = await javascriptBarcodeReader(
-  Image, /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */
+  Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
   }
 )
+  .then(code => {
+    console.log(code)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+// using await
+try {
+  const code = await javascriptBarcodeReader(
+    Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
+    {
+      barcode: 'code-2of5',
+      type: 'industrial', //optional type
+    }
+  )
+} catch (err) {
+  console.log(err)
+}
 ```
 
 ### Browser
@@ -79,33 +87,40 @@ const code = await javascriptBarcodeReader(
 ```js
 //using promise
 javascriptBarcodeReader(
-  Image, /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
-  {
-    barcode: 'code-2of5',
-    type: 'industrial', //optional type
-  }
-).then(code => {
-  console.log(code)
-})
-
-// using await
-const code = await javascriptBarcodeReader(
-  Image, /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
+  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
   }
 )
+  .then(code => {
+    console.log(code)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+// using await
+try {
+  const code = await javascriptBarcodeReader(
+    Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
+    {
+      barcode: 'code-2of5',
+      type: 'industrial', //optional type
+    }
+  )
+} catch (err) {
+  console.log(err)
+}
 ```
 
 ## Tips
 
-- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail. 
-- Always catch promise, if script does not find any barcode in the image it throws promise rejection. 
+- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail.
 
 ## Known Issues
 
-This script does not implement logic to locate/rotate barcode in the given image. 
+This script does not implement logic to locate/rotate barcode in the given image.
 
 ## Contributing
 
@@ -117,7 +132,7 @@ npm test
 
 Tests are defined in the `__tests__` directory using `Jest`.
 
-There is no need to run build script before creating pull request. 
+There is no need to run build script before creating pull request.
 
 ## Licence
 

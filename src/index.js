@@ -43,6 +43,8 @@ async function barcodeDecoder(image, options) {
       let min = 0
       let max = 0
 
+      const padding = { left: true, right: true }
+
       // grey scale section and sum of columns pixels in section
       for (let row = 0; row < 2; row += 1) {
         for (let col = 0; col < width; col += 1) {
@@ -75,11 +77,21 @@ async function barcodeDecoder(image, options) {
 
       for (let col = 0; col < width; col += 1) {
         let matches = 0
+        let value
+
         for (let row = 0; row < 2; row += 1) {
-          if (pxLine[(row * width + col) * channels] > pivot) {
+          value = pxLine[(row * width + col) * channels]
+
+          if (value > pivot) {
             matches += 1
           }
         }
+
+        if (col === 0 && value <= pivot) padding.left = false
+        if (col === width - 1 && value <= pivot) {
+          padding.right = false
+        }
+
         bmp.push(matches > 1)
       }
 
@@ -91,6 +103,7 @@ async function barcodeDecoder(image, options) {
       for (let col = 0; col < width; col += 1) {
         if (bmp[col] === curr) {
           count += 1
+
           if (col === width - 1) {
             lines.push(count)
           }
@@ -102,17 +115,18 @@ async function barcodeDecoder(image, options) {
       }
 
       // remove empty whitespaces on side of barcode
-      lines.shift()
-      lines.pop()
+      if (padding.left) lines.shift()
+      if (padding.right) lines.pop()
 
-      if (lines.length) {
-        // Run the decoder
-        const result = BARCODE_DECODERS[options.barcode](lines, options.type)
+      // Run the decoder
+      const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
-        if (result) {
-          return resolve(result)
-        }
+      if (result) {
+        return resolve(result)
       }
+
+      // break out during dev mode
+      if (process && process.env.DEVELOPMENT) break
     }
 
     return reject(new Error('Failed to extract barcode!'))
