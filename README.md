@@ -50,8 +50,10 @@ or download manually:
 
 ```js
 const javascriptBarcodeReader = require('javascript-barcode-reader')
+```
+#### Using promise
 
-//using promise
+```js
 javascriptBarcodeReader(
   Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
   {
@@ -65,8 +67,11 @@ javascriptBarcodeReader(
   .catch(err => {
     console.log(err)
   })
+```
 
-// using await
+#### Using await
+
+```js
 try {
   const code = await javascriptBarcodeReader(
     Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
@@ -84,8 +89,9 @@ try {
 
 `javascriptBarcodeReader` will be available as global in Browsers.
 
+### Using promise
+
 ```js
-//using promise
 javascriptBarcodeReader(
   Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
   {
@@ -99,8 +105,11 @@ javascriptBarcodeReader(
   .catch(err => {
     console.log(err)
   })
+```
 
-// using await
+#### Using await
+
+```js
 try {
   const code = await javascriptBarcodeReader(
     Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
