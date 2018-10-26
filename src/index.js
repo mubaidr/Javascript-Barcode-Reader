@@ -114,6 +114,7 @@ async function barcodeDecoder(image, options) {
         }
       }
 
+      // TOFIX: invalid removing of padding
       // remove empty whitespaces on side of barcode
       if (padding.left) lines.shift()
       if (padding.right) lines.pop()

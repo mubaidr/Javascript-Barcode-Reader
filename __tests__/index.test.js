@@ -75,14 +75,25 @@ describe('javascript-barcode-reader', () => {
     expect(result).toBe('901234123457')
   })
 
-  // it('should detect barcode 128 without padding white bars', async () => {
-  //   const result = await jbr(
-  //     path.resolve('docs/sample-images/code-128-no-padding.jpg'),
-  //     {
-  //       barcode: 'code-128',
-  //     }
-  //   )
+  it('should detect barcode 128 without padding white bars', async () => {
+    const result = await jbr(
+      path.resolve('docs/sample-images/code-128-no-padding.jpg'),
+      {
+        barcode: 'code-128',
+      }
+    )
 
-  //   expect(result).toBe('ABC-abc-1234')
-  // })
+    expect(result).toBe('ABC-abc-1234')
+  })
+
+  it('should detect barcode 93 without padding white bars', async () => {
+    const result = await jbr(
+      path.resolve('docs/sample-images/code-93-no-padding.jpg'),
+      {
+        barcode: 'code-93',
+      }
+    )
+
+    expect(result).toBe('123ABC')
+  })
 })
