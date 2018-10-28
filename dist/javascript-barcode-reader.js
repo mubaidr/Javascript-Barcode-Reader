@@ -422,6 +422,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	  'FNC 4',
 	  'Code A',
 	  'FNC 1' ];
+
 	var TBL_C = [
 	  '0',
 	  '1',
@@ -551,6 +552,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	  });
 
 	  letterKey = seq.splice(0, 6).join('');
+
 	  switch (letterKey) {
 	    case '211214':
 	      lookupTBL = TBL_B;
@@ -565,11 +567,13 @@ var javascriptBarcodeReader = (function (jimp) {
 	      sumOP = 103;
 	      break
 	  }
+
 	  for (var i = 1; seq.length > 12; i += 1) {
 	    letterKey = seq.splice(0, 6).join('');
 	    keyIndex = WIDTH_TBL.indexOf(letterKey);
 	    sumOP += i * keyIndex;
 	    letterCode = lookupTBL[keyIndex];
+
 	    switch (letterCode) {
 	      case 'Code A':
 	        lookupTBL = TBL_A;
@@ -585,8 +589,11 @@ var javascriptBarcodeReader = (function (jimp) {
 	        break
 	    }
 	  }
+
 	  letterKey = seq.splice(0, 6).join('');
+
 	  if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) { return null }
+
 	  return code.join('')
 	};
 
@@ -826,9 +833,11 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	  var loop = function ( i ) {
 	    var searcKey = binary.slice(i, i + 9).join('');
-	    code.push(
-	      CHAR_SET$2.filter(function (item) { return Object.keys(item)[0] === searcKey; })[0][searcKey]
-	    );
+
+	    console.log(searcKey);
+	    var char = CHAR_SET$2.filter(function (item) { return Object.keys(item)[0] === searcKey; });
+
+	    code.push(char[0][searcKey]);
 	  };
 
 	  for (var i$1 = 0; i$1 < binary.length; i$1 += 9) loop( i$1 );
@@ -846,6 +855,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	    Value = CHAR_SET$2.indexOf(CHAR_SET$2.filter(findValue)[0]);
 	    sum += Value * (1 + ((code.length - (i$2 + 1)) % 20));
 	  }
+
 	  if (Object.values(CHAR_SET$2[sum % 47])[0] !== K) { return null }
 
 	  var C = code.pop();
@@ -856,6 +866,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	    Value = CHAR_SET$2.indexOf(CHAR_SET$2.filter(findValue)[0]);
 	    sum += Value * (1 + ((code.length - (i$3 + 1)) % 20));
 	  }
+
 	  if (Object.values(CHAR_SET$2[sum % 47])[0] !== C) { return null }
 
 	  return code.join('')
@@ -1037,93 +1048,105 @@ var javascriptBarcodeReader = (function (jimp) {
 	  var numLines = spoints.length;
 	  var slineStep = height / (numLines + 1);
 
-	  return new Promise(function (resolve, reject) {
-	    // eslint-disable-next-line
-	    while ((numLines -= 1)) {
-	      // create section of height 2
-	      var start = channels * width * Math.floor(slineStep * spoints[numLines]);
-	      var end =
-	        channels * width * Math.floor(slineStep * spoints[numLines]) +
-	        2 * channels * width;
-	      var pxLine = data.slice(start, end);
-	      var sum = [];
-	      var min = 0;
-	      var max = 0;
+	  // eslint-disable-next-line
+	  while ((numLines -= 1)) {
+	    // create section of height 2
+	    var start = channels * width * Math.floor(slineStep * spoints[numLines]);
+	    var end =
+	      channels * width * Math.floor(slineStep * spoints[numLines]) +
+	      2 * channels * width;
+	    var pxLine = data.slice(start, end);
+	    var sum = [];
+	    var min = 0;
+	    var max = 0;
 
-	      // grey scale section and sum of columns pixels in section
-	      for (var row = 0; row < 2; row += 1) {
-	        for (var col = 0; col < width; col += 1) {
-	          var i = (row * width + col) * channels;
-	          var g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9;
-	          var s = sum[col];
+	    var padding = { left: true, right: true };
 
-	          pxLine[i] = g;
-	          pxLine[i + 1] = g;
-	          pxLine[i + 2] = g;
+	    // grey scale section and sum of columns pixels in section
+	    for (var row = 0; row < 2; row += 1) {
+	      for (var col = 0; col < width; col += 1) {
+	        var i = (row * width + col) * channels;
+	        var g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9;
+	        var s = sum[col];
 
-	          sum[col] = g + (s || 0);
-	        }
-	      }
+	        pxLine[i] = g;
+	        pxLine[i + 1] = g;
+	        pxLine[i + 2] = g;
 
-	      for (var i$1 = 0; i$1 < width; i$1 += 1) {
-	        sum[i$1] /= 2;
-	        var s$1 = sum[i$1];
-
-	        if (s$1 < min) {
-	          min = s$1;
-	        } else {
-	          max = s$1;
-	        }
-	      }
-
-	      // matches columns in two rows
-	      var pivot = min + (max - min) / 2;
-	      var bmp = [];
-
-	      for (var col$1 = 0; col$1 < width; col$1 += 1) {
-	        var matches = 0;
-	        for (var row$1 = 0; row$1 < 2; row$1 += 1) {
-	          if (pxLine[(row$1 * width + col$1) * channels] > pivot) {
-	            matches += 1;
-	          }
-	        }
-	        bmp.push(matches > 1);
-	      }
-
-	      // matches width of barcode lines
-	      var curr = bmp[0];
-	      var count = 1;
-	      var lines = [];
-
-	      for (var col$2 = 0; col$2 < width; col$2 += 1) {
-	        if (bmp[col$2] === curr) {
-	          count += 1;
-	          if (col$2 === width - 1) {
-	            lines.push(count);
-	          }
-	        } else {
-	          lines.push(count);
-	          count = 1;
-	          curr = bmp[col$2];
-	        }
-	      }
-
-	      // remove empty whitespaces on side of barcode
-	      lines.shift();
-	      lines.pop();
-
-	      if (lines.length) {
-	        // Run the decoder
-	        var result = BARCODE_DECODERS[options.barcode](lines, options.type);
-
-	        if (result) {
-	          return resolve(result)
-	        }
+	        sum[col] = g + (s || 0);
 	      }
 	    }
 
-	    return reject(new Error('Failed to extract barcode!'))
-	  })
+	    for (var i$1 = 0; i$1 < width; i$1 += 1) {
+	      sum[i$1] /= 2;
+	      var s$1 = sum[i$1];
+
+	      if (s$1 < min) {
+	        min = s$1;
+	      } else {
+	        max = s$1;
+	      }
+	    }
+
+	    // matches columns in two rows
+	    var pivot = min + (max - min) / 2;
+	    var bmp = [];
+
+	    for (var col$1 = 0; col$1 < width; col$1 += 1) {
+	      var matches = 0;
+	      var value = (void 0);
+
+	      for (var row$1 = 0; row$1 < 2; row$1 += 1) {
+	        value = pxLine[(row$1 * width + col$1) * channels];
+
+	        if (value > pivot) {
+	          matches += 1;
+	        }
+	      }
+
+	      if (col$1 === 0 && value <= pivot) { padding.left = false; }
+	      if (col$1 === width - 1 && value <= pivot) {
+	        padding.right = false;
+	      }
+
+	      bmp.push(matches > 1);
+	    }
+
+	    // matches width of barcode lines
+	    var curr = bmp[0];
+	    var count = 1;
+	    var lines = [];
+
+	    for (var col$2 = 0; col$2 < width; col$2 += 1) {
+	      if (bmp[col$2] === curr) {
+	        count += 1;
+
+	        if (col$2 === width - 1) {
+	          lines.push(count);
+	        }
+	      } else {
+	        lines.push(count);
+	        count = 1;
+	        curr = bmp[col$2];
+	      }
+	    }
+
+	    // remove empty whitespaces on side of barcode
+	    if (padding.left) { lines.shift(); }
+	    if (padding.right) { lines.pop(); }
+
+	    // Run the decoder
+	    var result = BARCODE_DECODERS[options.barcode](lines, options.type);
+
+	    if (result) {
+	      return result
+	    }
+
+	    // break out during dev mode
+	    if (process && process.env.DEVELOPMENT) { break }
+	  }
+
+	  return new Error('Failed to extract barcode!')
 	}
 
 	if (module && module.exports) {

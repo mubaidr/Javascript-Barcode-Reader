@@ -83,7 +83,7 @@ describe('javascript-barcode-reader', () => {
       }
     )
 
-    expect(result).toBe('ABC-abc-1234')
+    expect(result).toBe('12ab#!')
   })
 
   it('should detect barcode 93 without padding white bars', async () => {
@@ -94,6 +94,6 @@ describe('javascript-barcode-reader', () => {
       }
     )
 
-    expect(result).toBe('123ABC')
+    expect(result).toBe('WIKIPEDIA')
   })
 })

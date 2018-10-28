@@ -321,6 +321,7 @@ const TBL_B = [
   'Code A',
   'FNC 1',
 ]
+
 const TBL_C = [
   '0',
   '1',
@@ -451,6 +452,7 @@ module.exports = lines => {
   })
 
   letterKey = seq.splice(0, 6).join('')
+
   switch (letterKey) {
     case '211214':
       lookupTBL = TBL_B
@@ -465,11 +467,13 @@ module.exports = lines => {
       sumOP = 103
       break
   }
+
   for (let i = 1; seq.length > 12; i += 1) {
     letterKey = seq.splice(0, 6).join('')
     keyIndex = WIDTH_TBL.indexOf(letterKey)
     sumOP += i * keyIndex
     letterCode = lookupTBL[keyIndex]
+
     switch (letterCode) {
       case 'Code A':
         lookupTBL = TBL_A
@@ -485,7 +489,10 @@ module.exports = lines => {
         break
     }
   }
+
   letterKey = seq.splice(0, 6).join('')
+
   if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return null
+
   return code.join('')
 }

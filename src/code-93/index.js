@@ -83,9 +83,11 @@ module.exports = lines => {
 
   for (let i = 0; i < binary.length; i += 9) {
     const searcKey = binary.slice(i, i + 9).join('')
-    code.push(
-      CHAR_SET.filter(item => Object.keys(item)[0] === searcKey)[0][searcKey]
-    )
+
+    console.log(searcKey)
+    const char = CHAR_SET.filter(item => Object.keys(item)[0] === searcKey)
+
+    code.push(char[0][searcKey])
   }
 
   if (code.shift() !== '*' || code.pop() !== '*') return null
@@ -101,6 +103,7 @@ module.exports = lines => {
     Value = CHAR_SET.indexOf(CHAR_SET.filter(findValue)[0])
     sum += Value * (1 + ((code.length - (i + 1)) % 20))
   }
+
   if (Object.values(CHAR_SET[sum % 47])[0] !== K) return null
 
   const C = code.pop()
@@ -111,6 +114,7 @@ module.exports = lines => {
     Value = CHAR_SET.indexOf(CHAR_SET.filter(findValue)[0])
     sum += Value * (1 + ((code.length - (i + 1)) % 20))
   }
+
   if (Object.values(CHAR_SET[sum % 47])[0] !== C) return null
 
   return code.join('')
