@@ -834,7 +834,6 @@ var javascriptBarcodeReader = (function (jimp) {
 	  var loop = function ( i ) {
 	    var searcKey = binary.slice(i, i + 9).join('');
 
-	    console.log(searcKey);
 	    var char = CHAR_SET$2.filter(function (item) { return Object.keys(item)[0] === searcKey; });
 
 	    code.push(char[0][searcKey]);

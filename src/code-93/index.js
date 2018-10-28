@@ -84,7 +84,6 @@ module.exports = lines => {
   for (let i = 0; i < binary.length; i += 9) {
     const searcKey = binary.slice(i, i + 9).join('')
 
-    console.log(searcKey)
     const char = CHAR_SET.filter(item => Object.keys(item)[0] === searcKey)
 
     code.push(char[0][searcKey])
