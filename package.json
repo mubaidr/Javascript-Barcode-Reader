@@ -4,7 +4,7 @@
     "url": "https://github.com/mubaidr/Javascript-Barcode-Reader/issues"
   },
   "dependencies": {
-    "jimp": "^0.5.6"
+    "jimp": "^0.6.0"
   },
   "description": "Barcode reader solution in Javascript for Browser and Node.js",
   "devDependencies": {
