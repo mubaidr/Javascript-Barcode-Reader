@@ -2,6 +2,7 @@
 
 A Barcode scanner capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes in javascript for Node.js and Browsers.
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/adf93fc22bd3479da66f3d4c74a0b95f)](https://app.codacy.com/app/mubaidr/Javascript-Barcode-Reader?utm_source=github.com&utm_medium=referral&utm_content=mubaidr/Javascript-Barcode-Reader&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
 <br>
 [![NPM](https://nodei.co/npm/javascript-barcode-reader.png?compact=true)](https://nodei.co/npm/javascript-barcode-reader/)
@@ -40,7 +41,7 @@ or use cdn:
 <script src="//unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.min.js"></script>
 ```
 
-or download manually: 
+or download manually:
 
 [javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader/dist/javascript-barcode-reader.min.js)
 
@@ -50,62 +51,86 @@ or download manually:
 
 ```js
 const javascriptBarcodeReader = require('javascript-barcode-reader')
+```
+#### Using promise
 
-//using promise
+```js
 javascriptBarcodeReader(
-  Image, /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */
-  {
-    barcode: 'code-2of5',
-    type: 'industrial', //optional type
-  }
-).then(code => {
-  console.log(code)
-})
-
-// using await
-const code = await javascriptBarcodeReader(
-  Image, /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */
+  Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
   }
 )
+  .then(code => {
+    console.log(code)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+```
+
+#### Using await
+
+```js
+try {
+  const code = await javascriptBarcodeReader(
+    Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
+    {
+      barcode: 'code-2of5',
+      type: 'industrial', //optional type
+    }
+  )
+} catch (err) {
+  console.log(err)
+}
 ```
 
 ### Browser
 
 `javascriptBarcodeReader` will be available as global in Browsers.
 
-```js
-//using promise
-javascriptBarcodeReader(
-  Image, /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
-  {
-    barcode: 'code-2of5',
-    type: 'industrial', //optional type
-  }
-).then(code => {
-  console.log(code)
-})
+### Using promise
 
-// using await
-const code = await javascriptBarcodeReader(
-  Image, /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
+```js
+javascriptBarcodeReader(
+  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
   {
     barcode: 'code-2of5',
     type: 'industrial', //optional type
   }
 )
+  .then(code => {
+    console.log(code)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+```
+
+#### Using await
+
+```js
+try {
+  const code = await javascriptBarcodeReader(
+    Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
+    {
+      barcode: 'code-2of5',
+      type: 'industrial', //optional type
+    }
+  )
+} catch (err) {
+  console.log(err)
+}
 ```
 
 ## Tips
 
-- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail. 
-- Always catch promise, if script does not find any barcode in the image it throws promise rejection. 
+- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail.
 
 ## Known Issues
 
-This script does not implement logic to locate/rotate barcode in the given image. 
+This script does not implement logic to locate/rotate barcode in the given image.
 
 ## Contributing
 
@@ -117,7 +142,7 @@ npm test
 
 Tests are defined in the `__tests__` directory using `Jest`.
 
-There is no need to run build script before creating pull request. 
+There is no need to run build script before creating pull request.
 
 ## Licence
 
