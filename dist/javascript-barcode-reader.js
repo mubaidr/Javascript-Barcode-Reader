@@ -14,6 +14,12 @@ var javascriptBarcodeReader = (function (jimp) {
 	  process.release &&
 	  process.release.name === 'node';
 
+	// check if string is url
+	function isUrl(s) {
+	  var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
+	  return !s[0] === '#' || regexp.test(s)
+	}
+
 	/**
 	 * Creates image data from HTML image
 	 * @param {HTMLImageElement} image HTML Image element
@@ -38,63 +44,70 @@ var javascriptBarcodeReader = (function (jimp) {
 	 * @param {Function} callback Callback to pass the imageData
 	 */
 	async function getImageDataFromSource(source) {
+	  var isStringSource = typeof source === 'string';
+	  var isURLSource = isStringSource ? isUrl(source) : false;
+	  var tagName = source.tagName;
+
 	  return new Promise(function (resolve, reject) {
-	    var tagName = source.tagName;
-
-	    // Pixel Data
-	    if (source.data && source.width && source.height) {
-	      return resolve(source)
-	    }
-
-	    // HTML Image element
-	    if (tagName === 'IMG') {
-	      return resolve(createImageData(source))
-	    }
-
-	    // HTML Canvas element
-	    if (tagName === 'CANVAS') {
-	      return resolve(
-	        source
-	          .getContext('2d')
-	          .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
-	      )
-	    }
-
 	    // String source
-	    if (typeof source === 'string') {
+	    if (isStringSource) {
 	      // Read file in Node.js
 	      if (isNode) {
-	        return jimp.read(source, function (err, image) {
-	          if (err) {
-	            reject(err);
-	            return
+	        jimp.read(
+	          isURLSource ? { url: source, headers: {} } : source,
+	          function (err, image) {
+	            if (err) {
+	              reject(err);
+	            } else {
+	              var ref = image.bitmap;
+	              var data = ref.data;
+	              var width = ref.width;
+	              var height = ref.height;
+	              resolve({
+	                data: data.toJSON().data,
+	                width: width,
+	                height: height,
+	              });
+	            }
 	          }
+	        );
+	      } else if (isURLSource) {
+	        // Load Image from source
+	        var img = new Image();
+	        img.onerror = reject;
+	        img.onload = function () { return resolve(createImageData(img)); };
+	        img.src = source;
+	      } else {
+	        // Find Elment by ID
+	        var imgElem = document.getElementById(source);
+	        if (imgElem) {
+	          resolve(createImageData(imgElem));
+	        }
 
-	          var ref = image.bitmap;
-	          var data = ref.data;
-	          var width = ref.width;
-	          var height = ref.height;
-	          resolve({
-	            data: data.toJSON().data,
-	            width: width,
-	            height: height,
-	          });
-	        })
+	        reject(new Error('Invalid image source specified!'));
+	      }
+	    } else if (tagName) {
+	      // HTML Image element
+	      if (tagName === 'IMG') {
+	        resolve(createImageData(source));
+	      }
+	      // HTML Canvas element
+	      else if (tagName === 'CANVAS') {
+	        resolve(
+	          source
+	            .getContext('2d')
+	            .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
+	        );
 	      }
 
-	      // Find Elment by ID
-	      var imgElem = document.getElementById(source);
-	      if (imgElem) {
-	        return resolve(createImageData(imgElem))
-	      }
-	      // Load Image from source
-	      var img = new Image();
-	      img.onerror = function () { return reject(new Error('Invalid image source specified!')); };
-	      img.onload = function () { return resolve(createImageData(img)); };
-	      img.src = source;
+	      reject(new Error('Invalid image source specified!'));
 	    }
-
-	    return reject(new Error('Invalid image source specified!'))
+	    // Pixel Data
+	    else if (source.data && source.width && source.height) {
+	      resolve(source);
+	    } else {
+	      reject(new Error('Invalid image source specified!'));
+	    }
 	  })
 	}
 
@@ -911,8 +924,6 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	    if (result) {
 	      code += result;
-	    } else {
-	      return result
 	    }
 
 	    if (code.length === 12) { break }
@@ -961,8 +972,6 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	    if (result) {
 	      code += result;
-	    } else {
-	      return result
 	    }
 
 	    if (code.length === 8) { break }
@@ -1140,9 +1149,6 @@ var javascriptBarcodeReader = (function (jimp) {
 	    if (result) {
 	      return result
 	    }
-
-	    // break out during dev mode
-	    if (process && process.env.DEVELOPMENT) { break }
 	  }
 
 	  return new Error('Failed to extract barcode!')
