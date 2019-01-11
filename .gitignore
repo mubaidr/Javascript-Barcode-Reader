@@ -64,3 +64,5 @@ typings/
 build/
 
 .tmp
+
+__coverage__

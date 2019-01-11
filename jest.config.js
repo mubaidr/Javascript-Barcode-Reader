@@ -1,5 +1,8 @@
 module.exports = {
   automock: false,
-  // bail: true,
+  bail: false,
   verbose: true,
+  collectCoverage: true,
+  coverageReporters: ['json', 'html'],
+  coverageDirectory: '__coverage__',
 }

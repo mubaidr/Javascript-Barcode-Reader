@@ -3,8 +3,13 @@
 A Barcode scanner capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes in javascript for Node.js and Browsers.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/adf93fc22bd3479da66f3d4c74a0b95f)](https://app.codacy.com/app/mubaidr/Javascript-Barcode-Reader?utm_source=github.com&utm_medium=referral&utm_content=mubaidr/Javascript-Barcode-Reader&utm_campaign=Badge_Grade_Dashboard)
+
+[![codecov](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader/branch/master/graph/badge.svg)](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader)
+
 [![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
+
 <br>
+
 [![NPM](https://nodei.co/npm/javascript-barcode-reader.png?compact=true)](https://nodei.co/npm/javascript-barcode-reader/)
 
 <a href="https://patreon.com/mubaidr">
@@ -52,6 +57,7 @@ or download manually:
 ```js
 const javascriptBarcodeReader = require('javascript-barcode-reader')
 ```
+
 #### Using promise
 
 ```js
