@@ -1,4 +1,5 @@
 const path = require('path')
+const Jimp = require('jimp')
 const jbr = require('../src/index')
 
 describe('javascript-barcode-reader', () => {
@@ -98,16 +99,80 @@ describe('extract barcode from local files', () => {
 
     expect(result).toBe('WIKIPEDIA')
   })
+
+  test('should detect barcode 93 with bitmap data', async () => {
+    const image = await Jimp.read('docs/sample-images/code-93-no-padding.jpg')
+    const { data, width, height } = image.bitmap
+
+    const result = await jbr(
+      {
+        data: data.toJSON().data,
+        width,
+        height,
+      },
+      {
+        barcode: 'code-93',
+      }
+    )
+
+    expect(result).toBe('WIKIPEDIA')
+  })
+})
+
+describe('extract barcode from DOM elements', () => {
+  test('should detect barcode 93 from IMG', async () => {
+    const img = new Image()
+    img.onload = async () => {
+      const result = await jbr(img, {
+        barcode: 'code-93',
+      })
+      expect(result).toBe('WIKIPEDIA')
+    }
+    img.src = 'docs/sample-images/code-93-no-padding.jpg'
+  })
+
+  test('should detect barcode 93 from IMG', async () => {
+    const canvas = document.createElement('canvas')
+    const img = new Image()
+    img.onload = async () => {
+      canvas.width = img.naturalWidth
+      canvas.height = img.naturalHeight
+
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0)
+
+      const result = await jbr(canvas, {
+        barcode: 'code-93',
+      })
+      expect(result).toBe('WIKIPEDIA')
+    }
+    img.src = 'docs/sample-images/code-93-no-padding.jpg'
+  })
 })
 
 describe('extract barcode from remote URL', () => {
-  // test('should detect barcode 93 from remote url', async () => {
-  //   const result = await jbr(
-  //     'https://upload.wikimedia.org/wikipedia/en/a/a9/Code_93_wikipedia.png',
-  //     {
-  //       barcode: 'code-93',
-  //     }
-  //   )
-  //   expect(result).toBe('WIKIPEDIA')
-  // })
+  test('should detect barcode 93 from remote url', async () => {
+    const result = await jbr(
+      'https://upload.wikimedia.org/wikipedia/en/a/a9/Code_93_wikipedia.png',
+      {
+        barcode: 'code-93',
+      }
+    )
+    expect(result).toBe('WIKIPEDIA')
+  })
+})
+
+describe('Fails', () => {
+  test('invalid image source', async () => {
+    try {
+      await jbr(
+        {},
+        {
+          barcode: 'code-93',
+        }
+      )
+    } catch (err) {
+      expect(err).toBeDefined()
+    }
+  })
 })

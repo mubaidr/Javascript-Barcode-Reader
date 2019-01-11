@@ -123,9 +123,6 @@ async function barcodeDecoder(image, options) {
     if (result) {
       return result
     }
-
-    // break out during dev mode
-    if (process && process.env.DEVELOPMENT) break
   }
 
   return new Error('Failed to extract barcode!')

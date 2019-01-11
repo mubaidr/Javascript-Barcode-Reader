@@ -8,7 +8,7 @@ const isNode =
 // check if string is url
 function isUrl(s) {
   let regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/
-  return regexp.test(s)
+  return !s[0] === '#' || regexp.test(s)
 }
 
 /**
