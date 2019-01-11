@@ -5,6 +5,12 @@ const isNode =
   process.release &&
   process.release.name === 'node'
 
+// check if string is url
+function isUrl(s) {
+  let regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/
+  return regexp.test(s)
+}
+
 /**
  * Creates image data from HTML image
  * @param {HTMLImageElement} image HTML Image element
@@ -29,60 +35,67 @@ function createImageData(image) {
  * @param {Function} callback Callback to pass the imageData
  */
 async function getImageDataFromSource(source) {
+  const isStringSource = typeof source === 'string'
+  const isURLSource = isStringSource ? isUrl(source) : false
+  const { tagName } = source
+
   return new Promise((resolve, reject) => {
-    let { tagName } = source
-
-    // Pixel Data
-    if (source.data && source.width && source.height) {
-      return resolve(source)
-    }
-
-    // HTML Image element
-    if (tagName === 'IMG') {
-      return resolve(createImageData(source))
-    }
-
-    // HTML Canvas element
-    if (tagName === 'CANVAS') {
-      return resolve(
-        source
-          .getContext('2d')
-          .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
-      )
-    }
-
     // String source
-    if (typeof source === 'string') {
+    if (isStringSource) {
       // Read file in Node.js
       if (isNode) {
-        return Jimp.read(source, (err, image) => {
-          if (err) {
-            reject(err)
-            return
+        Jimp.read(
+          isURLSource ? { url: source, headers: {} } : source,
+          (err, image) => {
+            if (err) {
+              reject(err)
+            } else {
+              const { data, width, height } = image.bitmap
+              resolve({
+                data: data.toJSON().data,
+                width,
+                height,
+              })
+            }
           }
+        )
+      } else if (isURLSource) {
+        // Load Image from source
+        const img = new Image()
+        img.onerror = reject
+        img.onload = () => resolve(createImageData(img))
+        img.src = source
+      } else {
+        // Find Elment by ID
+        const imgElem = document.getElementById(source)
+        if (imgElem) {
+          resolve(createImageData(imgElem))
+        }
 
-          const { data, width, height } = image.bitmap
-          resolve({
-            data: data.toJSON().data,
-            width,
-            height,
-          })
-        })
+        reject(new Error('Invalid image source specified!'))
+      }
+    } else if (tagName) {
+      // HTML Image element
+      if (tagName === 'IMG') {
+        resolve(createImageData(source))
+      }
+      // HTML Canvas element
+      else if (tagName === 'CANVAS') {
+        resolve(
+          source
+            .getContext('2d')
+            .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
+        )
       }
 
-      // Find Elment by ID
-      const imgElem = document.getElementById(source)
-      if (imgElem) {
-        return resolve(createImageData(imgElem))
-      }
-      // Load Image from source
-      const img = new Image()
-      img.onerror = () => reject(new Error('Invalid image source specified!'))
-      img.onload = () => resolve(createImageData(img))
-      img.src = source
+      reject(new Error('Invalid image source specified!'))
     }
-
-    return reject(new Error('Invalid image source specified!'))
+    // Pixel Data
+    else if (source.data && source.width && source.height) {
+      resolve(source)
+    } else {
+      reject(new Error('Invalid image source specified!'))
+    }
   })
 }
 
