@@ -11,5 +11,4 @@ cache:
     - 'node_modules'
 
 script:
-  - jest
-  - codecov
+  - jest && codecov

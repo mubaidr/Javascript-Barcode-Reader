@@ -54,6 +54,7 @@
     "lint": "eslint --fix src/",
     "start": "serve ./docs/",
     "test": "jest",
+    "test:watch": "jest --watch",
     "watch": "rollup -c -w"
   },
   "version": "0.4.7"

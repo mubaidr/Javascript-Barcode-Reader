@@ -3,6 +3,6 @@ module.exports = {
   bail: false,
   verbose: true,
   collectCoverage: true,
-  coverageReporters: ['json', 'html'],
-  coverageDirectory: '__coverage__',
+  coverageReporters: ['json', 'lcov', 'text', 'clover', 'html'],
+  coverageDirectory: './coverage/',
 }
