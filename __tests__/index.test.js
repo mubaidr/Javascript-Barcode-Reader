@@ -186,4 +186,14 @@ describe('Fails', () => {
       expect(err).toBeDefined()
     }
   })
+
+  test('throws when no barcode found', async () => {
+    try {
+      await jbr('docs/sample-images/empty.jpg', {
+        barcode: 'code-93',
+      })
+    } catch (err) {
+      expect(err).toBeDefined()
+    }
+  })
 })
