@@ -1,6 +1,19 @@
 const path = require('path')
 const Jimp = require('jimp')
+
 const jbr = require('../src/index')
+
+// const imageLoader = src =>
+//   new Promise((resolve, reject) => {
+//     const img = new Image()
+//     img.onload = () => {
+//       resolve(img)
+//     }
+//     img.onerror = err => {
+//       reject(err)
+//     }
+//     img.src = src
+//   })
 
 describe('javascript-barcode-reader', () => {
   test('should be defined', () => {
@@ -11,6 +24,8 @@ describe('javascript-barcode-reader', () => {
 
 describe('extract barcode from local files', () => {
   test('should detect barcode codabar', async () => {
+    expect.assertions(1)
+
     const result = await jbr(path.resolve('docs/sample-images/codabar.jpg'), {
       barcode: 'codabar',
     })
@@ -19,6 +34,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 2 of 5', async () => {
+    expect.assertions(1)
+
     const result = await jbr(path.resolve('docs/sample-images/code-2of5.jpg'), {
       barcode: 'code-2of5',
     })
@@ -27,6 +44,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 2 of 5 interleaved', async () => {
+    expect.assertions(1)
+
     const result = await jbr(
       path.resolve('docs/sample-images/code-2of5-interleaved.jpg'),
       {
@@ -39,6 +58,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 39', async () => {
+    expect.assertions(1)
+
     const result = await jbr(path.resolve('docs/sample-images/code-39.jpg'), {
       barcode: 'code-39',
     })
@@ -47,6 +68,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 93', async () => {
+    expect.assertions(1)
+
     const result = await jbr(path.resolve('docs/sample-images/code-93.jpg'), {
       barcode: 'code-93',
     })
@@ -55,6 +78,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 128', async () => {
+    expect.assertions(1)
+
     const result = await jbr(path.resolve('docs/sample-images/code-128.jpg'), {
       barcode: 'code-128',
     })
@@ -63,6 +88,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode EAN-8', async () => {
+    expect.assertions(1)
+
     const result = await jbr(path.resolve('docs/sample-images/ean-8.jpg'), {
       barcode: 'ean-8',
     })
@@ -71,6 +98,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode EAN-13', async () => {
+    expect.assertions(1)
+
     const result = await jbr(path.resolve('docs/sample-images/ean-13.jpg'), {
       barcode: 'ean-13',
     })
@@ -79,6 +108,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 128 without padding white bars', async () => {
+    expect.assertions(1)
+
     const result = await jbr(
       path.resolve('docs/sample-images/code-128-no-padding.jpg'),
       {
@@ -90,6 +121,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 128 with multiple zeros', async () => {
+    expect.assertions(1)
+
     const result = await jbr(
       path.resolve('docs/sample-images/code-128-000.jpg'),
       {
@@ -101,6 +134,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 93 without padding white bars', async () => {
+    expect.assertions(1)
+
     const result = await jbr(
       path.resolve('docs/sample-images/code-93-no-padding.jpg'),
       {
@@ -112,6 +147,8 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 93 with bitmap data', async () => {
+    expect.assertions(1)
+
     const image = await Jimp.read('docs/sample-images/code-93-no-padding.jpg')
     const { data, width, height } = image.bitmap
 
@@ -130,8 +167,11 @@ describe('extract barcode from local files', () => {
   })
 })
 
+/*
 describe('extract barcode from DOM elements', () => {
-  test('should detect barcode 93 from IMG', async () => {
+  test('should detect barcode 93 from IMG', async done => {
+    expect.assertions(1)
+
     const img = new Image()
     img.onload = async () => {
       const result = await jbr(img, {
@@ -142,7 +182,9 @@ describe('extract barcode from DOM elements', () => {
     img.src = 'docs/sample-images/code-93-no-padding.jpg'
   })
 
-  test('should detect barcode 93 from IMG', async () => {
+  test('should detect barcode 93 from Canvas', async done => {
+    expect.assertions(1)
+
     const canvas = document.createElement('canvas')
     const img = new Image()
     img.onload = async () => {
@@ -160,9 +202,12 @@ describe('extract barcode from DOM elements', () => {
     img.src = 'docs/sample-images/code-93-no-padding.jpg'
   })
 })
+*/
 
 describe('extract barcode from remote URL', () => {
   test('should detect barcode 93 from remote url', async () => {
+    expect.assertions(1)
+
     const result = await jbr(
       'https://upload.wikimedia.org/wikipedia/en/a/a9/Code_93_wikipedia.png',
       {
@@ -175,6 +220,8 @@ describe('extract barcode from remote URL', () => {
 
 describe('Fails', () => {
   test('invalid image source', async () => {
+    expect.assertions(1)
+
     try {
       await jbr(
         {},
@@ -188,6 +235,8 @@ describe('Fails', () => {
   })
 
   test('throws when no barcode found', async () => {
+    expect.assertions(1)
+
     try {
       await jbr('docs/sample-images/empty.jpg', {
         barcode: 'code-93',
