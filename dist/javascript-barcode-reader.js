@@ -1151,7 +1151,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	    }
 	  }
 
-	  return new Error('Failed to extract barcode!')
+	  throw new Error('Failed to extract barcode!')
 	}
 
 	if (module && module.exports) {
