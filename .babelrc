@@ -1,11 +1,10 @@
 {
-  "plugins": ["transform-regenerator", "syntax-async-functions"],
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
-          "browsers": ["last 2 versions", "safari >= 6"]
+          "browsers": ["last 3 versions", "safari >= 5"]
         }
       }
     ]

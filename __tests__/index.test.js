@@ -219,6 +219,16 @@ describe('extract barcode from remote URL', () => {
 })
 
 describe('Fails', () => {
+  test('throws when no barcode specified', async () => {
+    expect.assertions(1)
+
+    try {
+      await jbr({}, {})
+    } catch (err) {
+      expect(err).toBeDefined()
+    }
+  })
+
   test('invalid image source', async () => {
     expect.assertions(1)
 

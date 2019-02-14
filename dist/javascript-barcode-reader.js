@@ -1045,6 +1045,15 @@ var javascriptBarcodeReader = (function (jimp) {
 	 * @returns {String} Extracted barcode string
 	 */
 	async function barcodeDecoder(image, options) {
+	  options.barcode = options.barcode.toLowerCase();
+	  var list = Object.keys(BARCODE_DECODERS);
+
+	  if (list.indexOf(options.barcode) === -1) {
+	    throw new Error(
+	      ("Invalid barcode specified. Available decoders: " + list + ". https://github.com/mubaidr/Javascript-Barcode-Reader#available-decoders")
+	    )
+	  }
+
 	  var ref = await utiltities.getImageDataFromSource(image);
 	  var data = ref.data;
 	  var width = ref.width;

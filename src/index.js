@@ -22,6 +22,15 @@ const BARCODE_DECODERS = {
  * @returns {String} Extracted barcode string
  */
 async function barcodeDecoder(image, options) {
+  options.barcode = options.barcode.toLowerCase()
+  const list = Object.keys(BARCODE_DECODERS)
+
+  if (list.indexOf(options.barcode) === -1) {
+    throw new Error(
+      `Invalid barcode specified. Available decoders: ${list}. https://github.com/mubaidr/Javascript-Barcode-Reader#available-decoders`
+    )
+  }
+
   const { data, width, height } = await UTILITIES.getImageDataFromSource(image)
   const channels = data.length / (width * height)
 

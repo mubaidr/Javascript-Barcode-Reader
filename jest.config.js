@@ -6,4 +6,5 @@ module.exports = {
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'html'],
   coverageDirectory: './coverage/',
   collectCoverageFrom: ['src/**/*.js'],
+  transform: {},
 }
