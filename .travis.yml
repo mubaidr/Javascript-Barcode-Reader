@@ -5,7 +5,8 @@ node_js:
 
 install:
   - npm install -g codecov jest
-
+  - npm install
+  
 cache:
   directories:
     - 'node_modules'
