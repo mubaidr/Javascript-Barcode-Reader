@@ -428,30 +428,23 @@ const TBL_C = [
   'FNC 1',
 ]
 
+const computeGroup = lines => {
+  // sum of a group in code-128 must be 11
+  const factor = lines.reduce((pre, item) => pre + item, 0) / 11;
+  //
+  return lines.map(item => Math.round(item/factor)).join('');
+}
+
 module.exports = lines => {
   let lookupTBL, sumOP, letterKey, letterCode, keyIndex
   const code = []
-  const seq = []
 
   // extract terminal bar
   lines.pop()
 
-  const barThreshold = Math.ceil(
-    lines.reduce((pre, item) => (pre + item) / 2, 0)
-  )
+  const seq = lines.slice(0);
 
-  let minBarWidth = Math.round(
-    lines.reduce((pre, item) => {
-      if (item <= barThreshold) return (pre + item) / 2
-      return pre
-    }, 0)
-  )
-
-  lines.forEach(line => {
-    seq.push(Math.round(line / minBarWidth))
-  })
-
-  letterKey = seq.splice(0, 6).join('')
+  letterKey = computeGroup(seq.splice(0, 6))
 
   switch (letterKey) {
     case '211214':
@@ -469,7 +462,7 @@ module.exports = lines => {
   }
 
   for (let i = 1; seq.length > 12; i += 1) {
-    letterKey = seq.splice(0, 6).join('')
+    letterKey = computeGroup(seq.splice(0, 6))
     keyIndex = WIDTH_TBL.indexOf(letterKey)
     sumOP += i * keyIndex
     letterCode = lookupTBL[keyIndex]
@@ -490,7 +483,7 @@ module.exports = lines => {
     }
   }
 
-  letterKey = seq.splice(0, 6).join('')
+  letterKey = computeGroup(seq.splice(0, 6))
 
   if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return null
 
