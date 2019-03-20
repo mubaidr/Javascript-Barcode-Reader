@@ -541,30 +541,23 @@ var javascriptBarcodeReader = (function (jimp) {
 	  'Code A',
 	  'FNC 1' ];
 
+	var computeGroup = function (lines) {
+	  // sum of a group in code-128 must be 11
+	  var factor = lines.reduce(function (pre, item) { return pre + item; }, 0) / 11;
+	  //
+	  return lines.map(function (item) { return Math.round(item/factor); }).join('');
+	};
+
 	var code128 = function (lines) {
 	  var lookupTBL, sumOP, letterKey, letterCode, keyIndex;
 	  var code = [];
-	  var seq = [];
 
 	  // extract terminal bar
 	  lines.pop();
 
-	  var barThreshold = Math.ceil(
-	    lines.reduce(function (pre, item) { return (pre + item) / 2; }, 0)
-	  );
+	  var seq = lines.slice(0);
 
-	  var minBarWidth = Math.round(
-	    lines.reduce(function (pre, item) {
-	      if (item <= barThreshold) { return (pre + item) / 2 }
-	      return pre
-	    }, 0)
-	  );
-
-	  lines.forEach(function (line) {
-	    seq.push(Math.round(line / minBarWidth));
-	  });
-
-	  letterKey = seq.splice(0, 6).join('');
+	  letterKey = computeGroup(seq.splice(0, 6));
 
 	  switch (letterKey) {
 	    case '211214':
@@ -582,7 +575,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	  }
 
 	  for (var i = 1; seq.length > 12; i += 1) {
-	    letterKey = seq.splice(0, 6).join('');
+	    letterKey = computeGroup(seq.splice(0, 6));
 	    keyIndex = WIDTH_TBL.indexOf(letterKey);
 	    sumOP += i * keyIndex;
 	    letterCode = lookupTBL[keyIndex];
@@ -603,7 +596,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	    }
 	  }
 
-	  letterKey = seq.splice(0, 6).join('');
+	  letterKey = computeGroup(seq.splice(0, 6));
 
 	  if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) { return null }
 
