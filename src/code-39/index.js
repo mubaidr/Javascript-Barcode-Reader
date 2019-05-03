@@ -46,7 +46,7 @@ const CHAR_SET = {
 }
 
 module.exports = lines => {
-  let code = []
+  const code = []
 
   const barThreshold = Math.ceil(
     lines.reduce((pre, item) => pre + item, 0) / lines.length

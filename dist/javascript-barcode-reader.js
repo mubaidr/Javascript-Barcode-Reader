@@ -3,7 +3,7 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	jimp = jimp && jimp.hasOwnProperty('default') ? jimp['default'] : jimp;
 
-	var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 	function createCommonjsModule(fn, module) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -111,8 +111,94 @@ var javascriptBarcodeReader = (function (jimp) {
 	  })
 	}
 
+	function getLines(obj) {
+	  var data = obj.data;
+	  var start = obj.start;
+	  var end = obj.end;
+	  var channels = obj.channels;
+	  var width = obj.width;
+	  var pxLine = data.slice(start, end);
+	  var sum = [];
+	  var bmp = [];
+	  var lines = [];
+	  var count = 1;
+	  var min = 0;
+	  var max = 0;
+
+	  var padding = { left: true, right: true };
+
+	  // grey scale section and sum of columns pixels in section
+	  for (var row = 0; row < 2; row += 1) {
+	    for (var col = 0; col < width; col += 1) {
+	      var i = (row * width + col) * channels;
+	      var g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9;
+	      var s = sum[col];
+
+	      pxLine[i] = g;
+	      pxLine[i + 1] = g;
+	      pxLine[i + 2] = g;
+
+	      sum[col] = g + (s || 0);
+	    }
+	  }
+
+	  for (var i$1 = 0; i$1 < width; i$1 += 1) {
+	    sum[i$1] /= 2;
+	    var s$1 = sum[i$1];
+
+	    if (s$1 < min) {
+	      min = s$1;
+	    } else {
+	      max = s$1;
+	    }
+	  }
+
+	  // matches columns in two rows
+	  var pivot = min + (max - min) / 2;
+
+	  for (var col$1 = 0; col$1 < width; col$1 += 1) {
+	    var matches = 0;
+	    var value = (void 0);
+
+	    for (var row$1 = 0; row$1 < 2; row$1 += 1) {
+	      value = pxLine[(row$1 * width + col$1) * channels];
+
+	      if (value > pivot) {
+	        matches += 1;
+	      }
+	    }
+
+	    if (col$1 === 0 && value <= pivot) { padding.left = false; }
+	    if (col$1 === width - 1 && value <= pivot) {
+	      padding.right = false;
+	    }
+
+	    bmp.push(matches > 1);
+	  }
+
+	  // matches width of barcode lines
+	  var curr = bmp[0];
+
+	  for (var col$2 = 0; col$2 < width; col$2 += 1) {
+	    if (bmp[col$2] === curr) {
+	      count += 1;
+
+	      if (col$2 === width - 1) {
+	        lines.push(count);
+	      }
+	    } else {
+	      lines.push(count);
+	      count = 1;
+	      curr = bmp[col$2];
+	    }
+	  }
+
+	  return { lines: lines, padding: padding }
+	}
+
 	var utiltities = {
 	  getImageDataFromSource: getImageDataFromSource,
+	  getLines: getLines,
 	};
 
 	var WIDTH_TBL = [
@@ -549,7 +635,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	};
 
 	var code128 = function (lines) {
-	  var lookupTBL, sumOP, letterKey, letterCode, keyIndex;
+	  var lookupTBL; var sumOP; var letterKey; var letterCode; var keyIndex;
 	  var code = [];
 
 	  // extract terminal bar
@@ -851,9 +937,8 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	  var K = code.pop();
 	  var sum = 0;
-	  var letter,
-	    Value,
-	    findValue = function (item) { return Object.values(item)[0] === letter; };
+	  var letter; var Value;
+	  var findValue = function (item) { return Object.values(item)[0] === letter; };
 
 	  for (var i$2 = code.length - 1; i$2 >= 0; i$2 -= 1) {
 	    letter = code[i$2];
@@ -1038,6 +1123,7 @@ var javascriptBarcodeReader = (function (jimp) {
 	 * @returns {String} Extracted barcode string
 	 */
 	async function barcodeDecoder(image, options) {
+	  // eslint-disable-next-line
 	  options.barcode = options.barcode.toLowerCase();
 	  var list = Object.keys(BARCODE_DECODERS);
 
@@ -1065,91 +1151,31 @@ var javascriptBarcodeReader = (function (jimp) {
 	    var end =
 	      channels * width * Math.floor(slineStep * spoints[numLines]) +
 	      2 * channels * width;
-	    var pxLine = data.slice(start, end);
-	    var sum = [];
-	    var min = 0;
-	    var max = 0;
+	    // const pxLine = data.slice(start, end)
 
-	    var padding = { left: true, right: true };
+	    // const { lines, padding } = UTILITIES.getLines({
+	    var ref$1 = utiltities.getLines({
+	      data: data,
+	      start: start,
+	      end: end,
+	      width: width,
+	      height: height,
+	      channels: channels,
+	    });
+	    var lines = ref$1.lines;
+	    var padding = ref$1.padding;
 
-	    // grey scale section and sum of columns pixels in section
-	    for (var row = 0; row < 2; row += 1) {
-	      for (var col = 0; col < width; col += 1) {
-	        var i = (row * width + col) * channels;
-	        var g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9;
-	        var s = sum[col];
+	    if (lines && lines.length !== 0) {
+	      // remove empty whitespaces on side of barcode
+	      if (padding.left) { lines.shift(); }
+	      if (padding.right) { lines.pop(); }
 
-	        pxLine[i] = g;
-	        pxLine[i + 1] = g;
-	        pxLine[i + 2] = g;
+	      // Run the decoder
+	      var result = BARCODE_DECODERS[options.barcode](lines, options.type);
 
-	        sum[col] = g + (s || 0);
+	      if (result) {
+	        return result
 	      }
-	    }
-
-	    for (var i$1 = 0; i$1 < width; i$1 += 1) {
-	      sum[i$1] /= 2;
-	      var s$1 = sum[i$1];
-
-	      if (s$1 < min) {
-	        min = s$1;
-	      } else {
-	        max = s$1;
-	      }
-	    }
-
-	    // matches columns in two rows
-	    var pivot = min + (max - min) / 2;
-	    var bmp = [];
-
-	    for (var col$1 = 0; col$1 < width; col$1 += 1) {
-	      var matches = 0;
-	      var value = (void 0);
-
-	      for (var row$1 = 0; row$1 < 2; row$1 += 1) {
-	        value = pxLine[(row$1 * width + col$1) * channels];
-
-	        if (value > pivot) {
-	          matches += 1;
-	        }
-	      }
-
-	      if (col$1 === 0 && value <= pivot) { padding.left = false; }
-	      if (col$1 === width - 1 && value <= pivot) {
-	        padding.right = false;
-	      }
-
-	      bmp.push(matches > 1);
-	    }
-
-	    // matches width of barcode lines
-	    var curr = bmp[0];
-	    var count = 1;
-	    var lines = [];
-
-	    for (var col$2 = 0; col$2 < width; col$2 += 1) {
-	      if (bmp[col$2] === curr) {
-	        count += 1;
-
-	        if (col$2 === width - 1) {
-	          lines.push(count);
-	        }
-	      } else {
-	        lines.push(count);
-	        count = 1;
-	        curr = bmp[col$2];
-	      }
-	    }
-
-	    // remove empty whitespaces on side of barcode
-	    if (padding.left) { lines.shift(); }
-	    if (padding.right) { lines.pop(); }
-
-	    // Run the decoder
-	    var result = BARCODE_DECODERS[options.barcode](lines, options.type);
-
-	    if (result) {
-	      return result
 	    }
 	  }
 

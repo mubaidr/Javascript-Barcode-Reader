@@ -22,6 +22,7 @@ const BARCODE_DECODERS = {
  * @returns {String} Extracted barcode string
  */
 async function barcodeDecoder(image, options) {
+  // eslint-disable-next-line
   options.barcode = options.barcode.toLowerCase()
   const list = Object.keys(BARCODE_DECODERS)
 
@@ -46,91 +47,29 @@ async function barcodeDecoder(image, options) {
     const end =
       channels * width * Math.floor(slineStep * spoints[numLines]) +
       2 * channels * width
-    const pxLine = data.slice(start, end)
-    const sum = []
-    let min = 0
-    let max = 0
+    // const pxLine = data.slice(start, end)
 
-    const padding = { left: true, right: true }
+    // const { lines, padding } = UTILITIES.getLines({
+    const { lines, padding } = UTILITIES.getLines({
+      data,
+      start,
+      end,
+      width,
+      height,
+      channels,
+    })
 
-    // grey scale section and sum of columns pixels in section
-    for (let row = 0; row < 2; row += 1) {
-      for (let col = 0; col < width; col += 1) {
-        const i = (row * width + col) * channels
-        const g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9
-        const s = sum[col]
+    if (lines && lines.length !== 0) {
+      // remove empty whitespaces on side of barcode
+      if (padding.left) lines.shift()
+      if (padding.right) lines.pop()
 
-        pxLine[i] = g
-        pxLine[i + 1] = g
-        pxLine[i + 2] = g
+      // Run the decoder
+      const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
-        sum[col] = g + (s || 0)
+      if (result) {
+        return result
       }
-    }
-
-    for (let i = 0; i < width; i += 1) {
-      sum[i] /= 2
-      const s = sum[i]
-
-      if (s < min) {
-        min = s
-      } else {
-        max = s
-      }
-    }
-
-    // matches columns in two rows
-    const pivot = min + (max - min) / 2
-    const bmp = []
-
-    for (let col = 0; col < width; col += 1) {
-      let matches = 0
-      let value
-
-      for (let row = 0; row < 2; row += 1) {
-        value = pxLine[(row * width + col) * channels]
-
-        if (value > pivot) {
-          matches += 1
-        }
-      }
-
-      if (col === 0 && value <= pivot) padding.left = false
-      if (col === width - 1 && value <= pivot) {
-        padding.right = false
-      }
-
-      bmp.push(matches > 1)
-    }
-
-    // matches width of barcode lines
-    let curr = bmp[0]
-    let count = 1
-    const lines = []
-
-    for (let col = 0; col < width; col += 1) {
-      if (bmp[col] === curr) {
-        count += 1
-
-        if (col === width - 1) {
-          lines.push(count)
-        }
-      } else {
-        lines.push(count)
-        count = 1
-        curr = bmp[col]
-      }
-    }
-
-    // remove empty whitespaces on side of barcode
-    if (padding.left) lines.shift()
-    if (padding.right) lines.pop()
-
-    // Run the decoder
-    const result = BARCODE_DECODERS[options.barcode](lines, options.type)
-
-    if (result) {
-      return result
     }
   }
 

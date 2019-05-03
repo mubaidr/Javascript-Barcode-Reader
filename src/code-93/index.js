@@ -50,7 +50,7 @@ const CHAR_SET = [
 ]
 
 module.exports = lines => {
-  let code = []
+  const code = []
   const binary = []
 
   // remove termination bar
@@ -93,9 +93,8 @@ module.exports = lines => {
 
   const K = code.pop()
   let sum = 0
-  let letter,
-    Value,
-    findValue = item => Object.values(item)[0] === letter
+  let letter; let Value
+  const findValue = item => Object.values(item)[0] === letter
 
   for (let i = code.length - 1; i >= 0; i -= 1) {
     letter = code[i]

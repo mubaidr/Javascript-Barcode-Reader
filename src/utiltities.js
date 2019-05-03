@@ -7,7 +7,7 @@ const isNode =
 
 // check if string is url
 function isUrl(s) {
-  let regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/
+  const regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/
   return !s[0] === '#' || regexp.test(s)
 }
 
@@ -99,6 +99,88 @@ async function getImageDataFromSource(source) {
   })
 }
 
+function getLines(obj) {
+  const { data, start, end, channels, width } = obj
+  const pxLine = data.slice(start, end)
+  const sum = []
+  const bmp = []
+  const lines = []
+  let count = 1
+  let min = 0
+  let max = 0
+
+  const padding = { left: true, right: true }
+
+  // grey scale section and sum of columns pixels in section
+  for (let row = 0; row < 2; row += 1) {
+    for (let col = 0; col < width; col += 1) {
+      const i = (row * width + col) * channels
+      const g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9
+      const s = sum[col]
+
+      pxLine[i] = g
+      pxLine[i + 1] = g
+      pxLine[i + 2] = g
+
+      sum[col] = g + (s || 0)
+    }
+  }
+
+  for (let i = 0; i < width; i += 1) {
+    sum[i] /= 2
+    const s = sum[i]
+
+    if (s < min) {
+      min = s
+    } else {
+      max = s
+    }
+  }
+
+  // matches columns in two rows
+  const pivot = min + (max - min) / 2
+
+  for (let col = 0; col < width; col += 1) {
+    let matches = 0
+    let value
+
+    for (let row = 0; row < 2; row += 1) {
+      value = pxLine[(row * width + col) * channels]
+
+      if (value > pivot) {
+        matches += 1
+      }
+    }
+
+    if (col === 0 && value <= pivot) padding.left = false
+    if (col === width - 1 && value <= pivot) {
+      padding.right = false
+    }
+
+    bmp.push(matches > 1)
+  }
+
+  // matches width of barcode lines
+  let curr = bmp[0]
+
+  for (let col = 0; col < width; col += 1) {
+    if (bmp[col] === curr) {
+      count += 1
+
+      if (col === width - 1) {
+        lines.push(count)
+      }
+    } else {
+      lines.push(count)
+      count = 1
+      curr = bmp[col]
+    }
+  }
+
+  return { lines, padding }
+}
+
 module.exports = {
   getImageDataFromSource,
+  getLines,
 }

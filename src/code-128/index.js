@@ -436,7 +436,7 @@ const computeGroup = lines => {
 }
 
 module.exports = lines => {
-  let lookupTBL, sumOP, letterKey, letterCode, keyIndex
+  let lookupTBL; let sumOP; let letterKey; let letterCode; let keyIndex
   const code = []
 
   // extract terminal bar
