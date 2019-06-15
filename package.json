@@ -4,7 +4,7 @@
     "url": "https://github.com/mubaidr/Javascript-Barcode-Reader/issues"
   },
   "dependencies": {
-    "gpu.js": "^1.10.2",
+    "gpu.js": "^2.0.0-rc.14",
     "jimp": "^0.6.0"
   },
   "description": "Barcode reader solution in Javascript for Browser and Node.js",
