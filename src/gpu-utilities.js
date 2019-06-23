@@ -3,32 +3,36 @@
 const { GPU } = require('gpu.js')
 const UTILITIES = require('./utiltities')
 
-async function testGpu() {
-  const gpu = new GPU({
-    mode: 'dev',
-  })
+const gpu = new GPU({
+  // mode: 'dev',
+})
 
+// TODO: create kernel utilities
+const add = gpu
+  .createKernel(function(a, b) {
+    return a[this.thread.x] + b[this.thread.x]
+  })
+  .setOutput([20])
+
+async function testGpu() {
   const image =
     'D:\\Current\\Javascript-Barcode-Reader\\docs\\sample-images\\code-93.jpg'
   const { data, width, height } = await UTILITIES.getImageDataFromSource(image)
   // const dataLength = data.length
   // const channels = dataLength / (width * height)
+  const channels = data.length / (width * height)
   const start = 0
-  const end = 100
+  const end = 5 * channels
   const extractedData = data.slice(start, end)
 
-  /* eslint-disable no-shadow */
-  const ImageDataToLines = gpu.createKernelMap(
-    [
-      function add(a, b) {
-        return a + b
-      },
-      function multiply(a, b) {
-        return a * b
-      },
-    ],
+  console.log(channels)
+
+  // TODO:  combine kernels
+
+  const ImageDataToLines = gpu.combineKernels(
+    add,
     function(a) {
-      return a[this.thread.x]
+      return add(a[this.thread.x], 25)
     },
     { output: [extractedData.length] }
   )
