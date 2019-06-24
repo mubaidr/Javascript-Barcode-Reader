@@ -1,6 +1,16 @@
 {
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon gpu-test",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/src/gpu-utilities.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
       "breakOnLoad": true,
       "cwd": "${workspaceRoot}",
       "name": "Debug",

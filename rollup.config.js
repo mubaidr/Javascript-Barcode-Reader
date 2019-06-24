@@ -1,9 +1,9 @@
-import buble from 'rollup-plugin-buble'
-import resolve from 'rollup-plugin-node-resolve'
+import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
-import minify from 'rollup-plugin-babel-minify'
+import resolve from 'rollup-plugin-node-resolve'
+import { terser } from 'rollup-plugin-terser'
 
-const production = !process.env.ROLLUP_WATCH
+// const production = !process.env.ROLLUP_WATCH
 
 export default [
   {
@@ -20,10 +20,21 @@ export default [
       sourcemapFile: 'dist/javascript-barcode-reader.min.js.map',
     },
     plugins: [
-      buble(),
+      babel({
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              corejs: '3.0.0',
+              useBuiltIns: 'entry',
+            },
+          ],
+        ],
+      }),
       resolve(),
       commonjs(),
-      production && minify({ comments: false }),
+      terser(),
     ],
   },
   {
@@ -39,7 +50,22 @@ export default [
       sourcemap: true,
       sourcemapFile: 'dist/javascript-barcode-reader.js.map',
     },
-    plugins: [buble(), resolve(), commonjs()],
+    plugins: [
+      babel({
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              corejs: '3.0.0',
+              useBuiltIns: 'entry',
+            },
+          ],
+        ],
+      }),
+      resolve(),
+      commonjs(),
+    ],
     watch: {
       clearScreen: false,
     },
@@ -58,10 +84,21 @@ export default [
       sourcemapFile: 'docs/javascript-barcode-reader.min.js.map',
     },
     plugins: [
-      buble(),
+      babel({
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              corejs: '3.0.0',
+              useBuiltIns: 'entry',
+            },
+          ],
+        ],
+      }),
       resolve(),
       commonjs(),
-      production && minify({ comments: false }),
+      terser(),
     ],
   },
 ]
