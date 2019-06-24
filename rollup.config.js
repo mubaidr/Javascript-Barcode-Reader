@@ -1,9 +1,9 @@
-import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import resolve from 'rollup-plugin-node-resolve'
+import { terser } from 'rollup-plugin-terser'
 
-// const production = !process.env.ROLLUP_WATCH
+const production = !process.env.ROLLUP_WATCH
 
 export default [
   {
@@ -28,12 +28,12 @@ export default [
           [
             '@babel/preset-env',
             {
-              "targets": "> 0.25%, not dead"
+              targets: '> 0.25%, not dead',
             },
           ],
         ],
       }),
-      terser(),
+      production && terser(),
     ],
   },
   {
@@ -58,7 +58,7 @@ export default [
           [
             '@babel/preset-env',
             {
-              "targets": "> 0.25%, not dead"
+              targets: '> 0.25%, not dead',
             },
           ],
         ],
@@ -90,12 +90,12 @@ export default [
           [
             '@babel/preset-env',
             {
-              "targets": "> 0.25%, not dead"
+              targets: '> 0.25%, not dead',
             },
           ],
         ],
       }),
-      terser(),
+      production && terser(),
     ],
   },
 ]
