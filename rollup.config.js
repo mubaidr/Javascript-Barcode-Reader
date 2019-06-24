@@ -1,7 +1,7 @@
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
-import { terser } from 'rollup-plugin-terser'
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
+import { terser } from 'rollup-plugin-terser';
 
 // const production = !process.env.ROLLUP_WATCH
 
@@ -11,7 +11,7 @@ export default [
     input: 'src/index.js',
     output: {
       globals: {
-        jimp: 'document', // fake jimp to document to avoid jimp load error
+        jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
       },
       file: 'dist/javascript-barcode-reader.min.js',
       format: 'iife',
@@ -20,20 +20,19 @@ export default [
       sourcemapFile: 'dist/javascript-barcode-reader.min.js.map',
     },
     plugins: [
+      resolve(),
+      commonjs(),
       babel({
         babelrc: false,
         presets: [
           [
             '@babel/preset-env',
             {
-              corejs: '3.0.0',
-              useBuiltIns: 'entry',
+              "targets": "> 0.25%, not dead"
             },
           ],
         ],
       }),
-      resolve(),
-      commonjs(),
       terser(),
     ],
   },
@@ -42,7 +41,7 @@ export default [
     input: 'src/index.js',
     output: {
       globals: {
-        jimp: 'document', // fake jimp to document to avoid jimp load error
+        jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
       },
       file: 'dist/javascript-barcode-reader.js',
       format: 'iife',
@@ -51,20 +50,19 @@ export default [
       sourcemapFile: 'dist/javascript-barcode-reader.js.map',
     },
     plugins: [
+      resolve(),
+      commonjs(),
       babel({
         babelrc: false,
         presets: [
           [
             '@babel/preset-env',
             {
-              corejs: '3.0.0',
-              useBuiltIns: 'entry',
+              "targets": "> 0.25%, not dead"
             },
           ],
         ],
       }),
-      resolve(),
-      commonjs(),
     ],
     watch: {
       clearScreen: false,
@@ -75,7 +73,7 @@ export default [
     input: 'src/index.js',
     output: {
       globals: {
-        jimp: 'document', // fake jimp to document to avoid jimp load error
+        jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
       },
       file: 'docs/javascript-barcode-reader.min.js',
       format: 'iife',
@@ -84,20 +82,19 @@ export default [
       sourcemapFile: 'docs/javascript-barcode-reader.min.js.map',
     },
     plugins: [
+      resolve(),
+      commonjs(),
       babel({
         babelrc: false,
         presets: [
           [
             '@babel/preset-env',
             {
-              corejs: '3.0.0',
-              useBuiltIns: 'entry',
+              "targets": "> 0.25%, not dead"
             },
           ],
         ],
       }),
-      resolve(),
-      commonjs(),
       terser(),
     ],
   },
