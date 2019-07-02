@@ -23,15 +23,8 @@ export default [
       resolve(),
       commonjs(),
       babel({
-        babelrc: false,
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              targets: '> 0.25%, not dead',
-            },
-          ],
-        ],
+        babelrc: true,
+        runtimeHelpers: true,
       }),
       production && terser(),
     ],
@@ -53,15 +46,8 @@ export default [
       resolve(),
       commonjs(),
       babel({
-        babelrc: false,
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              targets: '> 0.25%, not dead',
-            },
-          ],
-        ],
+        babelrc: true,
+        runtimeHelpers: true,
       }),
     ],
     watch: {
@@ -85,15 +71,8 @@ export default [
       resolve(),
       commonjs(),
       babel({
-        babelrc: false,
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              targets: '> 0.25%, not dead',
-            },
-          ],
-        ],
+        babelrc: true,
+        runtimeHelpers: true,
       }),
       production && terser(),
     ],
