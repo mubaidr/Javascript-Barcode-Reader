@@ -1,5 +1,6 @@
 {
   "author": "mubaidr@gmail.com",
+  "browser": "dist/javascript-barcode-reader.min.js",
   "bugs": {
     "url": "https://github.com/mubaidr/Javascript-Barcode-Reader/issues"
   },
