@@ -14,7 +14,7 @@ export default [
         jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
       },
       file: 'dist/javascript-barcode-reader.min.js',
-      format: 'iife',
+      format: 'umd',
       name: 'javascriptBarcodeReader',
       sourcemap: true,
       sourcemapFile: 'dist/javascript-barcode-reader.min.js.map',
@@ -37,7 +37,7 @@ export default [
         jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
       },
       file: 'dist/javascript-barcode-reader.js',
-      format: 'iife',
+      format: 'umd',
       name: 'javascriptBarcodeReader',
       sourcemap: true,
       sourcemapFile: 'dist/javascript-barcode-reader.js.map',
@@ -62,7 +62,7 @@ export default [
         jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
       },
       file: 'docs/javascript-barcode-reader.min.js',
-      format: 'iife',
+      format: 'umd',
       name: 'javascriptBarcodeReader',
       sourcemap: true,
       sourcemapFile: 'docs/javascript-barcode-reader.min.js.map',

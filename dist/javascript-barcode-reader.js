@@ -1,5 +1,8 @@
-var javascriptBarcodeReader = (function (jimp) {
-	'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jimp')) :
+	typeof define === 'function' && define.amd ? define(['jimp'], factory) :
+	(global = global || self, global.javascriptBarcodeReader = factory(global.window.jimp));
+}(this, function (jimp) { 'use strict';
 
 	jimp = jimp && jimp.hasOwnProperty('default') ? jimp['default'] : jimp;
 
@@ -1620,5 +1623,5 @@ var javascriptBarcodeReader = (function (jimp) {
 
 	return src;
 
-}(window.jimp));
+}));
 //# sourceMappingURL=javascript-barcode-reader.js.map
