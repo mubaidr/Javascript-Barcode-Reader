@@ -19,7 +19,7 @@ const BARCODE_DECODERS = {
  * @param {Object} options Options defining type of barcode to detect
  * @param {String} options.barcode Barcode name
  * @param {String=} options.type Type of Barcode
- * @returns {String} Extracted barcode string
+ * @returns {Promise<String>} Extracted barcode string
  */
 async function barcodeDecoder(image, options) {
   // eslint-disable-next-line
@@ -67,9 +67,7 @@ async function barcodeDecoder(image, options) {
       // Run the decoder
       const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
-      if (result) {
-        return result
-      }
+      if (result) return result
     }
   }
 

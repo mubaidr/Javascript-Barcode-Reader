@@ -4,35 +4,28 @@ const jbr = require('../src/index')
 process.env.DEVELOPMENT = true
 
 async function test() {
-  // code 128 with no padding on either side
-  let result = await jbr(
-    path.resolve('docs/sample-images/code-128-no-padding.jpg'),
+  let result = ''
+
+  result = await jbr(path.resolve('docs/sample-images/code-128.jpg'), {
+    barcode: 'code-128',
+  })
+  console.log('Code 128: ', result)
+
+  result = await jbr(
+    path.resolve('docs/images/33c64780-a9c0-e92a-820c-fae7011c11e2.gif'),
     {
       barcode: 'code-128',
     }
   )
-  console.log('\nCode 128 (without white padding): ', result)
+  console.log('Code 128: ', result)
 
-  // code 128 with
-  result = await jbr(path.resolve('docs/sample-images/code-128.jpg'), {
-    barcode: 'code-128',
-  })
-  console.log('\nCode 128: ', result)
-
-  // code 93 with padding
-  result = await jbr(path.resolve('docs/sample-images/code-93.jpg'), {
-    barcode: 'code-93',
-  })
-  console.log('\nCode 93: ', result)
-
-  // code 93 with no padding on either side
   result = await jbr(
-    path.resolve('docs/sample-images/code-93-no-padding.jpg'),
+    path.resolve('docs/images/33c64780-a9c0-e92a-820c-fae7011c11e2.png'),
     {
-      barcode: 'code-93',
+      barcode: 'code-128',
     }
   )
-  console.log('\nCode 93 (without white padding): ', result)
+  console.log('Code 128: ', result)
 }
 
 test()

@@ -1,10 +1,11 @@
 module.exports = {
   automock: false,
-  bail: false,
-  verbose: true,
   collectCoverage: true,
-  coverageReporters: ['json', 'lcov', 'text', 'clover', 'html'],
-  coverageDirectory: './coverage/',
   collectCoverageFrom: ['src/**/*.js'],
+  coverageDirectory: './coverage/',
+  coverageReporters: ['json', 'lcov', 'text', 'clover', 'html'],
+  setupFiles: ['jest-canvas-mock'],
+  testEnvironment: 'jsdom',
+  testEnvironmentOptions: { resources: 'usable' },
   transform: {},
 }

@@ -430,19 +430,23 @@ const TBL_C = [
 
 const computeGroup = lines => {
   // sum of a group in code-128 must be 11
-  const factor = lines.reduce((pre, item) => pre + item, 0) / 11;
-  //
-  return lines.map(item => Math.round(item/factor)).join('');
+  const factor = lines.reduce((pre, item) => pre + item, 0) / 11
+
+  return lines.map(item => Math.round(item / factor)).join('')
 }
 
 module.exports = lines => {
-  let lookupTBL; let sumOP; let letterKey; let letterCode; let keyIndex
+  let lookupTBL
+  let sumOP
+  let letterKey
+  let letterCode
+  let keyIndex
   const code = []
 
   // extract terminal bar
   lines.pop()
 
-  const seq = lines.slice(0);
+  const seq = lines.slice(0)
 
   letterKey = computeGroup(seq.splice(0, 6))
 
