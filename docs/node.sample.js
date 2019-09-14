@@ -6,18 +6,20 @@ process.env.DEVELOPMENT = true
 async function test() {
   let result = ''
 
+  result = await jbr(path.resolve('docs/sample-images/code-93.jpg'), {
+    barcode: 'code-93',
+  })
+  console.log('Code: ', result)
+
   result = await jbr(path.resolve('docs/sample-images/code-128.jpg'), {
     barcode: 'code-128',
   })
-  console.log('Code 128: ', result)
+  console.log('Code: ', result)
 
-  result = await jbr(
-    path.resolve('docs/images/33c64780-a9c0-e92a-820c-fae7011c11e2.gif'),
-    {
-      barcode: 'code-128',
-    }
-  )
-  console.log('Code 128: ', result)
+  result = await jbr(path.resolve('docs/images/L89HE1806005080432.png'), {
+    barcode: 'code-128',
+  })
+  console.log('Code: ', result)
 
   result = await jbr(
     path.resolve('docs/images/33c64780-a9c0-e92a-820c-fae7011c11e2.png'),
@@ -25,7 +27,7 @@ async function test() {
       barcode: 'code-128',
     }
   )
-  console.log('Code 128: ', result)
+  console.log('Code: ', result)
 }
 
 test()

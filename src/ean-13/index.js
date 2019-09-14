@@ -41,7 +41,7 @@ module.exports = lines => {
       code += result
     }
 
-    if (code.length === 12) break
+    // if (code.length === 12) break
   }
 
   return code

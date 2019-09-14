@@ -111,6 +111,8 @@ function getLines(obj) {
 
   const padding = { left: true, right: true }
 
+  // TODO: pre-process image to improve detection (threshold etc)
+
   // grey scale section and sum of columns pixels in section
   for (let row = 0; row < 2; row += 1) {
     for (let col = 0; col < width; col += 1) {
@@ -152,7 +154,9 @@ function getLines(obj) {
       }
     }
 
-    if (col === 0 && value <= pivot) padding.left = false
+    if (col === 0 && value <= pivot) {
+      padding.left = false
+    }
     if (col === width - 1 && value <= pivot) {
       padding.right = false
     }

@@ -133,6 +133,17 @@ describe('extract barcode from local files', () => {
     expect(result).toBe('79619647103200000134407005')
   })
 
+  test('should detect barcode 128 with default start Code B', async () => {
+    const result = await jbr(
+      path.resolve('docs/sample-images/L89HE1806005080432.gif'),
+      {
+        barcode: 'code-128',
+      }
+    )
+
+    expect(result).toBe('L89HE1806005080432')
+  })
+
   test('should detect barcode 93 without padding white bars', async () => {
     const result = await jbr(
       path.resolve('docs/sample-images/code-93-no-padding.jpg'),

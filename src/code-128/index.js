@@ -432,14 +432,15 @@ const computeGroup = lines => {
   // sum of a group in code-128 must be 11
   const factor = lines.reduce((pre, item) => pre + item, 0) / 11
 
-  return lines.map(item => Math.round(item / factor)).join('')
+  return lines.map(item => Math.round(item / factor) || 1).join('')
 }
 
 module.exports = lines => {
   let lookupTBL
-  let sumOP
+  // let sumOP
   let letterKey
   let letterCode
+  let letterCodePrev
   let keyIndex
   const code = []
 
@@ -451,24 +452,25 @@ module.exports = lines => {
   letterKey = computeGroup(seq.splice(0, 6))
 
   switch (letterKey) {
-    case '211214':
-      lookupTBL = TBL_B
-      sumOP = 104
-      break
     case '211232':
       lookupTBL = TBL_C
-      sumOP = 105
+      // sumOP = 105
       break
-    default:
+    case '211412':
       lookupTBL = TBL_A
-      sumOP = 103
+      // sumOP = 103
+      break
+    case '211214':
+    default:
+      lookupTBL = TBL_B
+      // sumOP = 104
       break
   }
 
   for (let i = 1; seq.length > 12; i += 1) {
     letterKey = computeGroup(seq.splice(0, 6))
     keyIndex = WIDTH_TBL.indexOf(letterKey)
-    sumOP += i * keyIndex
+    // sumOP += i * keyIndex
     letterCode = lookupTBL[keyIndex]
 
     switch (letterCode) {
@@ -481,15 +483,26 @@ module.exports = lines => {
       case 'Code C':
         lookupTBL = TBL_C
         break
+      case 'FNC 4':
+        break
       default:
-        code.push(letterCode)
+        if (letterCode) {
+          if (letterCodePrev === 'FNC 4') {
+            code.push(letterCode.charCodeAt(0) + 128)
+          } else {
+            code.push(letterCode)
+          }
+
+          letterCodePrev = letterCode
+        } else {
+          code.push('?')
+        }
         break
     }
   }
 
-  letterKey = computeGroup(seq.splice(0, 6))
-
-  if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return null
+  // letterKey = computeGroup(seq.splice(0, 6))
+  // if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return null
 
   return code.join('')
 }
