@@ -11,6 +11,56 @@ function isUrl(s) {
   return !s[0] === '#' || regexp.test(s)
 }
 
+function median(arr) {
+  if (!arr || arr.length === 0) return 0
+
+  arr.sort(function(a, b) {
+    return a - b
+  })
+
+  let half = Math.floor(arr.length / 2)
+
+  if (arr.length % 2) return arr[half]
+
+  return (arr[half - 1] + arr[half]) / 2.0
+}
+
+function preProcessImage(imgData) {
+  const threshold = 127
+  const { data: d, width, height } = imgData
+  const channels = d.length / (width * height)
+
+  for (let i = 0; i < d.length; i += channels) {
+    let r = d[i]
+    let g = d[i + 1]
+    let b = d[i + 2]
+    let v = 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+    d[i] = d[i + 1] = d[i + 2] = v > threshold ? 255 : 0
+  }
+
+  // skip first and last row
+  for (let row = 2; row < height - 2; row += 1) {
+    for (let col = 0; col < width; col += 1) {
+      const i = (row * width + col) * channels
+      const iPrev2 = ((row - 2) * width + col) * channels
+      const iPrev = ((row - 1) * width + col) * channels
+      const iNext = ((row + 1) * width + col) * channels
+      const iNext2 = ((row + 2) * width + col) * channels
+
+      d[i] = d[i + 1] = d[i + 2] = median([
+        d[iPrev2],
+        d[iPrev],
+        d[i],
+        d[iNext],
+        d[iNext2],
+      ])
+    }
+  }
+
+  return { data: d, width, height }
+}
+
 /**
  * Creates image data from HTML image
  * @param {HTMLImageElement} image HTML Image element
@@ -23,10 +73,9 @@ function createImageData(image) {
 
   canvas.width = width
   canvas.height = height
-
   ctx.drawImage(image, 0, 0)
 
-  return ctx.getImageData(0, 0, image.naturalWidth, image.naturalHeight)
+  return preProcessImage(ctx.getImageData(0, 0, width, height))
 }
 
 /**
@@ -51,11 +100,13 @@ async function getImageDataFromSource(source) {
               reject(err)
             } else {
               const { data, width, height } = image.bitmap
-              resolve({
-                data: data.toJSON().data,
-                width,
-                height,
-              })
+              resolve(
+                preProcessImage({
+                  data: data.toJSON().data,
+                  width,
+                  height,
+                })
+              )
             }
           }
         )
@@ -82,9 +133,11 @@ async function getImageDataFromSource(source) {
       // HTML Canvas element
       else if (tagName === 'CANVAS') {
         resolve(
-          source
-            .getContext('2d')
-            .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
+          preProcessImage(
+            source
+              .getContext('2d')
+              .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
+          )
         )
       }
 
@@ -92,7 +145,7 @@ async function getImageDataFromSource(source) {
     }
     // Pixel Data
     else if (source.data && source.width && source.height) {
-      resolve(source)
+      resolve(preProcessImage(source.data, source.width, source.height))
     } else {
       reject(new Error('Invalid image source specified!'))
     }
@@ -110,8 +163,6 @@ function getLines(obj) {
   let max = 0
 
   const padding = { left: true, right: true }
-
-  // TODO: pre-process image to improve detection (threshold etc)
 
   // grey scale section and sum of columns pixels in section
   for (let row = 0; row < 2; row += 1) {
