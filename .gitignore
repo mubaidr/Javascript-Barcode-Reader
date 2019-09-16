@@ -63,6 +63,7 @@ typings/
 .cache
 build/
 
+tmp
 .tmp
 
 __coverage__

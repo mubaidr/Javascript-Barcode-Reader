@@ -30,14 +30,7 @@ function preProcessImage(imgData) {
   const { data: d, width, height } = imgData
   const channels = d.length / (width * height)
 
-  for (let i = 0; i < d.length; i += channels) {
-    let r = d[i]
-    let g = d[i + 1]
-    let b = d[i + 2]
-    let v = 0.2126 * r + 0.7152 * g + 0.0722 * b
-
-    d[i] = d[i + 1] = d[i + 2] = v > threshold ? 255 : 0
-  }
+  const copyData = d.slice(0)
 
   // skip first and last row
   for (let row = 2; row < height - 2; row += 1) {
@@ -48,14 +41,38 @@ function preProcessImage(imgData) {
       const iNext = ((row + 1) * width + col) * channels
       const iNext2 = ((row + 2) * width + col) * channels
 
-      d[i] = d[i + 1] = d[i + 2] = median([
-        d[iPrev2],
-        d[iPrev],
-        d[i],
-        d[iNext],
-        d[iNext2],
-      ])
+      const vI = (d[i] + d[i + 1] + d[i + 2]) / 3
+      const vPrev2 = (d[iPrev2] + d[iPrev2 + 1] + d[iPrev2 + 2]) / 3
+      const vPrev = (d[iPrev] + d[iPrev + 1] + d[iPrev + 2]) / 3
+      const vNext = (d[iNext] + d[iNext + 1] + d[iNext + 2]) / 3
+      const vNext2 = (d[iNext2] + d[iNext2 + 1] + d[iNext2 + 2]) / 3
+
+      d[i] = d[i + 1] = d[i + 2] = median([vPrev2, vPrev, vI, vNext, vNext2])
     }
+  }
+
+  for (let i = 0; i < d.length; i += channels) {
+    let r = d[i]
+    let g = d[i + 1]
+    let b = d[i + 2]
+    // let v = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    let v = (r + g + b) / 3
+
+    d[i] = d[i + 1] = d[i + 2] = v > threshold ? 255 : 0
+  }
+
+  if (process.env.NODE_ENV !== 'test') {
+    new Jimp({ data: Buffer.from(d), width, height }, (err, image) => {
+      if (err) console.error(err)
+
+      image.write(`./tmp/orig-${Date.now()}.jpg`)
+    })
+
+    new Jimp({ data: Buffer.from(copyData), width, height }, (err, image) => {
+      if (err) console.error(err)
+
+      image.write(`./tmp/upda-${Date.now()}.jpg`)
+    })
   }
 
   return { data: d, width, height }
