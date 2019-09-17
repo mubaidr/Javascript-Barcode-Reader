@@ -31,7 +31,7 @@ function preProcessImage(imgData) {
   const channels = data.length / (width * height)
 
   // skip first and last row
-  for (let row = 2; row < height - 2; row += 1) {
+  for (let row = 3; row < height - 3; row += 1) {
     for (let col = 0; col < width; col += 1) {
       const i = (row * width + col) * channels
       const iPrev2 = ((row - 2) * width + col) * channels

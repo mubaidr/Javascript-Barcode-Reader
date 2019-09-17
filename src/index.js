@@ -12,6 +12,29 @@ const BARCODE_DECODERS = {
 }
 /* eslint-enable */
 
+function combineAllPossible(results) {
+  const finalResult = []
+  let maxLength = 0
+
+  results.forEach(result => {
+    const arr = result.split('')
+
+    // continue if new result is larger in size, most probable
+    if (arr.length >= maxLength) {
+      maxLength = arr.length
+
+      // update finalResult if char is feasible
+      arr.forEach((char, index) => {
+        if (!finalResult[index]) {
+          finalResult[index] = char === '?' ? '?' : char
+        }
+      })
+    }
+  })
+
+  return finalResult.join('')
+}
+
 /**
  * Scans and returns barcode from the provided image
  *
@@ -22,6 +45,9 @@ const BARCODE_DECODERS = {
  * @returns {Promise<String>} Extracted barcode string
  */
 async function barcodeDecoder(image, options) {
+  // store intermediary results, get final result by replacing ? from available result
+  const results = []
+
   // eslint-disable-next-line
   options.barcode = options.barcode.toLowerCase()
   const list = Object.keys(BARCODE_DECODERS)
@@ -47,9 +73,7 @@ async function barcodeDecoder(image, options) {
     const end =
       channels * width * Math.floor(slineStep * spoints[numLines]) +
       2 * channels * width
-    // const pxLine = data.slice(start, end)
 
-    // const { lines, padding } = UTILITIES.getLines({
     const { lines, padding } = UTILITIES.getLines({
       data,
       start,
@@ -67,11 +91,21 @@ async function barcodeDecoder(image, options) {
       // Run the decoder
       const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
-      if (result) return result
+      if (result) {
+        if (result.indexOf('?') === -1) {
+          return result
+        } else {
+          results.push(result)
+        }
+      }
     }
   }
 
-  throw new Error('Failed to extract barcode!')
+  if (results.length === 0) {
+    throw new Error('Failed to extract barcode!')
+  } else {
+    return combineAllPossible(results)
+  }
 }
 
 if (module && module.exports) {
