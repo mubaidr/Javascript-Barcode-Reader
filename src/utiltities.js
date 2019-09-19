@@ -57,7 +57,7 @@ function preProcessImage(imgData) {
     let b = data[i + 2]
     let v = (r + g + b) / 3
 
-    data[i] = data[i + 1] = data[i + 2] = v > threshold ? 255 : 0
+    data[i] = data[i + 1] = data[i + 2] = v >= threshold ? 255 : v
   }
 
   return { data, width, height }
