@@ -16,21 +16,25 @@ function combineAllPossible(results) {
   const finalResult = []
   let maxLength = 0
 
-  results.forEach(result => {
-    const arr = result.split('')
+  results
+    .sort((a, b) => {
+      return b.length - a.length
+    })
+    .forEach(result => {
+      const length = result.length
 
-    // continue if new result is larger in size, most probable
-    if (arr.length >= maxLength) {
-      maxLength = arr.length
+      // continue if new result is larger in size, most probable
+      if (maxLength === 0 || length === maxLength) {
+        maxLength = length
 
-      // update finalResult if char is feasible
-      arr.forEach((char, index) => {
-        if (!finalResult[index]) {
-          finalResult[index] = char === '?' ? '?' : char
-        }
-      })
-    }
-  })
+        // update finalResult if char is feasible
+        result.split('').forEach((char, index) => {
+          if (!finalResult[index]) {
+            finalResult[index] = char === '?' ? '?' : char
+          }
+        })
+      }
+    })
 
   return finalResult.join('')
 }
@@ -65,39 +69,32 @@ async function barcodeDecoder(image, options) {
   const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]
   let numLines = spoints.length
   const slineStep = height / (numLines + 1)
+  const rowsToScan = 3 //should be odd number to be able to find center
 
   // eslint-disable-next-line
   while ((numLines -= 1)) {
     // create section of height 2
     const start = channels * width * Math.floor(slineStep * spoints[numLines])
-    const end =
-      channels * width * Math.floor(slineStep * spoints[numLines]) +
-      2 * channels * width
+    const end = start + rowsToScan * channels * width
 
-    const { lines, padding } = UTILITIES.getLines({
-      data,
-      start,
-      end,
+    const lines = UTILITIES.getLines({
+      data: data.slice(start, end),
       width,
-      height,
+      height: rowsToScan,
       channels,
     })
 
-    if (lines && lines.length !== 0) {
-      // remove empty whitespaces on side of barcode
-      if (padding.left) lines.shift()
-      if (padding.right) lines.pop()
+    if (!lines || lines.length === 0) continue
 
-      // Run the decoder
-      const result = BARCODE_DECODERS[options.barcode](lines, options.type)
+    // Run the decoder
+    const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
-      if (result) {
-        if (result.indexOf('?') === -1) {
-          return result
-        } else {
-          results.push(result)
-        }
+    if (result) {
+      if (result.indexOf('?') === -1) {
+        return result
       }
+
+      results.push(result)
     }
   }
 

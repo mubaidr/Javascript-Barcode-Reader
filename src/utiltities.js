@@ -1,5 +1,3 @@
-const Jimp = require('jimp')
-
 const isNode =
   typeof process === 'object' &&
   process.release &&
@@ -11,56 +9,23 @@ function isUrl(s) {
   return !s[0] === '#' || regexp.test(s)
 }
 
+/**
+ * Returns median number from a number array
+ * @param {number[]} arr Array of numbers
+ * @return {number} Median of the array
+ */
 function median(arr) {
   if (!arr || arr.length === 0) return 0
 
-  arr.sort(function(a, b) {
+  arr.sort((a, b) => {
     return a - b
   })
 
-  let half = Math.floor(arr.length / 2)
+  const half = Math.floor(arr.length / 2)
 
   if (arr.length % 2) return arr[half]
 
   return (arr[half - 1] + arr[half]) / 2.0
-}
-
-function preProcessImage(imgData) {
-  const threshold = 127
-  const { data, width, height } = imgData
-  const channels = data.length / (width * height)
-
-  // skip first and last row
-  for (let row = 3; row < height - 3; row += 1) {
-    for (let col = 0; col < width; col += 1) {
-      const i = (row * width + col) * channels
-      const iPrev2 = ((row - 2) * width + col) * channels
-      const iPrev = ((row - 1) * width + col) * channels
-      const iNext = ((row + 1) * width + col) * channels
-      const iNext2 = ((row + 2) * width + col) * channels
-
-      for (let j = 0; j < channels; j += 1) {
-        data[i + j] = median([
-          data[iPrev2 + j],
-          data[iPrev + j],
-          data[i + j],
-          data[iNext + j],
-          data[iNext2 + j],
-        ])
-      }
-    }
-  }
-
-  for (let i = 0; i < data.length; i += channels) {
-    let r = data[i]
-    let g = data[i + 1]
-    let b = data[i + 2]
-    let v = r * 0.2126 + g * 0.7152 + b * 0.0722
-
-    data[i] = data[i + 1] = data[i + 2] = v >= threshold ? 255 : v
-  }
-
-  return { data, width, height }
 }
 
 /**
@@ -77,7 +42,7 @@ function createImageData(image) {
   canvas.height = height
   ctx.drawImage(image, 0, 0)
 
-  return preProcessImage(ctx.getImageData(0, 0, width, height))
+  return ctx.getImageData(0, 0, width, height)
 }
 
 /**
@@ -95,6 +60,8 @@ async function getImageDataFromSource(source) {
     if (isStringSource) {
       // Read file in Node.js
       if (isNode) {
+        const Jimp = require('jimp')
+
         Jimp.read(
           isURLSource ? { url: source, headers: {} } : source,
           (err, image) => {
@@ -102,13 +69,11 @@ async function getImageDataFromSource(source) {
               reject(err)
             } else {
               const { data, width, height } = image.bitmap
-              resolve(
-                preProcessImage({
-                  data: data.toJSON().data,
-                  width,
-                  height,
-                })
-              )
+              resolve({
+                data: data.toJSON().data,
+                width,
+                height,
+              })
             }
           }
         )
@@ -135,11 +100,9 @@ async function getImageDataFromSource(source) {
       // HTML Canvas element
       else if (tagName === 'CANVAS') {
         resolve(
-          preProcessImage(
-            source
-              .getContext('2d')
-              .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
-          )
+          source
+            .getContext('2d')
+            .getImageData(0, 0, source.naturalWidth, source.naturalHeight)
         )
       }
 
@@ -147,16 +110,61 @@ async function getImageDataFromSource(source) {
     }
     // Pixel Data
     else if (source.data && source.width && source.height) {
-      resolve(preProcessImage(source))
+      resolve(source)
     } else {
       reject(new Error('Invalid image source specified!'))
     }
   })
 }
 
+/**
+ * Greyscale, threshold and apply median noise removal to image data
+ * @param {{data: number[], width: number, height: number}} imgData
+ * @returns {{data: number[], width: number, height: number}}
+ */
+function preProcessImage(imgData) {
+  const threshold = 127
+  const { data, width, height, channels } = imgData
+  const row = (height - 1) / 2
+
+  // median filter
+  for (let col = 0; col < width; col += 1) {
+    const i = (row * width + col) * channels
+    const iPrev = ((row - 1) * width + col) * channels
+    const iNext = ((row + 1) * width + col) * channels
+
+    for (let j = 0; j < 3; j += 1) {
+      data[i + j] = median([data[iPrev + j], data[i + j], data[iNext + j]])
+    }
+  }
+
+  // threshold
+  for (let i = 0; i < data.length; i += channels) {
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    // let v = r * 0.2126 + g * 0.7152 + b * 0.0722
+    let v = (r + g + b) / 3
+
+    v = v >= threshold ? 255 : 0
+
+    data[i] = v
+    data[i + 1] = v
+    data[i + 2] = v
+  }
+
+  return { data, width, height }
+}
+
 function getLines(obj) {
-  const { data, start, end, channels, width } = obj
-  const pxLine = data.slice(start, end)
+  const { data, width, height: rowsToScan, channels } = obj
+  // const pxLine = data
+  const { data: pxLine } = preProcessImage({
+    data,
+    width,
+    height: rowsToScan,
+    channels,
+  })
   const sum = []
   const bmp = []
   const lines = []
@@ -167,51 +175,37 @@ function getLines(obj) {
   const padding = { left: true, right: true }
 
   // grey scale section and sum of columns pixels in section
-  for (let row = 0; row < 2; row += 1) {
+  for (let row = 0; row < rowsToScan; row += 1) {
     for (let col = 0; col < width; col += 1) {
       const i = (row * width + col) * channels
-      const g = (pxLine[i] * 3 + pxLine[i + 1] * 4 + pxLine[i + 2] * 2) / 9
-      const s = sum[col]
 
-      pxLine[i] = g
-      pxLine[i + 1] = g
-      pxLine[i + 2] = g
-
-      sum[col] = g + (s || 0)
+      sum[col] = pxLine[i] + (sum[col] || 0)
     }
   }
 
   for (let i = 0; i < width; i += 1) {
-    sum[i] /= 2
+    sum[i] /= rowsToScan
     const s = sum[i]
 
-    if (s < min) {
-      min = s
-    } else {
-      max = s
-    }
+    s < min ? (min = s) : (max = s)
   }
 
   // matches columns in two rows
-  const pivot = min + (max - min) / 2
+  const pivot = min + (max - min) / rowsToScan
 
   for (let col = 0; col < width; col += 1) {
     let matches = 0
     let value
 
-    for (let row = 0; row < 2; row += 1) {
+    for (let row = 0; row < rowsToScan; row += 1) {
       value = pxLine[(row * width + col) * channels]
 
-      if (value > pivot) {
-        matches += 1
-      }
+      if (value > pivot) matches += 1
     }
 
-    if (col === 0 && value <= pivot) {
-      padding.left = false
-    }
-    if (col === width - 1 && value <= pivot) {
-      padding.right = false
+    if (value <= pivot) {
+      if (col === 0) padding.left = false
+      if (col === width - 1) padding.right = false
     }
 
     bmp.push(matches > 1)
@@ -234,7 +228,11 @@ function getLines(obj) {
     }
   }
 
-  return { lines, padding }
+  // remove empty whitespaces on side of barcode
+  if (padding.left) lines.shift()
+  if (padding.right) lines.pop()
+
+  return lines
 }
 
 module.exports = {

@@ -52,6 +52,7 @@ module.exports = (lines, type = 'standard') => {
     }
   } else if (type === 'standard') {
     // extract start/ends pair
+
     const startChar = lines
       .splice(0, 6)
       .filter((item, index) => index % 2 === 0)
@@ -64,7 +65,7 @@ module.exports = (lines, type = 'standard') => {
       .map(line => (line > barThreshold ? 'w' : 'n'))
       .join('')
 
-    // if (startChar !== 'wwn' || endChar !== 'wnw') return null
+    if (startChar !== 'wwn' || endChar !== 'wnw') return null
 
     // Read one encoded character at a time.
     while (lines.length > 0) {

@@ -5,11 +5,12 @@ module.exports = {
     ecmaVersion: 8,
   },
   env: {
+    es6: true,
     browser: true,
     node: true,
     jest: true,
   },
-  extends: ['airbnb', 'prettier'],
+  extends: ['eslint:recommended', 'prettier'],
   globals: {},
   rules: {
     semi: 0,
