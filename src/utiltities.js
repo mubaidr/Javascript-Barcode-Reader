@@ -122,49 +122,57 @@ async function getImageDataFromSource(source) {
  * @param {{data: number[], width: number, height: number}} imgData
  * @returns {{data: number[], width: number, height: number}}
  */
-function preProcessImage(imgData) {
-  const threshold = 127
+function preProcessImage(imgData, useSimpleThreshold) {
   const { data, width, height, channels } = imgData
   const row = (height - 1) / 2
 
-  // median filter
-  for (let col = 0; col < width; col += 1) {
-    const i = (row * width + col) * channels
-    const iPrev = ((row - 1) * width + col) * channels
-    const iNext = ((row + 1) * width + col) * channels
+  if (useSimpleThreshold) {
+    // median filter
+    for (let col = 0; col < width; col += 1) {
+      const i = (row * width + col) * channels
+      const iPrev = ((row - 1) * width + col) * channels
+      const iNext = ((row + 1) * width + col) * channels
 
-    for (let j = 0; j < 3; j += 1) {
-      data[i + j] = median([data[iPrev + j], data[i + j], data[iNext + j]])
+      for (let j = 0; j < 3; j += 1) {
+        data[i + j] = median([data[iPrev + j], data[i + j], data[iNext + j]])
+      }
     }
+
+    // threshold
+    for (let i = 0; i < data.length; i += channels) {
+      const r = data[i]
+      const g = data[i + 1]
+      const b = data[i + 2]
+      // let v = r * 0.2126 + g * 0.7152 + b * 0.0722
+      let v = (r + g + b) / 3
+
+      v = v >= 127 ? 255 : 0
+
+      data[i] = v
+      data[i + 1] = v
+      data[i + 2] = v
+    }
+
+    return { data, width, height }
   }
 
-  // threshold
-  for (let i = 0; i < data.length; i += channels) {
-    const r = data[i]
-    const g = data[i + 1]
-    const b = data[i + 2]
-    // let v = r * 0.2126 + g * 0.7152 + b * 0.0722
-    let v = (r + g + b) / 3
-
-    v = v >= threshold ? 255 : 0
-
-    data[i] = v
-    data[i + 1] = v
-    data[i + 2] = v
-  }
+  // apply adpative threshold 😕
 
   return { data, width, height }
 }
 
 function getLines(obj) {
-  const { data, width, height: rowsToScan, channels } = obj
+  const { data, width, height: rowsToScan, channels, useSimpleThreshold } = obj
   // const pxLine = data
-  const { data: pxLine } = preProcessImage({
-    data,
-    width,
-    height: rowsToScan,
-    channels,
-  })
+  const { data: pxLine } = preProcessImage(
+    {
+      data,
+      width,
+      height: rowsToScan,
+      channels,
+    },
+    useSimpleThreshold
+  )
   const sum = []
   const bmp = []
   const lines = []

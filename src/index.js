@@ -46,6 +46,8 @@ function combineAllPossible(results) {
  * @param {Object} options Options defining type of barcode to detect
  * @param {String} options.barcode Barcode name
  * @param {String=} options.type Type of Barcode
+ * @param {Bool=} options.fast Type of Barcode
+ * @param {Bool=} options.useSimpleThreshold Use fixed threshold value instead of adaptive threshold
  * @returns {Promise<String>} Extracted barcode string
  */
 async function barcodeDecoder(image, options) {
@@ -82,6 +84,7 @@ async function barcodeDecoder(image, options) {
       width,
       height: rowsToScan,
       channels,
+      useSimpleThreshold: options.useSimpleThreshold,
     })
 
     if (!lines || lines.length === 0) continue
@@ -96,6 +99,8 @@ async function barcodeDecoder(image, options) {
 
       results.push(result)
     }
+
+    if (options.fast) break
   }
 
   if (results.length === 0) {
