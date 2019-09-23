@@ -10,23 +10,17 @@ function isUrl(s) {
 }
 
 /**
- * Returns median number from a number array
+ * Returns median number from a number array (modified for only 3 rows)
  * @param {number[]} arr Array of numbers
  * @return {number} Median of the array
  */
-function median(arr) {
-  if (!arr || arr.length === 0) return 0
+// function median(arr) {
+//   arr.sort((a, b) => {
+//     return a - b
+//   })
 
-  arr.sort((a, b) => {
-    return a - b
-  })
-
-  const half = Math.floor(arr.length / 2)
-
-  if (arr.length % 2) return arr[half]
-
-  return (arr[half - 1] + arr[half]) / 2.0
-}
+//   return arr[1]
+// }
 
 /**
  * Creates image data from HTML image
@@ -124,9 +118,7 @@ async function getImageDataFromSource(source) {
  * @param {number} imgData.width Width fo image data
  * @param {number} imgData.height Height of image data
  * @param {Object} options Options defining type of barcode to detect
- * @param {Boolean=} options.useSimpleThreshold Use fixed threshold value(default: OTSU Threshold method)
  * @param {Boolean=} options.useAdaptiveThreshold Use adaptive threshold (default: OTSU Threshold method)
- * @param {Boolean=} options.useOtsuThreshold Use OTSU method to find optimum threshold (default)
  * @returns {{data: number[], width: number, height: number}} ImageData
  */
 function preProcessImageData(imgData, options) {
@@ -142,7 +134,9 @@ function preProcessImageData(imgData, options) {
       let r = data[i]
       let g = data[i + 1]
       let b = data[i + 2]
-      let v = (r + g + b) / 3 >= 127 ? 255 : 0
+      let v = (r + g + b) / 3
+
+      v = v >= 127 ? 255 : 0
 
       data[i] = v
       data[i + 1] = v
@@ -162,33 +156,10 @@ function getLines(obj) {
   const { data, width, height } = obj
   const channels = data.length / (width * height)
 
-  const sum = []
+  const padding = { left: true, right: true }
   const bmp = []
   const lines = []
   let count = 1
-  let min = 0
-  let max = 0
-
-  const padding = { left: true, right: true }
-
-  // grey scale section and sum of columns pixels in section
-  for (let row = 0; row < height; row += 1) {
-    for (let col = 0; col < width; col += 1) {
-      const i = (row * width + col) * channels
-
-      sum[col] = data[i] + (sum[col] || 0)
-    }
-  }
-
-  for (let i = 0; i < width; i += 1) {
-    sum[i] /= height
-    const s = sum[i]
-
-    s < min ? (min = s) : (max = s)
-  }
-
-  // matches columns in two rows
-  const pivot = min + (max - min) / height
 
   for (let col = 0; col < width; col += 1) {
     let matches = 0
@@ -197,10 +168,10 @@ function getLines(obj) {
     for (let row = 0; row < height; row += 1) {
       value = data[(row * width + col) * channels]
 
-      if (value > pivot) matches += 1
+      if (value === 255) matches += 1
     }
 
-    if (value <= pivot) {
+    if (value === 0) {
       if (col === 0) padding.left = false
       if (col === width - 1) padding.right = false
     }

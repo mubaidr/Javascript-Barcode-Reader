@@ -28,7 +28,7 @@ async function test() {
     {
       barcode: 'code-128',
       fast: true,
-      useAdaptiveThreshold: true,
+      // useAdaptiveThreshold: true,
     }
   )
   console.log('Code: ', result)
