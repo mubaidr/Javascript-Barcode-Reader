@@ -42,17 +42,23 @@ function combineAllPossible(results) {
 /**
  * Scans and returns barcode from the provided image
  *
- * @param {*} image Image element || Canvas || ImageData || Image Path in Node.js
+ * @param {HTMLImageElement | HTMLCanvasElement | String | Object} image Image element || Canvas || ImageData || Image Path in Node.js
  * @param {Object} options Options defining type of barcode to detect
  * @param {String} options.barcode Barcode name
  * @param {String=} options.type Type of Barcode
- * @param {Bool=} options.fast Type of Barcode
- * @param {Bool=} options.useSimpleThreshold Use fixed threshold value instead of adaptive threshold
+ * @param {Boolean=} options.fast Perform only single attemp to extract code
+ * @param {Boolean=} options.useSimpleThreshold Use fixed threshold value(default: OTSU Threshold method)
+ * @param {Boolean=} options.useAdaptiveThreshold Use adaptive threshold (default: OTSU Threshold method)
+ * @param {Boolean=} options.useOtsuThreshold Use OTSU method to find optimum threshold (default)
  * @returns {Promise<String>} Extracted barcode string
  */
 async function barcodeDecoder(image, options) {
   // store intermediary results, get final result by replacing ? from available result
   const results = []
+
+  if (!options.useSimpleThreshold && !options.useAdaptiveThreshold) {
+    options.useOtsuThreshold = true
+  }
 
   // eslint-disable-next-line
   options.barcode = options.barcode.toLowerCase()
@@ -75,17 +81,18 @@ async function barcodeDecoder(image, options) {
 
   // eslint-disable-next-line
   while ((numLines -= 1)) {
-    // create section of height 2
+    // create section of height 3
     const start = channels * width * Math.floor(slineStep * spoints[numLines])
     const end = start + rowsToScan * channels * width
-
-    const lines = UTILITIES.getLines({
-      data: data.slice(start, end),
-      width,
-      height: rowsToScan,
-      channels,
-      useSimpleThreshold: options.useSimpleThreshold,
-    })
+    const processedData = UTILITIES.preProcessImageData(
+      {
+        data: data.slice(start, end),
+        width,
+        height: rowsToScan,
+      },
+      options
+    )
+    const lines = UTILITIES.getLines(processedData)
 
     if (!lines || lines.length === 0) continue
 

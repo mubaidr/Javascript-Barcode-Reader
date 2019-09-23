@@ -9,6 +9,7 @@ async function test() {
   result = await jbr(path.resolve('docs/sample-images/code-93.jpg'), {
     barcode: 'code-93',
     fast: true,
+    useSimpleThreshold: true,
   })
   console.log('Code: ', result)
 
@@ -22,6 +23,7 @@ async function test() {
   result = await jbr(path.resolve('docs/images/L89HE1806005080432.png'), {
     barcode: 'code-128',
     fast: true,
+    useOtsuThreshold: true, //default
   })
   console.log('Code: ', result)
 
@@ -30,6 +32,7 @@ async function test() {
     {
       barcode: 'code-128',
       fast: true,
+      useAdaptiveThreshold: true,
     }
   )
   console.log('Code: ', result)

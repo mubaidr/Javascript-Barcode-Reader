@@ -119,60 +119,128 @@ async function getImageDataFromSource(source) {
 
 /**
  * Greyscale, threshold and apply median noise removal to image data
- * @param {{data: number[], width: number, height: number}} imgData
- * @returns {{data: number[], width: number, height: number}}
+ * @param {Object} imgData ImageData
+ * @param {number[]} imgData.data Raw pixel data
+ * @param {number} imgData.width Width fo image data
+ * @param {number} imgData.height Height of image data
+ * @param {Object} options Options defining type of barcode to detect
+ * @param {Boolean=} options.useSimpleThreshold Use fixed threshold value(default: OTSU Threshold method)
+ * @param {Boolean=} options.useAdaptiveThreshold Use adaptive threshold (default: OTSU Threshold method)
+ * @param {Boolean=} options.useOtsuThreshold Use OTSU method to find optimum threshold (default)
+ * @returns {{data: number[], width: number, height: number}} ImageData
  */
-function preProcessImage(imgData, useSimpleThreshold) {
-  const { data, width, height, channels } = imgData
-  const row = (height - 1) / 2
+function preProcessImageData(imgData, options) {
+  const { data, width, height } = imgData
+  const { useSimpleThreshold, useAdaptiveThreshold, useOtsuThreshold } = options
+  const channels = data.length / (width * height)
 
-  if (useSimpleThreshold) {
-    // median filter
-    for (let col = 0; col < width; col += 1) {
-      const i = (row * width + col) * channels
-      const iPrev = ((row - 1) * width + col) * channels
-      const iNext = ((row + 1) * width + col) * channels
+  // threshold using OTSU method
+  if (useOtsuThreshold) {
+    let histogram = new Array(256).fill(0)
 
-      for (let j = 0; j < 3; j += 1) {
-        data[i + j] = median([data[iPrev + j], data[i + j], data[iNext + j]])
-      }
-    }
-
-    // threshold
+    // greyscale, histogram
     for (let i = 0; i < data.length; i += channels) {
       const r = data[i]
       const g = data[i + 1]
       const b = data[i + 2]
-      // let v = r * 0.2126 + g * 0.7152 + b * 0.0722
-      let v = (r + g + b) / 3
+      let v = Math.floor((r + g + b) / 3)
 
-      v = v >= 127 ? 255 : 0
+      histogram[v] += 1
 
       data[i] = v
       data[i + 1] = v
       data[i + 2] = v
     }
 
+    let prbn = 0.0 // First order cumulative
+    let meanitr = 0.0 // Second order cumulative
+    let meanglb = 0.0 // Global mean level
+    let OPT_THRESH_VAL = 0 // Optimum threshold value
+    let param1
+    let param2 // Parameters required to work out OTSU threshold algorithm
+    let param3 = 0.0
+    let hist_val = []
+
+    //Normalise histogram values and calculate global mean level
+    for (let i = 0; i < 256; i += 1) {
+      hist_val[i] = histogram[i] / (width * height)
+      meanglb += i * hist_val[i]
+    }
+
+    // Implementation of OTSU algorithm
+    for (let i = 0; i < 256; i += 1) {
+      prbn += hist_val[i]
+      meanitr += i * hist_val[i]
+
+      param1 = meanglb * prbn - meanitr
+      param2 = (param1 * param1) / (prbn * (1.0 - prbn))
+
+      if (param2 > param3) {
+        param3 = param2
+        OPT_THRESH_VAL = i // Update the "Weight/Value" as Optimum Threshold value
+      }
+    }
+
+    console.log(OPT_THRESH_VAL)
+
+    for (let i = 0; i < data.length; i += channels) {
+      let v = data[i] >= OPT_THRESH_VAL ? 255 : 0
+
+      data[i] = v
+      data[i + 1] = v
+      data[i + 2] = v
+    }
+
+    //TODO: create and display image using jimp to debug
+
     return { data, width, height }
   }
 
-  // apply adpative threshold 😕
+  // fixed threshold
+  if (useSimpleThreshold) {
+    const row = (height - 1) / 2
+
+    // greyscale, median filter and threshold
+    for (let col = 0; col < width; col += 1) {
+      const i = (row * width + col) * channels
+      const iPrev = ((row - 1) * width + col) * channels
+      const iNext = ((row + 1) * width + col) * channels
+
+      let v = 0
+      for (let j = 0; j < 3; j += 1) {
+        v += Math.floor(
+          median([data[iPrev + j], data[i + j], data[iNext + j]]) / 3
+        )
+      }
+
+      v = v >= 127 ? 255 : 0
+
+      for (let j = 0; j < 3; j += 1) {
+        data[i] = v
+      }
+    }
+
+    return { data, width, height }
+  }
+
+  // Adaptive Threshold
+  if (useAdaptiveThreshold) {
+    // TODO: implement this
+    return { data, width, height }
+  }
 
   return { data, width, height }
 }
 
+/**
+ * Greyscale, threshold and apply median noise removal to image data
+ * @param {{data: number[], width: number, height: number}} imgData
+ * @returns {number[]}}
+ */
 function getLines(obj) {
-  const { data, width, height: rowsToScan, channels, useSimpleThreshold } = obj
-  // const pxLine = data
-  const { data: pxLine } = preProcessImage(
-    {
-      data,
-      width,
-      height: rowsToScan,
-      channels,
-    },
-    useSimpleThreshold
-  )
+  const { data, width, height } = obj
+  const channels = data.length / (width * height)
+
   const sum = []
   const bmp = []
   const lines = []
@@ -183,30 +251,30 @@ function getLines(obj) {
   const padding = { left: true, right: true }
 
   // grey scale section and sum of columns pixels in section
-  for (let row = 0; row < rowsToScan; row += 1) {
+  for (let row = 0; row < height; row += 1) {
     for (let col = 0; col < width; col += 1) {
       const i = (row * width + col) * channels
 
-      sum[col] = pxLine[i] + (sum[col] || 0)
+      sum[col] = data[i] + (sum[col] || 0)
     }
   }
 
   for (let i = 0; i < width; i += 1) {
-    sum[i] /= rowsToScan
+    sum[i] /= height
     const s = sum[i]
 
     s < min ? (min = s) : (max = s)
   }
 
   // matches columns in two rows
-  const pivot = min + (max - min) / rowsToScan
+  const pivot = min + (max - min) / height
 
   for (let col = 0; col < width; col += 1) {
     let matches = 0
     let value
 
-    for (let row = 0; row < rowsToScan; row += 1) {
-      value = pxLine[(row * width + col) * channels]
+    for (let row = 0; row < height; row += 1) {
+      value = data[(row * width + col) * channels]
 
       if (value > pivot) matches += 1
     }
@@ -246,4 +314,5 @@ function getLines(obj) {
 module.exports = {
   getImageDataFromSource,
   getLines,
+  preProcessImageData,
 }
