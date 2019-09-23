@@ -131,102 +131,23 @@ async function getImageDataFromSource(source) {
  */
 function preProcessImageData(imgData, options) {
   const { data, width, height } = imgData
-  const { useSimpleThreshold, useAdaptiveThreshold, useOtsuThreshold } = options
+  const { useAdaptiveThreshold } = options
   const channels = data.length / (width * height)
-
-  // threshold using OTSU method
-  if (useOtsuThreshold) {
-    let histogram = new Array(256).fill(0)
-
-    // greyscale, histogram
-    for (let i = 0; i < data.length; i += channels) {
-      const r = data[i]
-      const g = data[i + 1]
-      const b = data[i + 2]
-      let v = Math.floor((r + g + b) / 3)
-
-      histogram[v] += 1
-
-      data[i] = v
-      data[i + 1] = v
-      data[i + 2] = v
-    }
-
-    let prbn = 0.0 // First order cumulative
-    let meanitr = 0.0 // Second order cumulative
-    let meanglb = 0.0 // Global mean level
-    let OPT_THRESH_VAL = 0 // Optimum threshold value
-    let param1
-    let param2 // Parameters required to work out OTSU threshold algorithm
-    let param3 = 0.0
-    let hist_val = []
-
-    //Normalise histogram values and calculate global mean level
-    for (let i = 0; i < 256; i += 1) {
-      hist_val[i] = histogram[i] / (width * height)
-      meanglb += i * hist_val[i]
-    }
-
-    // Implementation of OTSU algorithm
-    for (let i = 0; i < 256; i += 1) {
-      prbn += hist_val[i]
-      meanitr += i * hist_val[i]
-
-      param1 = meanglb * prbn - meanitr
-      param2 = (param1 * param1) / (prbn * (1.0 - prbn))
-
-      if (param2 > param3) {
-        param3 = param2
-        OPT_THRESH_VAL = i // Update the "Weight/Value" as Optimum Threshold value
-      }
-    }
-
-    console.log(OPT_THRESH_VAL)
-
-    for (let i = 0; i < data.length; i += channels) {
-      let v = data[i] >= OPT_THRESH_VAL ? 255 : 0
-
-      data[i] = v
-      data[i + 1] = v
-      data[i + 2] = v
-    }
-
-    //TODO: create and display image using jimp to debug
-
-    return { data, width, height }
-  }
-
-  // fixed threshold
-  if (useSimpleThreshold) {
-    const row = (height - 1) / 2
-
-    // greyscale, median filter and threshold
-    for (let col = 0; col < width; col += 1) {
-      const i = (row * width + col) * channels
-      const iPrev = ((row - 1) * width + col) * channels
-      const iNext = ((row + 1) * width + col) * channels
-
-      let v = 0
-      for (let j = 0; j < 3; j += 1) {
-        v += Math.floor(
-          median([data[iPrev + j], data[i + j], data[iNext + j]]) / 3
-        )
-      }
-
-      v = v >= 127 ? 255 : 0
-
-      for (let j = 0; j < 3; j += 1) {
-        data[i] = v
-      }
-    }
-
-    return { data, width, height }
-  }
 
   // Adaptive Threshold
   if (useAdaptiveThreshold) {
     // TODO: implement this
-    return { data, width, height }
+  } else {
+    for (let i = 0; i < data.length; i += channels) {
+      let r = data[i]
+      let g = data[i + 1]
+      let b = data[i + 2]
+      let v = (r + g + b) / 3 >= 127 ? 255 : 0
+
+      data[i] = v
+      data[i + 1] = v
+      data[i + 2] = v
+    }
   }
 
   return { data, width, height }

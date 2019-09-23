@@ -47,18 +47,12 @@ function combineAllPossible(results) {
  * @param {String} options.barcode Barcode name
  * @param {String=} options.type Type of Barcode
  * @param {Boolean=} options.fast Perform only single attemp to extract code
- * @param {Boolean=} options.useSimpleThreshold Use fixed threshold value(default: OTSU Threshold method)
  * @param {Boolean=} options.useAdaptiveThreshold Use adaptive threshold (default: OTSU Threshold method)
- * @param {Boolean=} options.useOtsuThreshold Use OTSU method to find optimum threshold (default)
  * @returns {Promise<String>} Extracted barcode string
  */
 async function barcodeDecoder(image, options) {
   // store intermediary results, get final result by replacing ? from available result
   const results = []
-
-  if (!options.useSimpleThreshold && !options.useAdaptiveThreshold) {
-    options.useOtsuThreshold = true
-  }
 
   // eslint-disable-next-line
   options.barcode = options.barcode.toLowerCase()
