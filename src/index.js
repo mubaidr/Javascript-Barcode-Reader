@@ -68,16 +68,20 @@ async function barcodeDecoder(image, options) {
   const channels = data.length / (width * height)
 
   // check points for barcode location
-  const spoints = [1, 9, 2, 8, 3, 7, 4, 6, 5]
-  let numLines = spoints.length
-  const slineStep = height / (numLines + 1)
-  const rowsToScan = 3 //should be odd number to be able to find center
+  const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
+  const slineStep = height / sPoints.length
+  //should be odd number to be able to find center
+  const rowsToScan = Math.min(3, height)
 
-  // eslint-disable-next-line
-  while ((numLines -= 1)) {
+  for (let i = 0; i < sPoints.length; i += 1) {
+    const sPoint = sPoints[i]
     // create section of height 3
-    const start = channels * width * Math.floor(slineStep * spoints[numLines])
+    const start = channels * width * Math.floor(slineStep * sPoint)
     const end = start + rowsToScan * channels * width
+
+    console.log(start, end)
+    console.log(data)
+
     const processedData = UTILITIES.preProcessImageData(
       {
         data: data.slice(start, end),
@@ -88,7 +92,11 @@ async function barcodeDecoder(image, options) {
     )
     const lines = UTILITIES.getLines(processedData)
 
-    if (!lines || lines.length === 0) continue
+    if (!lines || lines.length === 0) {
+      if (options.fast) throw new Error('Failed to extract barcode!')
+
+      continue
+    }
 
     // Run the decoder
     const result = BARCODE_DECODERS[options.barcode](lines, options.type)

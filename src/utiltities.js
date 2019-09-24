@@ -128,7 +128,49 @@ function preProcessImageData(imgData, options) {
 
   // Adaptive Threshold
   if (useAdaptiveThreshold) {
-    // TODO: implement this
+    const windowSize = 3
+    const integralImage = []
+
+    for (let j = 0; j < height; j += 1) {
+      integralImage.push(new Array(width).fill(0))
+    }
+
+    console.log(data)
+    console.log(integralImage)
+
+    for (let i = 0; i < width; i += 1) {
+      let sum = 0
+
+      for (let j = 0; j < height; j += 1) {
+        let index = (j * width + i) * channels
+
+        // greyscale
+        sum += (data[index] + data[index + 1] + data[index + 2]) / 3
+
+        console.log(data[index], data[index + 1], data[index + 2])
+
+        if (i === 0) {
+          integralImage[j][i] = sum
+        } else {
+          integralImage[j][i] = (integralImage[j][i - 1] || 0) + sum
+        }
+      }
+    }
+
+    console.log(width, height, integralImage)
+
+    for (let i = 0; i < width; i += 1) {
+      for (let j = 0; j < height; j += 1) {
+        let index = (j * width + i) * channels
+      }
+    }
+
+    // const i = channels * (j * width + i)
+    // const iLeft = channels * (j * width + i - 1)
+    // const iTopLeft = channels * ((j - 1) * width + i - 1)
+    // const iTop = channels * ((j - 1) * width + i)
+
+    return { data, width, height }
   } else {
     for (let i = 0; i < data.length; i += channels) {
       let r = data[i]
