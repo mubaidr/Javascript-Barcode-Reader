@@ -50,7 +50,7 @@ function combineAllPossible(results) {
  * @param {Boolean=} options.useAdaptiveThreshold Use adaptive threshold (default: OTSU Threshold method)
  * @returns {Promise<String>} Extracted barcode string
  */
-async function barcodeDecoder(image, options) {
+async function javascriptBarcodeReader(image, options) {
   // store intermediary results, get final result by replacing ? from available result
   const results = []
 
@@ -69,7 +69,7 @@ async function barcodeDecoder(image, options) {
 
   // check points for barcode location
   const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
-  const slineStep = height / sPoints.length
+  const slineStep = Math.floor(height / sPoints.length)
   //should be odd number to be able to find center
   const rowsToScan = Math.min(3, height)
 
@@ -78,15 +78,12 @@ async function barcodeDecoder(image, options) {
     // create section of height 3
     const start = channels * width * Math.floor(slineStep * sPoint)
     const end = start + rowsToScan * channels * width
-
-    console.log(start, end)
-    console.log(data)
-
     const processedData = UTILITIES.preProcessImageData(
       {
         data: data.slice(start, end),
         width,
         height: rowsToScan,
+        channels,
       },
       options
     )
@@ -119,8 +116,4 @@ async function barcodeDecoder(image, options) {
   }
 }
 
-if (module && module.exports) {
-  module.exports = barcodeDecoder
-} else {
-  global.javascriptBarcodeReader = barcodeDecoder
-}
+module.exports = javascriptBarcodeReader

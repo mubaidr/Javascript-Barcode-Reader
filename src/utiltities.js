@@ -122,21 +122,16 @@ async function getImageDataFromSource(source) {
  * @returns {{data: number[], width: number, height: number}} ImageData
  */
 function preProcessImageData(imgData, options) {
-  const { data, width, height } = imgData
+  const { data, width, height, channels } = imgData
   const { useAdaptiveThreshold } = options
-  const channels = data.length / (width * height)
 
   // Adaptive Threshold
   if (useAdaptiveThreshold) {
-    const windowSize = 3
     const integralImage = []
 
     for (let j = 0; j < height; j += 1) {
       integralImage.push(new Array(width).fill(0))
     }
-
-    console.log(data)
-    console.log(integralImage)
 
     for (let i = 0; i < width; i += 1) {
       let sum = 0
@@ -145,9 +140,12 @@ function preProcessImageData(imgData, options) {
         let index = (j * width + i) * channels
 
         // greyscale
-        sum += (data[index] + data[index + 1] + data[index + 2]) / 3
+        let v = (data[index] + data[index + 1] + data[index + 2]) / 3
+        data[index] = v
+        data[index + 1] = v
+        data[index + 2] = v
 
-        console.log(data[index], data[index + 1], data[index + 2])
+        sum += v
 
         if (i === 0) {
           integralImage[j][i] = sum
@@ -157,18 +155,27 @@ function preProcessImageData(imgData, options) {
       }
     }
 
-    console.log(width, height, integralImage)
+    console.log(data)
+    console.log(integralImage)
 
-    for (let i = 0; i < width; i += 1) {
-      for (let j = 0; j < height; j += 1) {
-        let index = (j * width + i) * channels
+    // skip edge rows
+    for (let i = 1; i < width - 1; i += 1) {
+      for (let j = 1; j < height - 1; j += 1) {
+        const iLeft = i - 1
+        const iRight = i + 1
+        const jTop = j - 1
+        const jBottom = j + 1
+        const count = (iRight - iLeft) * (jBottom - jTop)
+
+        const sum =
+          integralImage[iLeft][j] +
+          integralImage[iRight][j] +
+          integralImage[i][jTop] +
+          integralImage[i][jBottom]
+
+        console.log(count, sum)
       }
     }
-
-    // const i = channels * (j * width + i)
-    // const iLeft = channels * (j * width + i - 1)
-    // const iTopLeft = channels * ((j - 1) * width + i - 1)
-    // const iTop = channels * ((j - 1) * width + i)
 
     return { data, width, height }
   } else {
