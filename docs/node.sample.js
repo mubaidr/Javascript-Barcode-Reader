@@ -20,6 +20,7 @@ async function test() {
   // result = await jbr(path.resolve('docs/images/L89HE1806005080432.png'), {
   //   barcode: 'code-128',
   //   fast: true,
+  //   useAdaptiveThreshold: true,
   // })
   // console.log('Code: ', result)
 
@@ -28,16 +29,17 @@ async function test() {
   //   {
   //     barcode: 'code-128',
   //     fast: true,
-  //     // useAdaptiveThreshold: true,
+  //     useAdaptiveThreshold: true,
   //   }
   // )
   // console.log('Code: ', result)
 
-  await jbr(path.resolve('docs/images/4x4.png'), {
+  result = await jbr(path.resolve('docs/images/small.png'), {
     barcode: 'code-128',
     fast: true,
     useAdaptiveThreshold: true,
   })
+  console.log('Code: ', result)
 }
 
 test()

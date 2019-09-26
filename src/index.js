@@ -64,7 +64,7 @@ async function javascriptBarcodeReader(image, options) {
     )
   }
 
-  const { data, width, height } = await UTILITIES.getImageDataFromSource(image)
+  let { data, width, height } = await UTILITIES.getImageDataFromSource(image)
   const channels = data.length / (width * height)
 
   // check points for barcode location
@@ -73,21 +73,25 @@ async function javascriptBarcodeReader(image, options) {
   //should be odd number to be able to find center
   const rowsToScan = Math.min(3, height)
 
+  if (options.useAdaptiveThreshold) {
+    UTILITIES.applyAdaptiveThreshold(data, width, height)
+  }
+
   for (let i = 0; i < sPoints.length; i += 1) {
     const sPoint = sPoints[i]
-    // create section of height 3
     const start = channels * width * Math.floor(slineStep * sPoint)
     const end = start + rowsToScan * channels * width
-    const processedData = UTILITIES.preProcessImageData(
-      {
-        data: data.slice(start, end),
+    let dataSlice = data.slice(start, end)
+
+    if (!options.useAdaptiveThreshold) {
+      dataSlice = UTILITIES.applySimpleThreshold(
+        data.slice(start, end),
         width,
-        height: rowsToScan,
-        channels,
-      },
-      options
-    )
-    const lines = UTILITIES.getLines(processedData)
+        rowsToScan
+      )
+    }
+
+    const lines = UTILITIES.getLines(dataSlice, rowsToScan)
 
     if (!lines || lines.length === 0) {
       if (options.fast) throw new Error('Failed to extract barcode!')

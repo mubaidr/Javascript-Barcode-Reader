@@ -113,96 +113,114 @@ async function getImageDataFromSource(source) {
 
 /**
  * Greyscale, threshold and apply median noise removal to image data
- * @param {Object} imgData ImageData
- * @param {number[]} imgData.data Raw pixel data
- * @param {number} imgData.width Width fo image data
- * @param {number} imgData.height Height of image data
- * @param {Object} options Options defining type of barcode to detect
- * @param {Boolean=} options.useAdaptiveThreshold Use adaptive threshold (default: OTSU Threshold method)
- * @returns {{data: number[], width: number, height: number}} ImageData
+ * @param {number[]} data Raw pixel data
+ * @param {number} width Width fo image data
+ * @param {number} height Height of image data
+ * @returns {number[]} Pixel Data
  */
-function preProcessImageData(imgData, options) {
-  const { data, width, height, channels } = imgData
-  const { useAdaptiveThreshold } = options
+function applyAdaptiveThreshold(data, width, height) {
+  const integralImage = new Array(width * height).fill(0)
+  const channels = data.length / (width * height)
+  const t = 0.15 // threshold percentage
+  const s = width / 8 // bracket size
+  const s2 = s / 2
 
-  // Adaptive Threshold
-  if (useAdaptiveThreshold) {
-    const integralImage = []
+  for (let i = 0; i < width; i += 1) {
+    let sum = 0
 
     for (let j = 0; j < height; j += 1) {
-      integralImage.push(new Array(width).fill(0))
-    }
+      let pureIndex = j * width + i
+      let index = pureIndex * channels
 
-    for (let i = 0; i < width; i += 1) {
-      let sum = 0
+      // greyscale
+      let v = (data[index] + data[index + 1] + data[index + 2]) / 3
+      data[index] = v
+      data[index + 1] = v
+      data[index + 2] = v
 
-      for (let j = 0; j < height; j += 1) {
-        let index = (j * width + i) * channels
+      sum += v
 
-        // greyscale
-        let v = (data[index] + data[index + 1] + data[index + 2]) / 3
-        data[index] = v
-        data[index + 1] = v
-        data[index + 2] = v
-
-        sum += v
-
-        if (i === 0) {
-          integralImage[j][i] = sum
-        } else {
-          integralImage[j][i] = (integralImage[j][i - 1] || 0) + sum
-        }
+      if (i === 0) {
+        integralImage[pureIndex] = sum
+      } else {
+        integralImage[pureIndex] = integralImage[pureIndex - 1] + sum
       }
-    }
-
-    console.log(data)
-    console.log(integralImage)
-
-    // skip edge rows
-    for (let i = 1; i < width - 1; i += 1) {
-      for (let j = 1; j < height - 1; j += 1) {
-        const iLeft = i - 1
-        const iRight = i + 1
-        const jTop = j - 1
-        const jBottom = j + 1
-        const count = (iRight - iLeft) * (jBottom - jTop)
-
-        const sum =
-          integralImage[iLeft][j] +
-          integralImage[iRight][j] +
-          integralImage[i][jTop] +
-          integralImage[i][jBottom]
-
-        console.log(count, sum)
-      }
-    }
-
-    return { data, width, height }
-  } else {
-    for (let i = 0; i < data.length; i += channels) {
-      let r = data[i]
-      let g = data[i + 1]
-      let b = data[i + 2]
-      let v = (r + g + b) / 3
-
-      v = v >= 127 ? 255 : 0
-
-      data[i] = v
-      data[i + 1] = v
-      data[i + 2] = v
     }
   }
 
-  return { data, width, height }
+  // skip edge rows
+  for (let i = 0; i < width; i += 1) {
+    for (let j = 0; j < height; j += 1) {
+      let pureIndex = j * width + i
+      let index = pureIndex * channels
+
+      // no. of pixels per window
+      let x1 = i - s2
+      let x2 = i + s2
+      let y1 = j - s2
+      let y2 = j + s2
+
+      if (x1 < 0) x1 = 0
+      if (x2 >= width) x2 = width - 1
+      if (y1 < 0) y1 = 0
+      if (y2 >= height) y2 = height - 1
+
+      let count = (x2 - x1) * (y2 - y1)
+
+      const sum =
+        integralImage[y2 * width + x2] -
+        integralImage[y1 * width + x2] -
+        integralImage[y2 * width + x1] +
+        integralImage[y1 * width + x1]
+
+      let v = 255
+      if (data[index] * count < sum * (1 - t)) {
+        v = 0
+      }
+
+      data[index] = v
+      data[index + 1] = v
+      data[index + 2] = v
+    }
+  }
+
+  return data
 }
 
 /**
  * Greyscale, threshold and apply median noise removal to image data
- * @param {{data: number[], width: number, height: number}} imgData
- * @returns {number[]}}
+ * @param {number[]} data Raw pixel data
+ * @param {number} width Width fo image data
+ * @param {number} height Height of image data
+ * @returns {number[]} Pixel Data
  */
-function getLines(obj) {
-  const { data, width, height } = obj
+function applySimpleThreshold(data, width, height) {
+  const channels = data.length / (width * height)
+
+  for (let i = 0; i < data.length; i += channels) {
+    let r = data[i]
+    let g = data[i + 1]
+    let b = data[i + 2]
+    let v = (r + g + b) / 3
+
+    v = v >= 127 ? 255 : 0
+
+    data[i] = v
+    data[i + 1] = v
+    data[i + 2] = v
+  }
+
+  return data
+}
+
+/**
+ * Greyscale, threshold and apply median noise removal to image data
+ * @param {number[]} data Raw pixel data
+ * @param {number} width Width fo image data
+ * @param {number} height Height of image data
+ * @returns {number[]} Lines collection
+ */
+function getLines(data, width, height) {
   const channels = data.length / (width * height)
 
   const padding = { left: true, right: true }
@@ -255,5 +273,6 @@ function getLines(obj) {
 module.exports = {
   getImageDataFromSource,
   getLines,
-  preProcessImageData,
+  applySimpleThreshold,
+  applyAdaptiveThreshold,
 }

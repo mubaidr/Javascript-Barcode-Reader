@@ -14,6 +14,7 @@ for (let i = 0; i < buttons.length; i += 1) {
     javascriptBarcodeReader(img, {
       barcode: type,
       type: subType,
+      fast: true,
     }).then(code => {
       console.log(`Code : ${code}`)
       alert(`Code : ${code}`) // eslint-disable-line
