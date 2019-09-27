@@ -74,7 +74,7 @@ async function javascriptBarcodeReader(image, options) {
   const rowsToScan = Math.min(3, height)
 
   if (options.useAdaptiveThreshold) {
-    UTILITIES.applyAdaptiveThreshold(data, width, height)
+    data = UTILITIES.applyAdaptiveThreshold(data, width, height)
   }
 
   for (let i = 0; i < sPoints.length; i += 1) {
@@ -84,14 +84,10 @@ async function javascriptBarcodeReader(image, options) {
     let dataSlice = data.slice(start, end)
 
     if (!options.useAdaptiveThreshold) {
-      dataSlice = UTILITIES.applySimpleThreshold(
-        data.slice(start, end),
-        width,
-        rowsToScan
-      )
+      dataSlice = UTILITIES.applySimpleThreshold(dataSlice, width, rowsToScan)
     }
 
-    const lines = UTILITIES.getLines(dataSlice, rowsToScan)
+    const lines = UTILITIES.getLines(dataSlice, width, rowsToScan)
 
     if (!lines || lines.length === 0) {
       if (options.fast) throw new Error('Failed to extract barcode!')

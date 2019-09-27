@@ -122,8 +122,8 @@ function applyAdaptiveThreshold(data, width, height) {
   const integralImage = new Array(width * height).fill(0)
   const channels = data.length / (width * height)
   const t = 0.15 // threshold percentage
-  const s = width / 8 // bracket size
-  const s2 = s / 2
+  const s = Math.floor(width / 4) // bracket size
+  const s2 = Math.ceil(s / 2)
 
   for (let i = 0; i < width; i += 1) {
     let sum = 0
@@ -203,7 +203,7 @@ function applySimpleThreshold(data, width, height) {
     let b = data[i + 2]
     let v = (r + g + b) / 3
 
-    v = v >= 127 ? 255 : 0
+    v = v > 127 ? 255 : 0
 
     data[i] = v
     data[i + 1] = v
