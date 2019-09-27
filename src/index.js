@@ -71,7 +71,7 @@ async function javascriptBarcodeReader(image, options) {
   const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
   const slineStep = Math.floor(height / sPoints.length)
   //should be odd number to be able to find center
-  const rowsToScan = Math.min(3, height)
+  const rowsToScan = Math.min(2, height)
 
   if (options.useAdaptiveThreshold) {
     data = UTILITIES.applyAdaptiveThreshold(data, width, height)

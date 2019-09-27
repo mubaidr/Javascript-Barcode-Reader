@@ -495,6 +495,8 @@ module.exports = lines => {
 
           letterCodePrev = letterCode
         } else {
+          console.log(letterKey)
+
           code.push('?')
         }
         break
