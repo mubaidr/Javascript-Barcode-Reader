@@ -42,7 +42,7 @@ function combineAllPossible(results) {
 /**
  * Scans and returns barcode from the provided image
  *
- * @param {HTMLImageElement | HTMLCanvasElement | String | Object} image Image element || Canvas || ImageData || Image Path in Node.js
+ * @param {HTMLImageElement | HTMLCanvasElement | ImageData | Object | String} image Image element || Canvas || ImageData || Image Path in Node.js
  * @param {Object} options Options defining type of barcode to detect
  * @param {String} options.barcode Barcode name
  * @param {String=} options.type Type of Barcode

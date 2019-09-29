@@ -3,8 +3,6 @@ import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
 
-const production = !process.env.ROLLUP_WATCH
-
 export default [
   {
     external: ['jimp'],
@@ -26,7 +24,7 @@ export default [
         babelrc: true,
         runtimeHelpers: true,
       }),
-      production && terser(),
+      terser(),
     ],
   },
   {
@@ -49,7 +47,7 @@ export default [
         babelrc: true,
         runtimeHelpers: true,
       }),
-      production && terser(),
+      terser(),
     ],
     watch: {
       clearScreen: false,
@@ -75,7 +73,7 @@ export default [
         babelrc: true,
         runtimeHelpers: true,
       }),
-      production && terser(),
+      terser(),
     ],
   },
   {
@@ -85,11 +83,11 @@ export default [
       globals: {
         jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
       },
-      file: 'docs/javascript-barcode-reader.min.js',
+      file: 'examples/browser/javascript-barcode-reader.min.js',
       format: 'umd',
       name: 'javascriptBarcodeReader',
       sourcemap: true,
-      sourcemapFile: 'docs/javascript-barcode-reader.min.js.map',
+      sourcemapFile: 'examples/browser/javascript-barcode-reader.min.js.map',
     },
     plugins: [
       resolve(),
@@ -98,7 +96,7 @@ export default [
         babelrc: true,
         runtimeHelpers: true,
       }),
-      production && terser(),
+      terser(),
     ],
   },
 ]

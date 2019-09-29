@@ -4,3 +4,6 @@ test/e2e/*.js
 **.min.js
 assets/
 static/scripts/
+examples
+docs
+dist
