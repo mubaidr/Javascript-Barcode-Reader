@@ -12,33 +12,6 @@ const BARCODE_DECODERS = {
 }
 /* eslint-enable */
 
-function combineAllPossible(results) {
-  const finalResult = []
-  let maxLength = 0
-
-  results
-    .sort((a, b) => {
-      return b.length - a.length
-    })
-    .forEach(result => {
-      const length = result.length
-
-      // continue if new result is larger in size, most probable
-      if (maxLength === 0 || length === maxLength) {
-        maxLength = length
-
-        // update finalResult if char is feasible
-        result.split('').forEach((char, index) => {
-          if (!finalResult[index]) {
-            finalResult[index] = char === '?' ? '?' : char
-          }
-        })
-      }
-    })
-
-  return finalResult.join('')
-}
-
 /**
  * Scans and returns barcode from the provided image
  *
@@ -73,17 +46,15 @@ async function javascriptBarcodeReader(image, options) {
   //should be odd number to be able to find center
   const rowsToScan = Math.min(2, height)
 
-  if (options.useAdaptiveThreshold) {
-    data = UTILITIES.applyAdaptiveThreshold(data, width, height)
-  }
-
   for (let i = 0; i < sPoints.length; i += 1) {
     const sPoint = sPoints[i]
     const start = channels * width * Math.floor(slineStep * sPoint)
     const end = start + rowsToScan * channels * width
     let dataSlice = data.slice(start, end)
 
-    if (!options.useAdaptiveThreshold) {
+    if (options.useAdaptiveThreshold) {
+      dataSlice = UTILITIES.applyAdaptiveThreshold(dataSlice, width, rowsToScan)
+    } else {
       dataSlice = UTILITIES.applySimpleThreshold(dataSlice, width, rowsToScan)
     }
 
@@ -99,20 +70,18 @@ async function javascriptBarcodeReader(image, options) {
     const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
     if (result) {
-      if (result.indexOf('?') === -1) {
+      if (result.indexOf('?') === -1 || options.fast) {
         return result
       }
 
       results.push(result)
     }
-
-    if (options.fast) break
   }
 
   if (results.length === 0) {
     throw new Error('Failed to extract barcode!')
   } else {
-    return combineAllPossible(results)
+    return UTILITIES.combineAllPossible(results)
   }
 }
 

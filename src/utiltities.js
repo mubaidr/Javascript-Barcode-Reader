@@ -270,9 +270,37 @@ function getLines(data, width, height) {
   return lines
 }
 
+function combineAllPossible(results) {
+  const finalResult = []
+  let maxLength = 0
+
+  results
+    .sort((a, b) => {
+      return b.length - a.length
+    })
+    .forEach(result => {
+      const length = result.length
+
+      // continue if new result is larger in size, most probable
+      if (maxLength === 0 || length === maxLength) {
+        maxLength = length
+
+        // update finalResult if char is feasible
+        result.split('').forEach((char, index) => {
+          if (!finalResult[index] || finalResult[index] === '?') {
+            finalResult[index] = char === '?' ? '?' : char
+          }
+        })
+      }
+    })
+
+  return finalResult.join('')
+}
+
 module.exports = {
   getImageDataFromSource,
   getLines,
   applySimpleThreshold,
   applyAdaptiveThreshold,
+  combineAllPossible,
 }

@@ -2,6 +2,7 @@ const path = require('path')
 const Jimp = require('jimp')
 
 const jbr = require('../src/index')
+const UTILITIES = require('../src/utiltities')
 
 // const { Image } = require('canvas')
 // const { createCanvas, loadImage } = require('canvas')
@@ -14,7 +15,7 @@ const jbr = require('../src/index')
 //   })
 
 //   test('should detect barcode 93 from Canvas', async () => {
-//     const image = await loadImage('docs/sample-images/code-93.jpg')
+//     const image = await loadImage('examples/node/sample-images/code-93.jpg')
 //     const canvas = createCanvas(200, 200)
 //     const ctx = canvas.getContext('2d')
 
@@ -42,26 +43,54 @@ const jbr = require('../src/index')
 //   })
 // })
 
+describe('combineAllPossible', () => {
+  test('should be able to combine multiple results into one complete', () => {
+    const results = ['?123456', '012345?', '0123?56']
+
+    const result = UTILITIES.combineAllPossible(results)
+
+    expect(result).toBe('0123456')
+  })
+})
+
 describe('extract barcode from local files', () => {
   test('should detect barcode codabar', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/codabar.jpg'), {
-      barcode: 'codabar',
-    })
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/codabar.jpg'),
+      {
+        barcode: 'codabar',
+      }
+    )
+
+    expect(result).toBe('A40156C')
+  })
+
+  test('should detect barcode codabar', async () => {
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/codabar.jpg'),
+      {
+        barcode: 'codabar',
+        fast: true,
+      }
+    )
 
     expect(result).toBe('A40156C')
   })
 
   test('should detect barcode 2 of 5', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/code-2of5.jpg'), {
-      barcode: 'code-2of5',
-    })
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/code-2of5.jpg'),
+      {
+        barcode: 'code-2of5',
+      }
+    )
 
     expect(result).toBe('12345670')
   })
 
   test('should detect barcode 2 of 5 interleaved', async () => {
     const result = await jbr(
-      path.resolve('docs/sample-images/code-2of5-interleaved.jpg'),
+      path.resolve('examples/node/sample-images/code-2of5-interleaved.jpg'),
       {
         barcode: 'code-2of5',
         type: 'interleaved',
@@ -72,48 +101,63 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 39', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/code-39.jpg'), {
-      barcode: 'code-39',
-    })
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/code-39.jpg'),
+      {
+        barcode: 'code-39',
+      }
+    )
 
     expect(result).toBe('10023')
   })
 
   test('should detect barcode 93', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/code-93.jpg'), {
-      barcode: 'code-93',
-    })
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/code-93.jpg'),
+      {
+        barcode: 'code-93',
+      }
+    )
 
     expect(result).toBe('123ABC')
   })
 
   test('should detect barcode 128', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/code-128.jpg'), {
-      barcode: 'code-128',
-    })
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/code-128.jpg'),
+      {
+        barcode: 'code-128',
+      }
+    )
 
     expect(result).toBe('ABC-abc-1234')
   })
 
   test('should detect barcode EAN-8', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/ean-8.jpg'), {
-      barcode: 'ean-8',
-    })
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/ean-8.jpg'),
+      {
+        barcode: 'ean-8',
+      }
+    )
 
     expect(result).toBe('73127727')
   })
 
   test('should detect barcode EAN-13', async () => {
-    const result = await jbr(path.resolve('docs/sample-images/ean-13.jpg'), {
-      barcode: 'ean-13',
-    })
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/ean-13.jpg'),
+      {
+        barcode: 'ean-13',
+      }
+    )
 
     expect(result).toBe('901234123457')
   })
 
   test('should detect barcode 128 without padding white bars', async () => {
     const result = await jbr(
-      path.resolve('docs/sample-images/code-128-no-padding.jpg'),
+      path.resolve('examples/node/sample-images/code-128-no-padding.jpg'),
       {
         barcode: 'code-128',
       }
@@ -124,7 +168,7 @@ describe('extract barcode from local files', () => {
 
   test('should detect barcode 128 with multiple zeros', async () => {
     const result = await jbr(
-      path.resolve('docs/sample-images/code-128-000.jpg'),
+      path.resolve('examples/node/sample-images/code-128-000.jpg'),
       {
         barcode: 'code-128',
       }
@@ -135,7 +179,7 @@ describe('extract barcode from local files', () => {
 
   test('should detect barcode 128 with default start Code B', async () => {
     const result = await jbr(
-      path.resolve('docs/sample-images/L89HE1806005080432.gif'),
+      path.resolve('examples/node/sample-images/L89HE1806005080432.gif'),
       {
         barcode: 'code-128',
       }
@@ -146,7 +190,7 @@ describe('extract barcode from local files', () => {
 
   test('should detect barcode 93 without padding white bars', async () => {
     const result = await jbr(
-      path.resolve('docs/sample-images/code-93-no-padding.jpg'),
+      path.resolve('examples/node/sample-images/code-93-no-padding.jpg'),
       {
         barcode: 'code-93',
       }
@@ -156,7 +200,9 @@ describe('extract barcode from local files', () => {
   })
 
   test('should detect barcode 93 with bitmap data', async () => {
-    const image = await Jimp.read('docs/sample-images/code-93-no-padding.jpg')
+    const image = await Jimp.read(
+      'examples/node/sample-images/code-93-no-padding.jpg'
+    )
     const { data, width, height } = image.bitmap
 
     const result = await jbr(
@@ -171,6 +217,45 @@ describe('extract barcode from local files', () => {
     )
 
     expect(result).toBe('WIKIPEDIA')
+  })
+})
+
+describe('extract barcode after applying adaptive threhsold', () => {
+  test('should detect barcode codabar', async () => {
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/codabar.jpg'),
+      {
+        barcode: 'codabar',
+        useAdaptiveThreshold: true,
+      }
+    )
+
+    expect(result).toBe('A40156C')
+  })
+
+  test('should detect barcode 2 of 5', async () => {
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/code-2of5.jpg'),
+      {
+        barcode: 'code-2of5',
+        useAdaptiveThreshold: true,
+      }
+    )
+
+    expect(result).toBe('12345670')
+  })
+
+  test('should detect barcode 2 of 5 interleaved', async () => {
+    const result = await jbr(
+      path.resolve('examples/node/sample-images/code-2of5-interleaved.jpg'),
+      {
+        barcode: 'code-2of5',
+        type: 'interleaved',
+        useAdaptiveThreshold: true,
+      }
+    )
+
+    expect(result).toBe('12345670')
   })
 })
 
@@ -195,6 +280,16 @@ describe('Fails', () => {
     }
   })
 
+  test('throws when invalid barcode specified', async () => {
+    try {
+      await jbr('examples/node/sample-images/empty.jpg', {
+        barcode: 'none',
+      })
+    } catch (err) {
+      expect(err).toBeDefined()
+    }
+  })
+
   test('invalid image source', async () => {
     try {
       await jbr(
@@ -210,7 +305,7 @@ describe('Fails', () => {
 
   test('throws when no barcode found', async () => {
     try {
-      await jbr('docs/sample-images/empty.jpg', {
+      await jbr('examples/node/sample-images/empty.jpg', {
         barcode: 'code-93',
       })
     } catch (err) {
