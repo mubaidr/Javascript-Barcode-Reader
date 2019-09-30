@@ -57,8 +57,10 @@ module.exports = lines => {
     const sequenceBar = lines
       .splice(0, 10)
       .map(line => (line > barThreshold ? 'w' : 'n'))
+      .slice(0, 9)
+      .join('')
 
-    code.push(CHAR_SET[sequenceBar.slice(0, 9).join('')])
+    code.push(CHAR_SET[sequenceBar])
   }
 
   if (code.pop() !== '*' || code.shift() !== '*') return null

@@ -236,8 +236,8 @@ function getLines(data, width, height) {
       colSum += data[(row * width + col) * channels]
     }
 
-    // atleast 2/3 of the pixels are same in column
-    colAvg = colSum / height > 170 ? 255 : 0
+    // atleast 75% of the pixels are same in column
+    colAvg = colSum / height >= 192 ? 255 : 0
 
     // skip white epadding in the start
     if (count === 0 && colAvg === 255) continue

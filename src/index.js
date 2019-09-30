@@ -25,7 +25,7 @@ const BARCODE_DECODERS = {
  */
 async function javascriptBarcodeReader(image, options) {
   // store intermediary results, get final result by replacing ? from available result
-  const results = []
+  let finalResult = ''
 
   // eslint-disable-next-line
   options.barcode = options.barcode.toLowerCase()
@@ -74,15 +74,15 @@ async function javascriptBarcodeReader(image, options) {
         return result
       }
 
-      results.push(result)
+      finalResult = UTILITIES.combineAllPossible([finalResult, result])
+
+      if (finalResult.indexOf('?') === -1 || i === sPoints.length - 1) {
+        return finalResult
+      }
     }
   }
 
-  if (results.length === 0) {
-    throw new Error('Failed to extract barcode!')
-  } else {
-    return UTILITIES.combineAllPossible(results)
-  }
+  throw new Error('Failed to extract barcode!')
 }
 
 module.exports = javascriptBarcodeReader
