@@ -11,7 +11,7 @@ javascriptBarcodeReader(path.resolve('./sample-images/code-128.jpg'), {
 
 javascriptBarcodeReader(path.resolve('./sample-images/code-128.jpg'), {
   barcode: 'code-128',
-  fast: true,
+  singlePass: true,
 })
   .then(code => {
     console.log(code)
@@ -20,7 +20,7 @@ javascriptBarcodeReader(path.resolve('./sample-images/code-128.jpg'), {
 
 javascriptBarcodeReader(path.resolve('./sample-images/code-128.jpg'), {
   barcode: 'code-128',
-  fast: true,
+  singlePass: true,
   useAdaptiveThreshold: true,
 })
   .then(code => {
@@ -30,7 +30,7 @@ javascriptBarcodeReader(path.resolve('./sample-images/code-128.jpg'), {
 
 javascriptBarcodeReader(path.resolve('./sample-images/code-39.jpg'), {
   barcode: 'code-39',
-  fast: true,
+  singlePass: true,
   useAdaptiveThreshold: true,
 })
   .then(code => {

@@ -19,7 +19,7 @@ const BARCODE_DECODERS = {
  * @param {Object} options Options defining type of barcode to detect
  * @param {String} options.barcode Barcode name
  * @param {String=} options.type Type of Barcode
- * @param {Boolean=} options.fast Perform only single attemp to extract code
+ * @param {Boolean=} options.singlePass Perform only single pass to extract code
  * @param {Boolean=} options.useAdaptiveThreshold Use adaptive threshold (default: OTSU Threshold method)
  * @returns {Promise<String>} Extracted barcode string
  */
@@ -42,9 +42,9 @@ async function javascriptBarcodeReader(image, options) {
 
   // check points for barcode location
   const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
-  const slineStep = Math.floor(height / sPoints.length)
+  const slineStep = Math.round(height / sPoints.length)
   //should be odd number to be able to find center
-  const rowsToScan = Math.min(2, height)
+  const rowsToScan = Math.min(3, height)
 
   for (let i = 0; i < sPoints.length; i += 1) {
     const sPoint = sPoints[i]
@@ -61,7 +61,7 @@ async function javascriptBarcodeReader(image, options) {
     const lines = UTILITIES.getLines(dataSlice, width, rowsToScan)
 
     if (!lines || lines.length === 0) {
-      if (options.fast) throw new Error('Failed to extract barcode!')
+      if (options.singlePass) throw new Error('Failed to extract barcode!')
 
       continue
     }
@@ -70,7 +70,7 @@ async function javascriptBarcodeReader(image, options) {
     const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
     if (result) {
-      if (result.indexOf('?') === -1 || options.fast) {
+      if (result.indexOf('?') === -1 || options.singlePass) {
         return result
       }
 

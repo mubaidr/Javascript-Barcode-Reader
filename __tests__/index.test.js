@@ -70,7 +70,7 @@ describe('extract barcode from local files', () => {
       path.resolve('examples/node/sample-images/codabar.jpg'),
       {
         barcode: 'codabar',
-        fast: true,
+        singlePass: true,
       }
     )
 

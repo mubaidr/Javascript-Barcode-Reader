@@ -188,7 +188,7 @@ function applyAdaptiveThreshold(data, width, height) {
 }
 
 /**
- * Greyscale, threshold and apply median noise removal to image data
+ * Threshold image data
  * @param {number[]} data Raw pixel data
  * @param {number} width Width fo image data
  * @param {number} height Height of image data
@@ -214,7 +214,7 @@ function applySimpleThreshold(data, width, height) {
 }
 
 /**
- * Greyscale, threshold and apply median noise removal to image data
+ * Threshold image data
  * @param {number[]} data Raw pixel data
  * @param {number} width Width fo image data
  * @param {number} height Height of image data
@@ -223,49 +223,40 @@ function applySimpleThreshold(data, width, height) {
 function getLines(data, width, height) {
   const channels = data.length / (width * height)
 
-  const padding = { left: true, right: true }
-  const bmp = []
   const lines = []
-  let count = 1
+  let count = 0
+  let colSum = 0
+  let colAvg = 0
+  let colAvgLast = 0
 
   for (let col = 0; col < width; col += 1) {
-    let matches = 0
-    let value
+    colSum = 0
 
     for (let row = 0; row < height; row += 1) {
-      value = data[(row * width + col) * channels]
-
-      if (value === 255) matches += 1
+      colSum += data[(row * width + col) * channels]
     }
 
-    if (value === 0) {
-      if (col === 0) padding.left = false
-      if (col === width - 1) padding.right = false
-    }
+    // atleast 2/3 of the pixels are same in column
+    colAvg = colSum / height > 170 ? 255 : 0
 
-    bmp.push(matches > 1)
-  }
+    // skip white epadding in the start
+    if (count === 0 && colAvg === 255) continue
 
-  // matches width of barcode lines
-  let curr = bmp[0]
-
-  for (let col = 0; col < width; col += 1) {
-    if (bmp[col] === curr) {
+    // count line width
+    if (colAvg === colAvgLast) {
       count += 1
-
-      if (col === width - 1) {
-        lines.push(count)
-      }
     } else {
       lines.push(count)
+
       count = 1
-      curr = bmp[col]
+      colAvgLast = colAvg
+    }
+
+    // skip padding in the last
+    if (col === width - 1 && colAvg === 0) {
+      lines.push(count)
     }
   }
-
-  // remove empty whitespaces on side of barcode
-  if (padding.left) lines.shift()
-  if (padding.right) lines.pop()
 
   return lines
 }
