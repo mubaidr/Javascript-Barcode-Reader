@@ -1,18 +1,21 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Header msg="Welcome to Your Vue.js App" />
   </div>
 </template>
 
 <script>
+import javascriptBarcodeReader from '../../../src/index'
+
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Header from '@/components/Header.vue'
+
+console.log(javascriptBarcodeReader)
 
 export default {
   name: 'home',
   components: {
-    HelloWorld,
+    Header,
   },
 }
 </script>
