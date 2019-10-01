@@ -214,6 +214,11 @@ const TBL_A = [
   'Code B',
   'FNC 4',
   'FNC 1',
+  'Code A',
+  'Code B',
+  'Code C',
+  'Stop',
+  'Reverse Stop',
 ]
 
 const TBL_B = [
@@ -320,6 +325,11 @@ const TBL_B = [
   'FNC 4',
   'Code A',
   'FNC 1',
+  'Code A',
+  'Code B',
+  'Code C',
+  'Stop',
+  'Reverse Stop',
 ]
 
 const TBL_C = [
@@ -426,17 +436,29 @@ const TBL_C = [
   'Code B',
   'Code A',
   'FNC 1',
+  'Code A',
+  'Code B',
+  'Code C',
+  'Stop',
+  'Reverse Stop',
 ]
 
 const computeGroup = lines => {
-  // sum of a group in code-128 must be 11
-  const factor = lines.reduce((pre, item) => pre + item, 0) / 11
+  let factor =
+    lines.reduce((pre, item) => pre + item, 0) /
+    (Math.ceil(lines.length / 6) * 11)
 
-  return lines.map(item => Math.round(item / factor) || 1).join('')
+  console.log(lines.length, factor)
+
+  // factor = 3.5
+
+  return lines.map(item => {
+    return Math.round(item / factor) || 1
+  })
 }
 
 module.exports = lines => {
-  let lookupTBL
+  let lookupTBL = TBL_B
   // let sumOP
   let letterKey
   let letterCode
@@ -444,34 +466,19 @@ module.exports = lines => {
   let keyIndex
   const code = []
 
+  let computedLines = computeGroup(lines)
+
+  // console.log(computedLines)
+
   // extract terminal bar
-  lines.pop()
+  computedLines.pop()
 
-  const seq = lines.slice(0)
-
-  letterKey = computeGroup(seq.splice(0, 6))
-
-  switch (letterKey) {
-    case '211232':
-      lookupTBL = TBL_C
-      // sumOP = 105
-      break
-    case '211412':
-      lookupTBL = TBL_A
-      // sumOP = 103
-      break
-    case '211214':
-    default:
-      lookupTBL = TBL_B
-      // sumOP = 104
-      break
-  }
-
-  for (let i = 1; seq.length > 12; i += 1) {
-    letterKey = computeGroup(seq.splice(0, 6))
+  // skip check code and stop code using -12
+  for (let i = 0; i * 6 < computedLines.length - 12; i += 1) {
+    letterKey = computedLines.slice(i * 6, (i + 1) * 6).join('')
     keyIndex = WIDTH_TBL.indexOf(letterKey)
-    // sumOP += i * keyIndex
     letterCode = lookupTBL[keyIndex]
+    // sumOP += i * keyIndex
 
     switch (letterCode) {
       case 'Code A':
@@ -495,13 +502,15 @@ module.exports = lines => {
 
           letterCodePrev = letterCode
         } else {
+          // console.log(i, letterKey, keyIndex, letterCode)
+
           code.push('?')
         }
         break
     }
   }
 
-  // letterKey = computeGroup(seq.splice(0, 6))
+  // letterKey = computedLines.slice(0, 6)
   // if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return null
 
   return code.join('')

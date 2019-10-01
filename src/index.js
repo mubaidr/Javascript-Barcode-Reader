@@ -40,6 +40,10 @@ async function javascriptBarcodeReader(image, options) {
   let { data, width, height } = await UTILITIES.getImageDataFromSource(image)
   const channels = data.length / (width * height)
 
+  if (options.useAdaptiveThreshold) {
+    data = UTILITIES.applyAdaptiveThreshold(data, width, height)
+  }
+
   // check points for barcode location
   const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
   const slineStep = Math.round(height / sPoints.length)
@@ -52,9 +56,7 @@ async function javascriptBarcodeReader(image, options) {
     const end = start + rowsToScan * channels * width
     let dataSlice = data.slice(start, end)
 
-    if (options.useAdaptiveThreshold) {
-      dataSlice = UTILITIES.applyAdaptiveThreshold(dataSlice, width, rowsToScan)
-    } else {
+    if (!options.useAdaptiveThreshold) {
       dataSlice = UTILITIES.applySimpleThreshold(dataSlice, width, rowsToScan)
     }
 
@@ -69,17 +71,19 @@ async function javascriptBarcodeReader(image, options) {
     // Run the decoder
     const result = BARCODE_DECODERS[options.barcode](lines, options.type)
 
-    if (result) {
-      if (result.indexOf('?') === -1 || options.singlePass) {
-        return result
-      }
+    if (!result) continue
+    if (result.indexOf('?') === -1) return result
+    if (options.singlePass) return result
 
-      finalResult = UTILITIES.combineAllPossible([finalResult, result])
+    if (finalResult === '') {
+      finalResult = result
+    } else {
+      finalResult = UTILITIES.combineAllPossible(finalResult, result)
 
-      if (finalResult.indexOf('?') === -1 || i === sPoints.length - 1) {
-        return finalResult
-      }
+      if (finalResult.indexOf('?') === -1) return finalResult
     }
+
+    if (i === sPoints.length - 1) return finalResult
   }
 
   throw new Error('Failed to extract barcode!')

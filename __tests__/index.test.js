@@ -45,9 +45,9 @@ const UTILITIES = require('../src/utiltities')
 
 describe('combineAllPossible', () => {
   test('should be able to combine multiple results into one complete', () => {
-    const results = ['?123456', '012345?', '0123?56']
+    const results = ['?123456', '012345?']
 
-    const result = UTILITIES.combineAllPossible(results)
+    const result = UTILITIES.combineAllPossible(...results)
 
     expect(result).toBe('0123456')
   })

@@ -203,7 +203,7 @@ function applySimpleThreshold(data, width, height) {
     let b = data[i + 2]
     let v = (r + g + b) / 3
 
-    v = v > 127 ? 255 : 0
+    v = v >= 127 ? 255 : 0
 
     data[i] = v
     data[i + 1] = v
@@ -237,7 +237,7 @@ function getLines(data, width, height) {
     }
 
     // atleast 75% of the pixels are same in column
-    colAvg = colSum / height >= 192 ? 255 : 0
+    colAvg = colSum / height > 190 ? 255 : 0
 
     // skip white epadding in the start
     if (count === 0 && colAvg === 255) continue
@@ -261,31 +261,19 @@ function getLines(data, width, height) {
   return lines
 }
 
-function combineAllPossible(results) {
-  const finalResult = []
-  let maxLength = 0
+function combineAllPossible(finalResult, result) {
+  let finalResultArr = finalResult.split('')
+  let resultArr = result.split('')
 
-  results
-    .sort((a, b) => {
-      return b.length - a.length
-    })
-    .forEach(result => {
-      const length = result.length
-
-      // continue if new result is larger in size, most probable
-      if (maxLength === 0 || length === maxLength) {
-        maxLength = length
-
-        // update finalResult if char is feasible
-        result.split('').forEach((char, index) => {
-          if (!finalResult[index] || finalResult[index] === '?') {
-            finalResult[index] = char === '?' ? '?' : char
-          }
-        })
+  resultArr.forEach((char, index) => {
+    if (!finalResultArr[index] || finalResultArr[index] === '?') {
+      if (char && char !== '?') {
+        finalResultArr[index] = char
       }
-    })
+    }
+  })
 
-  return finalResult.join('')
+  return finalResultArr.join('')
 }
 
 module.exports = {
