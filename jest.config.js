@@ -4,7 +4,7 @@ module.exports = {
   collectCoverageFrom: ['./src/**/*.js'],
   coveragePathIgnorePatterns: ['./src-docs/'],
   coverageDirectory: './coverage/',
-  coverageReporters: ['json'],
+  // coverageReporters: ['json'],
   // setupFiles: ['jest-canvas-mock'],
   testEnvironment: 'jsdom',
   testEnvironmentOptions: { resources: 'usable' },

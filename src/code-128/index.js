@@ -448,13 +448,11 @@ const computeGroup = lines => {
     lines.reduce((pre, item) => pre + item, 0) /
     (Math.ceil(lines.length / 6) * 11)
 
-  console.log(lines.length, factor)
+  // console.log(lines.length, factor)
 
   // factor = 3.5
 
-  return lines.map(item => {
-    return Math.round(item / factor) || 1
-  })
+  return lines.map(item => Math.round(item / factor) || 1)
 }
 
 module.exports = lines => {
