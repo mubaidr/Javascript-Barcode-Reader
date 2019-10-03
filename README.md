@@ -26,7 +26,7 @@ http://mubaidr.js.org/Javascript-Barcode-Reader/
 <li><input type="checkbox" disabled checked> Code-93</li>
 <li><input type="checkbox" disabled checked> Code-2of5
   <ul>
-    <li><input type="checkbox" disabled checked> Industrial</li>
+    <li><input type="checkbox" disabled checked> standard</li>
     <li><input type="checkbox" disabled checked> Interleaved</li>
   </ul>
 </li>

@@ -16,7 +16,7 @@
               name="resume"
             />
             <span class="file-cta">
-              <i class="material-icons">file</i>
+              <i class="material-icons">attach_file</i>
               <span class="file-label"> Choose Image</span>
             </span>
             <span class="file-name">{{ image }}</span>
@@ -50,7 +50,7 @@
 
       <!-- <br /> -->
       <button @click="decode" class="button is-primary">
-        <i class="material-icons">flash</i>
+        <i class="material-icons">search</i>
         <span> Decode</span>
       </button>
     </div>
@@ -87,7 +87,7 @@ export default {
         },
         {
           barcode: 'Code-2of5',
-          type: 'Industrial',
+          type: 'Standard',
         },
         {
           barcode: 'Code-2of5',

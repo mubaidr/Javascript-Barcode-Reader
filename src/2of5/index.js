@@ -11,8 +11,10 @@ const CHAR_SET = [
   'nwnwn',
 ]
 
-module.exports = (lines, type = 'standard') => {
+module.exports = (lines, type) => {
   const code = []
+
+  if (!type || type === '') type = 'standard'
 
   const barThreshold = Math.ceil(
     lines.reduce((pre, item) => (pre + item) / 2, 0)

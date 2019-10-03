@@ -26,12 +26,12 @@ const BARCODE_DECODERS = {
 async function javascriptBarcodeReader(image, options) {
   // store intermediary results, get final result by replacing ? from available result
   let finalResult = ''
+  let barcode = options.barcode.toLowerCase()
+  let type = (options.type || '').toLowerCase()
 
-  // eslint-disable-next-line
-  options.barcode = options.barcode.toLowerCase()
   const list = Object.keys(BARCODE_DECODERS)
 
-  if (list.indexOf(options.barcode) === -1) {
+  if (list.indexOf(barcode) === -1) {
     throw new Error(
       `Invalid barcode specified. Available decoders: ${list}. https://github.com/mubaidr/Javascript-Barcode-Reader#available-decoders`
     )
@@ -70,7 +70,7 @@ async function javascriptBarcodeReader(image, options) {
     }
 
     // Run the decoder
-    const result = BARCODE_DECODERS[options.barcode](lines, options.type)
+    const result = BARCODE_DECODERS[barcode](lines, type)
 
     if (!result) continue
     if (result.indexOf('?') === -1) return result

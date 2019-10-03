@@ -77,7 +77,7 @@ describe('extract barcode from local files', () => {
     expect(result).toBe('A40156C')
   })
 
-  test('should detect barcode 2 of 5', async () => {
+  test('should detect barcode 2 of 5 standard', async () => {
     const result = await jbr(
       path.resolve('examples/node/sample-images/code-2of5.jpg'),
       {
