@@ -448,11 +448,8 @@ const computeGroup = lines => {
     lines.reduce((pre, item) => pre + item, 0) /
     (Math.ceil(lines.length / 6) * 11)
 
-  // console.log(lines.length, factor)
-  // factor = 3.5
-
   // minimum line width is 1 pixel, obvioulsy :/
-  if (factor < 1) return false
+  if (factor < 1) factor = 1
 
   return lines.map(item => Math.round(item / factor) || 1)
 }
@@ -472,8 +469,6 @@ module.exports = lines => {
 
   // extract terminal bar
   computedLines.pop()
-
-  // console.log(computedLines)
 
   // skip check code and stop code using -12
   for (let i = 0; i * 6 < computedLines.length - 12; i += 1) {
@@ -504,7 +499,7 @@ module.exports = lines => {
 
           letterCodePrev = letterCode
         } else {
-          // console.log(i, letterKey, keyIndex, letterCode)
+          // console.info(i, letterKey, keyIndex, letterCode)
 
           code.push('?')
         }

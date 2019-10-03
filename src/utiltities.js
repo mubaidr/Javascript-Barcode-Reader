@@ -222,15 +222,11 @@ function applyAdaptiveThreshold(data, width, height) {
 
 //       let v = arr.sort((a, b) => a - b)[5]
 
-//       // console.log(v)
-
 //       data[i] = v > 127 ? 255 : 0
 //       data[i + 1] = v > 127 ? 255 : 0
 //       data[i + 2] = v > 127 ? 255 : 0
 //     }
 //   }
-
-//   console.log(data)
 
 //   return data
 // }

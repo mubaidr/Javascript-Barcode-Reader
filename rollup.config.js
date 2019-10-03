@@ -99,27 +99,27 @@ export default [
       terser(),
     ],
   },
-  {
-    external: ['jimp'],
-    input: 'src/index.js',
-    output: {
-      globals: {
-        jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
-      },
-      file: 'docs/javascript-barcode-reader.min.js',
-      format: 'umd',
-      name: 'javascriptBarcodeReader',
-      sourcemap: true,
-      sourcemapFile: 'docs/javascript-barcode-reader.min.js.map',
-    },
-    plugins: [
-      resolve(),
-      commonjs(),
-      babel({
-        babelrc: true,
-        runtimeHelpers: true,
-      }),
-      terser(),
-    ],
-  },
+  // {
+  //   external: ['jimp'],
+  //   input: 'src/index.js',
+  //   output: {
+  //     globals: {
+  //       jimp: 'window.jimp', // fake jimp to document to avoid jimp load error
+  //     },
+  //     file: 'docs/javascript-barcode-reader.min.js',
+  //     format: 'umd',
+  //     name: 'javascriptBarcodeReader',
+  //     sourcemap: true,
+  //     sourcemapFile: 'docs/javascript-barcode-reader.min.js.map',
+  //   },
+  //   plugins: [
+  //     resolve(),
+  //     commonjs(),
+  //     babel({
+  //       babelrc: true,
+  //       runtimeHelpers: true,
+  //     }),
+  //     terser(),
+  //   ],
+  // },
 ]
