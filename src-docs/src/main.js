@@ -1,9 +1,9 @@
+import 'bulma-fluent'
 import Vue from 'vue'
 import App from './App.vue'
+import './assets/animations.sass'
 import router from './router'
 import store from './store'
-
-import 'bulma-fluent'
 
 Vue.config.productionTip = false
 

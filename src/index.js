@@ -40,6 +40,7 @@ async function javascriptBarcodeReader(image, options) {
   let { data, width, height } = await UTILITIES.getImageDataFromSource(image)
   const channels = data.length / (width * height)
 
+  // apply adaptive threshold
   if (options.useAdaptiveThreshold) {
     data = UTILITIES.applyAdaptiveThreshold(data, width, height)
   }

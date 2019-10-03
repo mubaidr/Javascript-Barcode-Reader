@@ -449,8 +449,10 @@ const computeGroup = lines => {
     (Math.ceil(lines.length / 6) * 11)
 
   // console.log(lines.length, factor)
-
   // factor = 3.5
+
+  // minimum line width is 1 pixel, obvioulsy :/
+  if (factor < 1) return false
 
   return lines.map(item => Math.round(item / factor) || 1)
 }
@@ -466,10 +468,12 @@ module.exports = lines => {
 
   let computedLines = computeGroup(lines)
 
-  // console.log(computedLines)
+  if (!computedLines) return false
 
   // extract terminal bar
   computedLines.pop()
+
+  // console.log(computedLines)
 
   // skip check code and stop code using -12
   for (let i = 0; i * 6 < computedLines.length - 12; i += 1) {

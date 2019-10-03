@@ -7,7 +7,7 @@
   "dependencies": {
     "jimp": "^0.8.4"
   },
-  "description": "Barcode reader solution in Javascript for Browser and Node.js",
+  "description": "Simple & Fast Barcode decoder for Browser and Node.js",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -52,5 +52,5 @@
     "test": "jest",
     "test:watch": "jest --watch"
   },
-  "version": "0.5.3"
+  "version": "0.5.4"
 }

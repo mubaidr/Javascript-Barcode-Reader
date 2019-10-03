@@ -1,4 +1,4 @@
 module.exports = {
-  outputDir: 'docs',
-  productionSourceMap: false
+  outputDir: '../docs',
+  productionSourceMap: false,
 }
