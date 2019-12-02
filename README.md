@@ -13,9 +13,9 @@ Simple & Fast Barcode decoder for Browsers and Node.js capapable of reading Code
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="45">
 </a>
 
-## Demo
+## Try now
 
-http://mubaidr.js.org/Javascript-Barcode-Reader/
+https://wonderful-lumiere-8d83b9.netlify.com/
 
 ## Available decoders
 
