@@ -15,7 +15,7 @@ Simple & Fast Barcode decoder for Browsers and Node.js capapable of reading Code
 
 ## Try now
 
-https://wonderful-lumiere-8d83b9.netlify.com/
+https://javascript-barcode-reader.netlify.com/
 
 ## Available decoders
 
