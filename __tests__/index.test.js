@@ -2,52 +2,13 @@ const path = require('path')
 const Jimp = require('jimp')
 
 const jbr = require('../src/index')
-const UTILITIES = require('../src/utiltities')
-
-// const { Image } = require('canvas')
-// const { createCanvas, loadImage } = require('canvas')
-
-// jest.unmock('canvas')
-
-// describe('extract barcode from DOM elements', () => {
-//   beforeAll(() => {
-//     jest.setTimeout(15000)
-//   })
-
-//   test('should detect barcode 93 from Canvas', async () => {
-//     const image = await loadImage('examples/node/sample-images/code-93.jpg')
-//     const canvas = createCanvas(200, 200)
-//     const ctx = canvas.getContext('2d')
-
-//     canvas.width = image.naturalHeight
-//     canvas.height = image.naturalHeight
-//     ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
-
-//     document.body.innerHTML += `<img id="testImage" style="display: block;" src="${canvas.toDataURL()}" />`
-
-//     setTimeout(() => {
-//       const img = document.getElementById('testImage')
-
-//       console.log(img.complete, img.naturalWidth, canvas)
-
-//       // const result = await jbr(img, {
-//       //   barcode: 'code-93',
-//       // })
-
-//       //   expect(result).toBe('WIKIPEDIA')
-//     }, 2500)
-//   })
-
-//   afterAll(() => {
-//     jest.setTimeout(5000)
-//   })
-// })
+const { combineAllPossible } = require('../src/utilities/combineAllPossible')
 
 describe('combineAllPossible', () => {
-  test('should be able to combine multiple results into one complete', () => {
+  test('should be able to combine multiple results into one complete', async () => {
     const results = ['?123456', '012345?']
 
-    const result = UTILITIES.combineAllPossible(...results)
+    const result = await combineAllPossible(...results)
 
     expect(result).toBe('0123456')
   })

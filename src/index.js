@@ -1,4 +1,8 @@
-const UTILITIES = require('./utiltities')
+import { combineAllPossible } from './utilities/combineAllPossible'
+import { getImageDataFromSource } from './utilities/getImageDataFromSource'
+import { getLines } from './utilities/getLines'
+import { applyAdaptiveThreshold } from './utilities/threshold/adaptiveThreshold'
+import { applySimpleThreshold } from './utilities/threshold/applySimpleThreshold'
 
 /* eslint-disable */
 const BARCODE_DECODERS = {
@@ -37,12 +41,12 @@ async function javascriptBarcodeReader(image, options) {
     )
   }
 
-  let { data, width, height } = await UTILITIES.getImageDataFromSource(image)
+  let { data, width, height } = await getImageDataFromSource(image)
   const channels = data.length / (width * height)
 
   // apply adaptive threshold
   if (options.useAdaptiveThreshold) {
-    data = UTILITIES.applyAdaptiveThreshold(data, width, height)
+    data = await applyAdaptiveThreshold(data, width, height)
   }
 
   // check points for barcode location
@@ -58,10 +62,10 @@ async function javascriptBarcodeReader(image, options) {
     let dataSlice = data.slice(start, end)
 
     if (!options.useAdaptiveThreshold) {
-      dataSlice = UTILITIES.applySimpleThreshold(dataSlice, width, rowsToScan)
+      dataSlice = await applySimpleThreshold(dataSlice, width, rowsToScan)
     }
 
-    const lines = UTILITIES.getLines(dataSlice, width, rowsToScan)
+    const lines = await getLines(dataSlice, width, rowsToScan)
 
     if (!lines || lines.length === 0) {
       if (options.singlePass) throw new Error('Failed to extract barcode!')
@@ -79,7 +83,7 @@ async function javascriptBarcodeReader(image, options) {
     if (finalResult === '') {
       finalResult = result
     } else {
-      finalResult = UTILITIES.combineAllPossible(finalResult, result)
+      finalResult = await combineAllPossible(finalResult, result)
 
       if (finalResult.indexOf('?') === -1) return finalResult
     }
