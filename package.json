@@ -118,7 +118,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git://github.com/mubaidr/Javascript-Barcode-Reader.git"
   },
   "scripts": {
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",

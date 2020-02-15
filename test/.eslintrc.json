@@ -1,8 +1,7 @@
 {
-  "root": true,
   "env": {
-    "node": true,
-    "browser": true
+    "jest": true,
+    "node": true
   },
   "extends": [
     "eslint:recommended",
@@ -23,13 +22,10 @@
     "@typescript-eslint",
     "prettier"
   ],
+  "root": true,
   "rules": {
+    "@typescript-eslint/no-explicit-any": 0,
     "no-console": 0,
-    "semi": 0,
-    "template-curly-spacing": [
-      2,
-      "always"
-    ],
-    "@typescript-eslint/no-explicit-any": 0
+    "semi": 0
   }
 }
