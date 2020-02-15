@@ -17,7 +17,7 @@ const BARCODE_DECODERS: {
 }
 
 export async function javascriptBarcodeReader(
-  image: any,
+  image: string | HTMLImageElement | HTMLCanvasElement | ImageData,
   options: { barcode: string; type?: any; useAdaptiveThreshold?: any; singlePass?: any }
 ): Promise<string> {
   // store intermediary results, get final result by replacing ? from available result

@@ -1,8 +1,4 @@
-export function getLines(
-  data: Uint8ClampedArray,
-  width: number,
-  height: number
-): Uint8ClampedArray {
+export function getLines(data: Uint8ClampedArray, width: number, height: number): number[] {
   const channels = data.length / (width * height)
   const lines = []
   let count = 0

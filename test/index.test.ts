@@ -163,7 +163,7 @@ describe('extract barcode from local files', () => {
 
     const result = await javascriptBarcodeReader(
       {
-        data: data.toJSON().data,
+        data: Uint8ClampedArray.from(data),
         width,
         height
       },
@@ -231,7 +231,7 @@ describe('Fails', () => {
   test('throws when no barcode specified', async () => {
     try {
       await javascriptBarcodeReader(
-        {},
+        'https://upload.wikimedia.org/wikipedia/en/a/a9/Code_93_wikipedia.png',
         {
           barcode: 'oallal'
         }
@@ -246,19 +246,6 @@ describe('Fails', () => {
       await javascriptBarcodeReader('examples/node/sample-images/empty.jpg', {
         barcode: 'none'
       })
-    } catch (err) {
-      expect(err).toBeDefined()
-    }
-  })
-
-  test('invalid image source', async () => {
-    try {
-      await javascriptBarcodeReader(
-        {},
-        {
-          barcode: 'code-93'
-        }
-      )
     } catch (err) {
       expect(err).toBeDefined()
     }
