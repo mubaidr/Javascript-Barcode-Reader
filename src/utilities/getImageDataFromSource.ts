@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import Jimp from 'jimp'
 import { createImageData } from './createImageData'
 import { isUrl } from './isUrl'
@@ -6,8 +5,8 @@ import { isUrl } from './isUrl'
 const isNode = typeof process === 'object' && process.release && process.release.name === 'node'
 
 export async function getImageDataFromSource(
-  source: string | HTMLImageElement | HTMLCanvasElement | ImageData
-): Promise<{ data: Uint8ClampedArray; width: number; height: number }> {
+  source: string | HTMLImageElement | HTMLCanvasElement
+): Promise<ImageData> {
   return new Promise((resolve, reject) => {
     if (typeof source === 'string') {
       if (isUrl(source)) {
@@ -44,8 +43,6 @@ export async function getImageDataFromSource(
       const ctx = source.getContext('2d')
       if (!ctx) throw new Error('Cannot create canvas 2d context')
       resolve(ctx.getImageData(0, 0, source.width, source.height))
-    } else if (source instanceof ImageData) {
-      resolve(source)
     } else {
       reject(new Error('Invalid image source specified!'))
     }

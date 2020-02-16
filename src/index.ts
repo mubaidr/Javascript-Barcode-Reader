@@ -1,54 +1,84 @@
+import * as codabar from './codabar'
 import { combineAllPossible } from './utilities/combineAllPossible'
 import { getImageDataFromSource } from './utilities/getImageDataFromSource'
 import { getLines } from './utilities/getLines'
 import { applyAdaptiveThreshold } from './utilities/threshold/adaptiveThreshold'
 import { applySimpleThreshold } from './utilities/threshold/applySimpleThreshold'
 
-const BARCODE_DECODERS: {
-  [key: string]: Function
-} = {
-  'code-128': require('./code-128'),
-  'code-2of5': require('./2of5'),
-  'code-39': require('./code-39'),
-  'code-93': require('./code-93'),
-  'ean-13': require('./ean-13'),
-  'ean-8': require('./ean-8'),
-  codabar: require('./codabar')
+export enum BARCODE_DECODERS {
+  'code-128' = 'code-128',
+  'code-2of5' = 'code-2of5',
+  'code-39' = 'code-39',
+  'code-93' = 'code-93',
+  'ean-13' = 'ean-13',
+  'ean-8' = 'ean-8',
+  'codabar' = 'codabar'
 }
 
-export async function javascriptBarcodeReader(
-  image: string | HTMLImageElement | HTMLCanvasElement | ImageData,
-  options: { barcode: string; type?: any; useAdaptiveThreshold?: any; singlePass?: any }
-): Promise<string> {
-  // store intermediary results, get final result by replacing ? from available result
-  let finalResult = ''
-  const barcode = options.barcode.toLowerCase()
-  const type = (options.type || '').toLowerCase()
+type JavascriptBarcodeReader = {
+  image: string | HTMLImageElement | HTMLCanvasElement | ImageData
+  barcode: string | BARCODE_DECODERS
+  options?: {
+    type?: string
+    useAdaptiveThreshold?: boolean
+    singlePass?: boolean
+  }
+}
 
-  const list = Object.keys(BARCODE_DECODERS)
+interface DecoderFunction {
+  (lines: number[], type?: string): string
+}
 
-  if (!list.includes(barcode)) {
-    throw new Error(
-      `Invalid barcode specified. Available decoders: ${list}. https://github.com/mubaidr/Javascript-Barcode-Reader#available-decoders`
-    )
+export async function javascriptBarcodeReader({
+  image,
+  barcode,
+  options
+}: JavascriptBarcodeReader): Promise<string> {
+  let decoder: DecoderFunction
+
+  switch (barcode) {
+    case BARCODE_DECODERS.codabar:
+      decoder = codabar.decoder
+      break
+    case BARCODE_DECODERS['code-128']:
+      decoder = codabar.decoder
+      break
+    case BARCODE_DECODERS['code-2of5']:
+      decoder = codabar.decoder
+      break
+    case BARCODE_DECODERS['code-39']:
+      decoder = codabar.decoder
+      break
+    case BARCODE_DECODERS['code-93']:
+      decoder = codabar.decoder
+      break
+    case BARCODE_DECODERS['ean-13']:
+      decoder = codabar.decoder
+      break
+    case BARCODE_DECODERS['ean-8']:
+      decoder = codabar.decoder
+      break
+    default:
+      throw new Error(`Invalid barcode specified. Available decoders: ${BARCODE_DECODERS}.`)
+      break
   }
 
-  const imageData = await getImageDataFromSource(image)
-  let data = imageData.data
+  const useSinglePass = (options && options.singlePass) || false
+  const imageData = image instanceof ImageData ? image : await getImageDataFromSource(image)
   const width = imageData.width
   const height = imageData.height
-
+  let data = imageData.data
   const channels = data.length / (width * height)
+  let finalResult = ''
 
   // apply adaptive threshold
-  if (options.useAdaptiveThreshold) {
+  if (options && options.useAdaptiveThreshold) {
     data = applyAdaptiveThreshold(data, width, height)
   }
 
   // check points for barcode location
   const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
   const slineStep = Math.round(height / sPoints.length)
-  //should be odd number to be able to find center
   const rowsToScan = Math.min(3, height)
 
   for (let i = 0; i < sPoints.length; i += 1) {
@@ -57,33 +87,27 @@ export async function javascriptBarcodeReader(
     const end = start + rowsToScan * channels * width
     let dataSlice = data.slice(start, end)
 
-    if (!options.useAdaptiveThreshold) {
-      dataSlice = applySimpleThreshold(dataSlice, width, rowsToScan)
+    if (!options || !options.useAdaptiveThreshold) {
+      dataSlice = applySimpleThreshold(dataSlice, width, height)
     }
 
     const lines = getLines(dataSlice, width, rowsToScan)
 
-    if (!lines || lines.length === 0) {
-      if (options.singlePass) throw new Error('Failed to extract barcode!')
-
+    if (lines.length === 0) {
+      if (useSinglePass) throw new Error('Failed to extract barcode!')
       continue
     }
 
     // Run the decoder
-    const result = BARCODE_DECODERS[barcode](lines, type)
+    const result = decoder(lines, options && options.type)
 
     if (!result) continue
-    if (result.indexOf('?') === -1) return result
-    if (options.singlePass) return result
+    if (useSinglePass) return result
+    if (!result.includes('?')) return result
 
-    if (finalResult === '') {
-      finalResult = result
-    } else {
-      finalResult = combineAllPossible(finalResult, result)
+    finalResult = combineAllPossible(finalResult, result)
 
-      if (!finalResult.includes('?')) return finalResult
-    }
-
+    if (!finalResult.includes('?')) return finalResult
     if (i === sPoints.length - 1) return finalResult
   }
 

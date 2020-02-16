@@ -47,6 +47,7 @@
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "jest-config": "^25.1.0",
+    "jest-environment-jsdom": "^25.1.0",
     "lint-staged": "^10.0.7",
     "lodash.camelcase": "^4.3.0",
     "prettier": "^1.19.1",
@@ -93,7 +94,10 @@
       "tsx",
       "js"
     ],
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "resources": "usable"
+    },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transform": {
       ".(ts|tsx)": "ts-jest"
@@ -140,7 +144,7 @@
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "test:watch": "jest --coverage --watch"
+    "test:watch": "jest --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
   "version": "0.0.1"

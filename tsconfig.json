@@ -5,6 +5,8 @@
     "declarationDir": "dist/types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
     "lib": [
       "es2015",
       "es2016",
@@ -14,6 +16,7 @@
     "module": "es2015",
     "moduleResolution": "node",
     "outDir": "dist/lib",
+    "pretty": true,
     "sourceMap": true,
     "strict": true,
     "target": "es5",

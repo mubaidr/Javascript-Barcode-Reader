@@ -1,4 +1,8 @@
 export function combineAllPossible(finalResult: string, result: string): string {
+  if (finalResult === '' || result === '') {
+    return result
+  }
+
   const finalResultArr = finalResult.split('')
   const resultArr = result.split('')
 
