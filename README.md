@@ -53,9 +53,7 @@ or download manually:
 
 ```js
 const javascriptBarcodeReader = require('javascript-barcode-reader')
-```
 
-```js
 javascriptBarcodeReader({
   /* Image file Path || {data: Uint8ClampedArray, width, height} || HTML5 Canvas ImageData */
   image: source,
@@ -97,13 +95,10 @@ javascriptBarcodeReader({
   })
 ```
 
-## Tips
+## Note
 
-Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail.
-
-## Known Issues
-
-This script does not implement logic to locate/rotate barcode in the given image.
+- This script does not implement logic to locate/rotate barcode in the given image.
+- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail.
 
 ## Contributing
 
