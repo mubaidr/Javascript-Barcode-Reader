@@ -66,6 +66,18 @@ export function decoder(lines: number[]): string {
     }, 0)
   )
 
+  function getLetterIndex(letter: string): number {
+    const keys = Object.keys(CHAR_SET)
+
+    for (let i = 0; i < keys.length; i += 1) {
+      if (CHAR_SET[keys[i]] === letter) {
+        return i
+      }
+    }
+
+    return 0
+  }
+
   // leave the padded *
   for (let i = 0; i < lines.length; i += 1) {
     let segment = lines[i]
@@ -85,35 +97,30 @@ export function decoder(lines: number[]): string {
     code.push(CHAR_SET[searcKey])
   }
 
-  console.log(code)
-
-  // if (code.shift() !== '*' || code.pop() !== '*') return null
-  // const K = code.pop()
+  if (code.shift() !== '*' || code.pop() !== '*') return ''
 
   let sum: number
-  let letter: string
-  let value
+  let value: number
 
+  const K = code.pop()
   sum = 0
+
   for (let i = code.length - 1; i >= 0; i -= 1) {
-    letter = code[i]
-    // value = CHAR_SET.indexOf(CHAR_SET.filter(findValue)[0])
-    value = 0
+    value = getLetterIndex(code[i])
     sum += value * (1 + ((code.length - (i + 1)) % 20))
   }
 
-  // if (Object.values(CHAR_SET[sum % 47])[0] !== K) return null
-  // const C = code.pop()
+  if (CHAR_SET[sum % 47] !== K) return ''
 
+  const C = code.pop()
   sum = 0
+
   for (let i = code.length - 1; i >= 0; i -= 1) {
-    letter = code[i]
-    // value = CHAR_SET.indexOf(CHAR_SET.filter(findValue)[0])
-    value = 0
+    value = getLetterIndex(code[i])
     sum += value * (1 + ((code.length - (i + 1)) % 20))
   }
 
-  // if (Object.values(CHAR_SET[sum % 47])[0] !== C) return null
+  if (CHAR_SET[sum % 47] !== C) return ''
 
   return code.join('')
 }

@@ -454,7 +454,7 @@ const computeGroup = (lines: number[]): number[] => {
 
 export function decoder(lines: number[]): string {
   let lookupTBL = TBL_B
-  // let sumOP
+  // let sumOP = 0
   let letterKey
   let letterCode
   let letterCodePrev
@@ -463,7 +463,7 @@ export function decoder(lines: number[]): string {
 
   const computedLines = computeGroup(lines)
 
-  // if (!computedLines) return false
+  if (!computedLines) return ''
 
   // extract terminal bar
   computedLines.pop()
@@ -505,8 +505,8 @@ export function decoder(lines: number[]): string {
     }
   }
 
-  // letterKey = computedLines.slice(0, 6)
-  // if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return null
+  // letterKey = computedLines.slice(0, 6).join('')
+  // if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return ''
 
   return code.join('')
 }

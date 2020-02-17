@@ -1,4 +1,6 @@
-export function createImageData(image: HTMLImageElement): ImageData {
+import { ImageDataLike } from '..'
+
+export function createImageData(image: HTMLImageElement): ImageDataLike {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
 

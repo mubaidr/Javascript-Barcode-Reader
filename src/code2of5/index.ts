@@ -18,17 +18,17 @@ export function decoder(lines: number[], type?: string): string {
 
   if (type === 'interleaved') {
     // extract start/ends pair
-    // const startChar = lines
-    //   .splice(0, 4)
-    //   .map((line: number) => (line > barThreshold ? 'w' : 'n'))
-    //   .join('')
+    const startChar = lines
+      .splice(0, 4)
+      .map((line: number) => (line > barThreshold ? 'w' : 'n'))
+      .join('')
 
-    // const endChar = lines
-    //   .splice(lines.length - 3, 3)
-    //   .map((line: number) => (line > barThreshold ? 'w' : 'n'))
-    //   .join('')
+    const endChar = lines
+      .splice(lines.length - 3, 3)
+      .map((line: number) => (line > barThreshold ? 'w' : 'n'))
+      .join('')
 
-    // if (startChar !== 'nnnn' || endChar !== 'wnn') return null
+    if (startChar !== 'nnnn' || endChar !== 'wnn') return ''
 
     // Read one encoded character at a time.
     while (lines.length > 0) {
@@ -50,20 +50,19 @@ export function decoder(lines: number[], type?: string): string {
     }
   } else {
     // extract start/ends pair
+    const startChar = lines
+      .splice(0, 6)
+      .filter((item: any, index: number) => index % 2 === 0)
+      .map((line: number) => (line > barThreshold ? 'w' : 'n'))
+      .join('')
 
-    // const startChar = lines
-    //   .splice(0, 6)
-    //   .filter((item: any, index: number) => index % 2 === 0)
-    //   .map((line: number) => (line > barThreshold ? 'w' : 'n'))
-    //   .join('')
+    const endChar = lines
+      .splice(lines.length - 5, 5)
+      .filter((item: any, index: number) => index % 2 === 0)
+      .map((line: number) => (line > barThreshold ? 'w' : 'n'))
+      .join('')
 
-    // const endChar = lines
-    //   .splice(lines.length - 5, 5)
-    //   .filter((item: any, index: number) => index % 2 === 0)
-    //   .map((line: number) => (line > barThreshold ? 'w' : 'n'))
-    //   .join('')
-
-    // if (startChar !== 'wwn' || endChar !== 'wnw') return null
+    if (startChar !== 'wwn' || endChar !== 'wnw') return ''
 
     // Read one encoded character at a time.
     while (lines.length > 0) {

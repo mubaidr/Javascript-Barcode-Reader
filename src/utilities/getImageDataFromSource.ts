@@ -1,4 +1,5 @@
-import Jimp from 'jimp'
+import * as Jimp from 'jimp'
+import { ImageDataLike } from '..'
 import { createImageData } from './createImageData'
 import { isUrl } from './isUrl'
 
@@ -6,7 +7,7 @@ const isNode = typeof process === 'object' && process.release && process.release
 
 export async function getImageDataFromSource(
   source: string | HTMLImageElement | HTMLCanvasElement
-): Promise<ImageData> {
+): Promise<ImageDataLike> {
   return new Promise((resolve, reject) => {
     if (typeof source === 'string') {
       if (isUrl(source)) {
@@ -33,6 +34,12 @@ export async function getImageDataFromSource(
 
         if (imageElement instanceof HTMLImageElement) {
           resolve(createImageData(imageElement))
+        }
+
+        if (imageElement instanceof HTMLCanvasElement) {
+          const ctx = imageElement.getContext('2d')
+          if (!ctx) throw new Error('Cannot create canvas 2d context')
+          resolve(ctx.getImageData(0, 0, imageElement.width, imageElement.height))
         }
 
         reject(new Error('Invalid image source specified!'))

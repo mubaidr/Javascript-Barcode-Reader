@@ -1,4 +1,12 @@
+// available decoders
 import * as codabar from './codabar'
+import * as code128 from './code-128'
+import * as code39 from './code-39'
+import * as code93 from './code-93'
+import * as code2of5 from './code2of5'
+import * as ean13 from './ean-13'
+import * as ean8 from './ean-8'
+// utilities
 import { combineAllPossible } from './utilities/combineAllPossible'
 import { getImageDataFromSource } from './utilities/getImageDataFromSource'
 import { getLines } from './utilities/getLines'
@@ -15,11 +23,21 @@ export enum BARCODE_DECODERS {
   'codabar' = 'codabar'
 }
 
+export interface ImageDataLike {
+  data: Uint8ClampedArray
+  width: number
+  height: number
+}
+
+function isImageLike(object: any): object is ImageDataLike {
+  return object.data && object.width && object.height
+}
+
 type JavascriptBarcodeReader = {
-  image: string | HTMLImageElement | HTMLCanvasElement | ImageData
+  image: string | HTMLImageElement | HTMLCanvasElement | ImageDataLike
   barcode: string | BARCODE_DECODERS
+  barcodeType?: string
   options?: {
-    type?: string
     useAdaptiveThreshold?: boolean
     singlePass?: boolean
   }
@@ -32,6 +50,7 @@ interface DecoderFunction {
 export async function javascriptBarcodeReader({
   image,
   barcode,
+  barcodeType,
   options
 }: JavascriptBarcodeReader): Promise<string> {
   let decoder: DecoderFunction
@@ -41,30 +60,29 @@ export async function javascriptBarcodeReader({
       decoder = codabar.decoder
       break
     case BARCODE_DECODERS['code-128']:
-      decoder = codabar.decoder
-      break
-    case BARCODE_DECODERS['code-2of5']:
-      decoder = codabar.decoder
+      decoder = code128.decoder
       break
     case BARCODE_DECODERS['code-39']:
-      decoder = codabar.decoder
+      decoder = code39.decoder
       break
     case BARCODE_DECODERS['code-93']:
-      decoder = codabar.decoder
+      decoder = code93.decoder
+      break
+    case BARCODE_DECODERS['code-2of5']:
+      decoder = code2of5.decoder
       break
     case BARCODE_DECODERS['ean-13']:
-      decoder = codabar.decoder
+      decoder = ean13.decoder
       break
     case BARCODE_DECODERS['ean-8']:
-      decoder = codabar.decoder
+      decoder = ean8.decoder
       break
     default:
       throw new Error(`Invalid barcode specified. Available decoders: ${BARCODE_DECODERS}.`)
-      break
   }
 
   const useSinglePass = (options && options.singlePass) || false
-  const imageData = image instanceof ImageData ? image : await getImageDataFromSource(image)
+  const imageData = isImageLike(image) ? image : await getImageDataFromSource(image)
   const width = imageData.width
   const height = imageData.height
   let data = imageData.data
@@ -99,10 +117,10 @@ export async function javascriptBarcodeReader({
     }
 
     // Run the decoder
-    const result = decoder(lines, options && options.type)
+    const result = decoder(lines, barcodeType)
 
-    if (!result) continue
     if (useSinglePass) return result
+    if (!result) continue
     if (!result.includes('?')) return result
 
     finalResult = combineAllPossible(finalResult, result)

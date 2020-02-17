@@ -60,76 +60,48 @@ or download manually:
 const javascriptBarcodeReader = require('javascript-barcode-reader')
 ```
 
-#### Using promise
-
 ```js
-javascriptBarcodeReader(
-  Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
-  {
-    barcode: 'code-2of5',
-    type: 'industrial' //optional type
+javascriptBarcodeReader({
+  /* Image file Path || {data: Uint8ClampedArray, width, height} || HTML5 Canvas ImageData */
+  Image,
+  barcode: 'code-2of5',
+  //optional type
+  barcodeType: 'industrial',
+  options: {
+    // useAdaptiveThreshold: true
+    // singlePass: true
   }
-)
+})
   .then(code => {
     console.log(code)
   })
   .catch(err => {
     console.log(err)
   })
-```
-
-#### Using await
-
-```js
-try {
-  const code = await javascriptBarcodeReader(
-    Image /* Image file Path || {data: pixelArray, width, height} || HTML5 Canvas ImageData */,
-    {
-      barcode: 'code-2of5',
-      type: 'industrial' //optional type
-    }
-  )
-} catch (err) {
-  console.log(err)
-}
 ```
 
 ### Browser
 
 `javascriptBarcodeReader` will be available as global in Browsers.
 
-### Using promise
-
 ```js
-javascriptBarcodeReader(
-  Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
-  {
-    barcode: 'code-2of5',
-    type: 'industrial' //optional type
+javascriptBarcodeReader({
+  /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
+  Image,
+  barcode: 'code-2of5',
+  //optional type
+  barcodeType: 'industrial',
+  options: {
+    // useAdaptiveThreshold: true
+    // singlePass: true
   }
-)
+})
   .then(code => {
     console.log(code)
   })
   .catch(err => {
     console.log(err)
   })
-```
-
-#### Using await
-
-```js
-try {
-  const code = await javascriptBarcodeReader(
-    Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
-    {
-      barcode: 'code-2of5',
-      type: 'industrial' //optional type
-    }
-  )
-} catch (err) {
-  console.log(err)
-}
 ```
 
 ## Tips
@@ -148,7 +120,7 @@ All the modules are contianed in `src` directory. If you implement a new module 
 npm test
 ```
 
-Tests are defined in the `__tests__` directory using `Jest`.
+Tests are defined in the `tests` directory using `Jest`.
 
 There is no need to run build script before creating pull request.
 

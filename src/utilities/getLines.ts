@@ -1,6 +1,6 @@
 export function getLines(data: Uint8ClampedArray, width: number, height: number): number[] {
   const channels = data.length / (width * height)
-  const lines = []
+  const lines: number[] = []
   let count = 0
   let colSum = 0
   let colAvg = 0

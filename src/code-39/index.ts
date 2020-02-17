@@ -63,7 +63,7 @@ export function decoder(lines: number[]): string {
     code.push(CHAR_SET[sequenceBar])
   }
 
-  // if (code.pop() !== '*' || code.shift() !== '*') return null
+  if (code.pop() !== '*' || code.shift() !== '*') return ''
 
   return code.join('')
 }
