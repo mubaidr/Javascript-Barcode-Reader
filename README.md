@@ -15,31 +15,28 @@ Simple & Fast Barcode decoder for Browsers and Node.js capapable of reading Code
 
 ## Try now
 
-<https://javascript-barcode-reader.netlify.com/>
+https://stackblitz.com/edit/javascript-barcode-reader?file=index.ts
 
 ## Available decoders
 
-<ul>
-<li><input type="checkbox" disabled checked> EAN-13</li>
-<li><input type="checkbox" disabled checked> EAN-8</li>
-<li><input type="checkbox" disabled checked> Code-39</li>
-<li><input type="checkbox" disabled checked> Code-93</li>
-<li><input type="checkbox" disabled checked> Code-2of5
-  <ul>
-    <li><input type="checkbox" disabled checked> standard</li>
-    <li><input type="checkbox" disabled checked> Interleaved</li>
-  </ul>
-</li>
-<li><input type="checkbox" disabled checked> Codabar</li>
-<li><input type="checkbox" disabled checked> Code-128 (UCC/EAN-128)</li>
-</ul>
+- EAN-13
+- EAN-8
+- Code-39
+- Code-93
+- Code-2of5
+  - standard
+  - Interleaved
+- Codabar
+- Code-128 (UCC/EAN-128)
 
-## Install
+## How to use
+
+### Install
 
 Recommended way to install is by using package manager (npm, yarn etc):
 
 ```bash
-npm install --save javascript-barcode-reader
+npm i javascript-barcode-reader
 ```
 
 or use cdn:
@@ -50,9 +47,7 @@ or use cdn:
 
 or download manually:
 
-[javascript-barcode-reader.js](https://unpkg.com/javascript-barcode-reader)
-
-## How to use
+[javascript-barcode-reader](https://unpkg.com/javascript-barcode-reader)
 
 ### Node.js
 
@@ -63,10 +58,9 @@ const javascriptBarcodeReader = require('javascript-barcode-reader')
 ```js
 javascriptBarcodeReader({
   /* Image file Path || {data: Uint8ClampedArray, width, height} || HTML5 Canvas ImageData */
-  Image,
+  image: source,
   barcode: 'code-2of5',
-  //optional type
-  barcodeType: 'industrial',
+  // barcodeType: 'industrial',
   options: {
     // useAdaptiveThreshold: true
     // singlePass: true
@@ -87,10 +81,9 @@ javascriptBarcodeReader({
 ```js
 javascriptBarcodeReader({
   /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */
-  Image,
+  image: source,
   barcode: 'code-2of5',
-  //optional type
-  barcodeType: 'industrial',
+  // barcodeType: 'industrial',
   options: {
     // useAdaptiveThreshold: true
     // singlePass: true
@@ -106,7 +99,7 @@ javascriptBarcodeReader({
 
 ## Tips
 
-- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail.
+Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail.
 
 ## Known Issues
 
@@ -114,11 +107,7 @@ This script does not implement logic to locate/rotate barcode in the given image
 
 ## Contributing
 
-All the modules are contianed in `src` directory. If you implement a new module or update an existing one, then make sure to add/run tests by running:
-
-```bash
-npm test
-```
+All decoders are defined in `src` directory.
 
 Tests are defined in the `tests` directory using `Jest`.
 
