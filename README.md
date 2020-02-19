@@ -102,11 +102,8 @@ javascriptBarcodeReader({
 
 ## Contributing
 
-All decoders are defined in `src` directory.
-
-Tests are defined in the `tests` directory using `Jest`.
-
-There is no need to run build script before creating pull request.
+- Each decoder is defined in `src` directory as a module.
+- Tests are defined in the `tests` directory using `Jest`.
 
 ## Contributors
 
