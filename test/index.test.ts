@@ -2,9 +2,39 @@ import * as Jimp from 'jimp'
 import * as path from 'path'
 import { BARCODE_DECODERS, javascriptBarcodeReader } from '../src/index'
 import { combineAllPossible } from '../src/utilities/combineAllPossible'
+import { isUrl } from '../src/utilities/isUrl'
+import { median } from '../src/utilities/median'
+import { applyMedianFilter } from '../src/utilities/medianFilter'
 
 beforeAll(() => {
   jest.setTimeout(5000)
+})
+
+describe('isUrl', () => {
+  test('check if string is URL', () => {
+    const width = 9
+    const height = 9
+    const data = new Array(width * height).map(() => Math.random() * 100)
+    const dataMedian = applyMedianFilter(Uint8ClampedArray.from(data), width, height)
+
+    expect(dataMedian).toMatchSnapshot()
+  })
+})
+
+describe('isUrl', () => {
+  test('check if string is URL', () => {
+    const url = 'https://upload.wikimedia.org/wikipedia/en/a/a9/Code_93_wikipedia.png'
+
+    expect(isUrl(url)).toBeTruthy()
+    expect(isUrl('#someString')).toBeFalsy()
+  })
+})
+
+describe('median', () => {
+  test('get median of array', () => {
+    expect(median([6, 3, 9])).toBe(6)
+    expect(median([9, 3, 6])).toBe(6)
+  })
 })
 
 describe('combineAllPossible', () => {

@@ -76,7 +76,7 @@
   "homepage": "https://github.com/mubaidr/Javascript-Barcode-Reader#readme",
   "jest": {
     "collectCoverageFrom": [
-      "src/*.{js,ts}"
+      "src/**/*.{js,ts}"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
@@ -87,7 +87,7 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 85,
+        "branches": 75,
         "functions": 100,
         "lines": 90,
         "statements": 90
@@ -155,7 +155,7 @@
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --coverage --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
   "version": "0.6.0"
