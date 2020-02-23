@@ -446,8 +446,10 @@ const TBL_C = [
 const computeGroup = (lines: number[]): number[] => {
   let factor = lines.reduce((pre, item) => pre + item, 0) / (Math.ceil(lines.length / 6) * 11)
 
+  factor = Math.round(factor * 10) / 10
+
   // minimum line width is 1 pixel, obvioulsy :/
-  if (factor < 1) factor = 1
+  // if (factor < 1) factor = 1
 
   return lines.map(item => Math.round(item / factor) || 1)
 }
@@ -462,6 +464,8 @@ export function decoder(lines: number[]): string {
   const code = []
 
   const computedLines = computeGroup(lines)
+
+  // console.log(computedLines)
 
   if (!computedLines) return ''
 
@@ -497,13 +501,15 @@ export function decoder(lines: number[]): string {
 
           letterCodePrev = letterCode
         } else {
-          // console.info(i, letterKey, keyIndex, letterCode)
+          // console.info(i, letterKey, keyIndex)
 
           code.push('?')
         }
         break
     }
   }
+
+  // console.log(code)
 
   // letterKey = computedLines.slice(0, 6).join('')
   // if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return ''

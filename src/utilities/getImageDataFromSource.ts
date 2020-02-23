@@ -10,7 +10,21 @@ export async function getImageDataFromSource(
 ): Promise<ImageDataLike> {
   return new Promise((resolve, reject) => {
     if (typeof source === 'string') {
-      if (isUrl(source)) {
+      if (source.startsWith('#')) {
+        const imageElement = document.getElementById(source.substr(1))
+
+        if (imageElement instanceof HTMLImageElement) {
+          resolve(createImageData(imageElement))
+        }
+
+        if (imageElement instanceof HTMLCanvasElement) {
+          const ctx = imageElement.getContext('2d')
+          if (!ctx) throw new Error('Cannot create canvas 2d context')
+          resolve(ctx.getImageData(0, 0, imageElement.width, imageElement.height))
+        }
+
+        reject(new Error('Invalid image source specified!'))
+      } else if (isUrl(source)) {
         const img = new Image()
         img.onerror = reject
         img.onload = (): void => resolve(createImageData(img))
@@ -29,20 +43,6 @@ export async function getImageDataFromSource(
             })
           }
         })
-      } else {
-        const imageElement = document.getElementById(source)
-
-        if (imageElement instanceof HTMLImageElement) {
-          resolve(createImageData(imageElement))
-        }
-
-        if (imageElement instanceof HTMLCanvasElement) {
-          const ctx = imageElement.getContext('2d')
-          if (!ctx) throw new Error('Cannot create canvas 2d context')
-          resolve(ctx.getImageData(0, 0, imageElement.width, imageElement.height))
-        }
-
-        reject(new Error('Invalid image source specified!'))
       }
     } else if (source instanceof HTMLImageElement) {
       resolve(createImageData(source))
@@ -50,8 +50,6 @@ export async function getImageDataFromSource(
       const ctx = source.getContext('2d')
       if (!ctx) throw new Error('Cannot create canvas 2d context')
       resolve(ctx.getImageData(0, 0, source.width, source.height))
-    } else {
-      reject(new Error('Invalid image source specified!'))
     }
   })
 }
