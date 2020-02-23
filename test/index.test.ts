@@ -10,8 +10,8 @@ beforeAll(() => {
   jest.setTimeout(5000)
 })
 
-describe('isUrl', () => {
-  test('check if string is URL', () => {
+describe('Median Filter', () => {
+  test('Apply median filter to imageData', () => {
     const width = 9
     const height = 9
     const data = new Array(width * height).map(() => Math.random() * 100)
@@ -113,6 +113,17 @@ describe('extract barcode from local files', () => {
     expect(result).toBe('ABC-abc-1234')
   })
 
+  test('should detect barcode 128', async () => {
+    const result = await javascriptBarcodeReader({
+      image: path.resolve(
+        './test/sample-images/code-128-74365646-bd4db200-4d8b-11ea-877f-c738953c2a58.png'
+      ),
+      barcode: 'code-128'
+    })
+
+    expect(result).toBe('74365646-bd4db200-4d8b-11ea-877f-c738953c2a58')
+  })
+
   test('should detect barcode EAN-8', async () => {
     const result = await javascriptBarcodeReader({
       image: path.resolve('./test/sample-images/ean-8.jpg'),
@@ -120,6 +131,15 @@ describe('extract barcode from local files', () => {
     })
 
     expect(result).toBe('73127727')
+  })
+
+  test('should detect barcode EAN-13', async () => {
+    const result = await javascriptBarcodeReader({
+      image: path.resolve('./test/sample-images/ean-13-5901234123457.png'),
+      barcode: 'ean-13'
+    })
+
+    expect(result).toBe('901234123457')
   })
 
   test('should detect barcode EAN-13', async () => {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`isUrl check if string is URL 1`] = `
+exports[`Median Filter Apply median filter to imageData 1`] = `
 Uint8ClampedArray [
   0,
   0,
