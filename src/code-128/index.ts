@@ -465,7 +465,7 @@ export function decoder(lines: number[]): string {
 
   const computedLines = computeGroup(lines)
 
-  // console.log(computedLines)
+  // console.log(computedLines, computedLines.length, lines, lines.length)
 
   if (!computedLines) return ''
 

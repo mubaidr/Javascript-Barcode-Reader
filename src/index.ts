@@ -13,6 +13,8 @@ import { getLines } from './utilities/getLines'
 import { applyAdaptiveThreshold } from './utilities/threshold/adaptiveThreshold'
 import { applySimpleThreshold } from './utilities/threshold/applySimpleThreshold'
 
+const isTestEnv = process && process.env.NODE_ENV === 'test'
+
 export enum BARCODE_DECODERS {
   'code-128' = 'code-128',
   'code-2of5' = 'code-2of5',
@@ -81,7 +83,7 @@ export async function javascriptBarcodeReader({
       throw new Error(`Invalid barcode specified. Available decoders: ${BARCODE_DECODERS}.`)
   }
 
-  const useSinglePass = (options && options.singlePass) || false
+  const useSinglePass = isTestEnv || (options && options.singlePass) || false
   const imageData = isImageLike(image) ? image : await getImageDataFromSource(image)
   const width = imageData.width
   const height = imageData.height
@@ -97,7 +99,7 @@ export async function javascriptBarcodeReader({
   // check points for barcode location
   const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
   const slineStep = Math.round(height / sPoints.length)
-  const rowsToScan = Math.min(3, height)
+  const rowsToScan = Math.min(5, height)
 
   for (let i = 0; i < sPoints.length; i += 1) {
     const sPoint = sPoints[i]

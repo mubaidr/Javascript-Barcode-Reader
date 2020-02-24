@@ -14,10 +14,11 @@ export function getLines(data: Uint8ClampedArray, width: number, height: number)
     }
 
     // atleast 75% of the pixels are same in column
-    colAvg = colSum / height > 190 ? 255 : 0
+    colAvg = colSum / height >= 127 ? 255 : 0
 
-    // skip white epadding in the start
+    // skip white padding in the start
     if (count === 0 && colAvg === 255) continue
+
     // count line width
     if (colAvg === colAvgLast) {
       count += 1

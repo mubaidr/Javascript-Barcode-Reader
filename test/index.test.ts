@@ -208,16 +208,14 @@ describe('extract barcode from local files', () => {
     expect(result).toBe('ABC-abc-1234')
   })
 
-  // test('should detect barcode 128: 74365646-bd4db200-4d8b-11ea-877f-c738953c2a58', async () => {
-  //   const result = await javascriptBarcodeReader({
-  //     image: path.resolve(
-  //       './test/sample-images/code-128-74365646-bd4db200-4d8b-11ea-877f-c738953c2a58.png'
-  //     ),
-  //     barcode: 'code-128'
-  //   })
+  test('should detect barcode 128: eeb00f0c-0c7e-a937-1794-25685779ba0c', async () => {
+    const result = await javascriptBarcodeReader({
+      image: path.resolve('./test/sample-images/code-128-eeb00f0c-0c7e-a937-1794-25685779ba0c.png'),
+      barcode: 'code-128'
+    })
 
-  //   expect(result).toBe('74365646-bd4db200-4d8b-11ea-877f-c738953c2a58')
-  // })
+    expect(result).toBe('eeb00f0c-0c7e-a937-1794-25685779ba0c')
+  })
 
   test('should detect barcode EAN-8', async () => {
     const result = await javascriptBarcodeReader({
