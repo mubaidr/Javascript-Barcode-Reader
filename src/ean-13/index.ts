@@ -15,34 +15,37 @@ const UPC_SET: {
 
 export function decoder(lines: number[]): string {
   let code = ''
-  // manually add start dummy line
-  lines.unshift(0)
+
   // start indicator/reference lines
-  const bar = ~~((lines[1] + lines[2] + lines[3]) / 3) //eslint-disable-line
+  const bar = (lines[0] + lines[1] + lines[2]) / 3
 
-  for (let i = 1; i < lines.length; i += 1) {
-    let group
+  // remove start pattern
+  lines.shift()
+  lines.shift()
+  lines.shift()
 
-    if (code.length < 6) {
-      group = lines.slice(i * 4, i * 4 + 4)
-    } else {
-      group = lines.slice(i * 4 + 5, i * 4 + 9)
-    }
+  // remove end pattern
+  lines.pop()
+  lines.pop()
+  lines.pop()
 
-    const digits = [
-      Math.round(group[0] / bar),
-      Math.round(group[1] / bar),
-      Math.round(group[2] / bar),
-      Math.round(group[3] / bar)
-    ]
+  // remove middle check pattern
+  lines.splice(24, 5)
+
+  for (let i = 0; i < lines.length; i += 4) {
+    const group = lines.slice(i, i + 4)
+
+    const digits = [group[0] / bar, group[1] / bar, group[2] / bar, group[3] / bar].map(digit =>
+      digit === 1.5 ? 1 : Math.round(digit)
+    )
 
     const result = UPC_SET[digits.join('')] || UPC_SET[digits.reverse().join('')]
 
     if (result) {
       code += result
+    } else {
+      code += '?'
     }
-
-    // if (code.length === 12) break
   }
 
   return code

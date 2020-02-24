@@ -226,7 +226,7 @@ describe('extract barcode from local files', () => {
     expect(result).toBe('73127727')
   })
 
-  test('should detect barcode EAN-13', async () => {
+  test('should detect barcode EAN-13 small', async () => {
     const result = await javascriptBarcodeReader({
       image: path.resolve('./test/sample-images/ean-13-5901234123457.png'),
       barcode: 'ean-13'
@@ -235,7 +235,7 @@ describe('extract barcode from local files', () => {
     expect(result).toBe('901234123457')
   })
 
-  test('should detect barcode EAN-13', async () => {
+  test('should detect barcode EAN-13 large', async () => {
     const result = await javascriptBarcodeReader({
       image: path.resolve('./test/sample-images/ean-13.jpg'),
       barcode: 'ean-13'
