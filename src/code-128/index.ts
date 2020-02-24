@@ -447,9 +447,7 @@ const computeGroup = (lines: number[]): number[] => {
   let factor = lines.reduce((pre, item) => pre + item, 0) / (Math.ceil(lines.length / 6) * 11)
 
   factor = Math.round(factor * 10) / 10
-
-  // minimum line width is 1 pixel, obvioulsy :/
-  // if (factor < 1) factor = 1
+  console.log('TCL: factor', factor)
 
   return lines.map(item => Math.round(item / factor) || 1)
 }
@@ -465,7 +463,7 @@ export function decoder(lines: number[]): string {
 
   const computedLines = computeGroup(lines)
 
-  // console.log(computedLines, computedLines.length, lines, lines.length)
+  console.log(lines, lines.length, computedLines, computedLines.length)
 
   if (!computedLines) return ''
 
