@@ -2395,6 +2395,9 @@ img {
 		<li class=" tsd-kind-variable">
 			<a href="globals.html#isnode" class="tsd-kind-icon">is<wbr>Node</a>
 		</li>
+		<li class=" tsd-kind-variable">
+			<a href="globals.html#istestenv" class="tsd-kind-icon">is<wbr>Test<wbr>Env</a>
+		</li>
 		<li class=" tsd-kind-function">
 			<a href="globals.html#applyadaptivethreshold" class="tsd-kind-icon">apply<wbr>Adaptive<wbr>Threshold</a>
 		</li>
@@ -2450,7 +2453,7 @@ img {
 			</a>
 			<p>Simple &amp; Fast Barcode decoder for Browsers and Node.js capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes.</p>
 			<p><a href="https://travis-ci.org/mubaidr/Javascript-Barcode-Reader"><img src="https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master" alt="Build Status"></a>
-				<a href="https://app.codacy.com/app/mubaidr/Javascript-Barcode-Reader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mubaidr/Javascript-Barcode-Reader&amp;utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/adf93fc22bd3479da66f3d4c74a0b95f" alt="Codacy Badge"></a>
+				<a href="https://codebeat.co/projects/github-com-mubaidr-javascript-barcode-reader-master"><img src="https://codebeat.co/badges/8f27170b-909e-489f-ae93-459664c47422" alt="codebeat badge"></a>
 				<a href="https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader"><img src="https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader/branch/master/graph/badge.svg" alt="codecov"></a>
 			<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square" alt="All Contributors"></a></p>
 			<p><a href="https://nodei.co/npm/javascript-barcode-reader/"><img src="https://nodei.co/npm/javascript-barcode-reader.png" alt="NPM"></a></p>
@@ -2540,9 +2543,10 @@ javascriptBarcodeReader({
 			<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
 				<h2>Contributing</h2>
 			</a>
-			<p>All decoders are defined in <code>src</code> directory.</p>
-			<p>Tests are defined in the <code>tests</code> directory using <code>Jest</code>.</p>
-			<p>There is no need to run build script before creating pull request.</p>
+			<ul>
+				<li>Each decoder is defined in <code>src</code> directory as a module.</li>
+				<li>Tests are defined in the <code>tests</code> directory using <code>Jest</code>.</li>
+			</ul>
 			<a href="#contributors" id="contributors" style="color: inherit; text-decoration: none;">
 				<h2>Contributors</h2>
 			</a>
@@ -2585,6 +2589,7 @@ javascriptBarcodeReader({
 							<li class="tsd-kind-variable"><a href="globals.html#tbl_c" class="tsd-kind-icon">TBL_<wbr>C</a></li>
 							<li class="tsd-kind-variable"><a href="globals.html#width_tbl" class="tsd-kind-icon">WIDTH_<wbr>TBL</a></li>
 							<li class="tsd-kind-variable"><a href="globals.html#isnode" class="tsd-kind-icon">is<wbr>Node</a></li>
+							<li class="tsd-kind-variable"><a href="globals.html#istestenv" class="tsd-kind-icon">is<wbr>Test<wbr>Env</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -2623,7 +2628,7 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">Javascript<wbr>Barcode<wbr>Reader<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>barcode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="enums/barcode_decoders.html" class="tsd-signature-type">BARCODE_DECODERS</a><span class="tsd-signature-symbol">; </span>barcodeType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/imagedatalike.html" class="tsd-signature-type">ImageDataLike</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>singlePass<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>useAdaptiveThreshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/index.ts#L36">index.ts:36</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/index.ts#L38">index.ts:38</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -2653,7 +2658,7 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">TBL_<wbr>A<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [&#x27; &#x27;,&#x27;!&#x27;,&#x27;&quot;&#x27;,&#x27;#&#x27;,&#x27;$&#x27;,&#x27;%&#x27;,&#x27;&amp;&#x27;,&quot;&#x27;&quot;,&#x27;(&#x27;,&#x27;)&#x27;,&#x27;*&#x27;,&#x27;+&#x27;,&#x27;,&#x27;,&#x27;-&#x27;,&#x27;.&#x27;,&#x27;/&#x27;,&#x27;0&#x27;,&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;,&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;,&#x27;7&#x27;,&#x27;8&#x27;,&#x27;9&#x27;,&#x27;:&#x27;,&#x27;;&#x27;,&#x27;&lt;&#x27;,&#x27;&#x3D;&#x27;,&#x27;&gt;&#x27;,&#x27;?&#x27;,&#x27;@&#x27;,&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;,&#x27;E&#x27;,&#x27;F&#x27;,&#x27;G&#x27;,&#x27;H&#x27;,&#x27;I&#x27;,&#x27;J&#x27;,&#x27;K&#x27;,&#x27;L&#x27;,&#x27;M&#x27;,&#x27;N&#x27;,&#x27;O&#x27;,&#x27;P&#x27;,&#x27;Q&#x27;,&#x27;R&#x27;,&#x27;S&#x27;,&#x27;T&#x27;,&#x27;U&#x27;,&#x27;V&#x27;,&#x27;W&#x27;,&#x27;X&#x27;,&#x27;Y&#x27;,&#x27;Z&#x27;,&#x27;[&#x27;,&#x27;\\&#x27;,&#x27;]&#x27;,&#x27;^&#x27;,&#x27;_&#x27;,&#x27;NUL&#x27;,&#x27;SOH&#x27;,&#x27;STX&#x27;,&#x27;ETX&#x27;,&#x27;EOT&#x27;,&#x27;ENQ&#x27;,&#x27;ACK&#x27;,&#x27;BEL&#x27;,&#x27;BS&#x27;,&#x27;HT&#x27;,&#x27;LF&#x27;,&#x27;VT&#x27;,&#x27;FF&#x27;,&#x27;CR&#x27;,&#x27;SO&#x27;,&#x27;SI&#x27;,&#x27;DLE&#x27;,&#x27;DC1&#x27;,&#x27;DC2&#x27;,&#x27;DC3&#x27;,&#x27;DC4&#x27;,&#x27;NAK&#x27;,&#x27;SYN&#x27;,&#x27;ETB&#x27;,&#x27;CAN&#x27;,&#x27;EM&#x27;,&#x27;SUB&#x27;,&#x27;ESC&#x27;,&#x27;FS&#x27;,&#x27;GS&#x27;,&#x27;RS&#x27;,&#x27;US&#x27;,&#x27;FNC 3&#x27;,&#x27;FNC 2&#x27;,&#x27;Shift B&#x27;,&#x27;Code C&#x27;,&#x27;Code B&#x27;,&#x27;FNC 4&#x27;,&#x27;FNC 1&#x27;,&#x27;Code A&#x27;,&#x27;Code B&#x27;,&#x27;Code C&#x27;,&#x27;Stop&#x27;,&#x27;Reverse Stop&#x27;]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-128/index.ts#L113">code-128/index.ts:113</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-128/index.ts#L113">code-128/index.ts:113</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2663,7 +2668,7 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">TBL_<wbr>B<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [&#x27; &#x27;,&#x27;!&#x27;,&#x27;&quot;&#x27;,&#x27;#&#x27;,&#x27;$&#x27;,&#x27;%&#x27;,&#x27;&amp;&#x27;,&quot;&#x27;&quot;,&#x27;(&#x27;,&#x27;)&#x27;,&#x27;*&#x27;,&#x27;+&#x27;,&#x27;,&#x27;,&#x27;-&#x27;,&#x27;.&#x27;,&#x27;/&#x27;,&#x27;0&#x27;,&#x27;1&#x27;,&#x27;2&#x27;,&#x27;3&#x27;,&#x27;4&#x27;,&#x27;5&#x27;,&#x27;6&#x27;,&#x27;7&#x27;,&#x27;8&#x27;,&#x27;9&#x27;,&#x27;:&#x27;,&#x27;;&#x27;,&#x27;&lt;&#x27;,&#x27;&#x3D;&#x27;,&#x27;&gt;&#x27;,&#x27;?&#x27;,&#x27;@&#x27;,&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;,&#x27;E&#x27;,&#x27;F&#x27;,&#x27;G&#x27;,&#x27;H&#x27;,&#x27;I&#x27;,&#x27;J&#x27;,&#x27;K&#x27;,&#x27;L&#x27;,&#x27;M&#x27;,&#x27;N&#x27;,&#x27;O&#x27;,&#x27;P&#x27;,&#x27;Q&#x27;,&#x27;R&#x27;,&#x27;S&#x27;,&#x27;T&#x27;,&#x27;U&#x27;,&#x27;V&#x27;,&#x27;W&#x27;,&#x27;X&#x27;,&#x27;Y&#x27;,&#x27;Z&#x27;,&#x27;[&#x27;,&#x27;\\&#x27;,&#x27;]&#x27;,&#x27;^&#x27;,&#x27;_&#x27;,&#x27;&#x60;&#x27;,&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;,&#x27;e&#x27;,&#x27;f&#x27;,&#x27;g&#x27;,&#x27;h&#x27;,&#x27;i&#x27;,&#x27;j&#x27;,&#x27;k&#x27;,&#x27;l&#x27;,&#x27;m&#x27;,&#x27;n&#x27;,&#x27;o&#x27;,&#x27;p&#x27;,&#x27;q&#x27;,&#x27;r&#x27;,&#x27;s&#x27;,&#x27;t&#x27;,&#x27;u&#x27;,&#x27;v&#x27;,&#x27;w&#x27;,&#x27;x&#x27;,&#x27;y&#x27;,&#x27;z&#x27;,&#x27;{&#x27;,&#x27;|&#x27;,&#x27;}&#x27;,&#x27;~&#x27;,&#x27;DEL&#x27;,&#x27;FNC 3&#x27;,&#x27;FNC 2&#x27;,&#x27;Shift A&#x27;,&#x27;Code C&#x27;,&#x27;FNC 4&#x27;,&#x27;Code A&#x27;,&#x27;FNC 1&#x27;,&#x27;Code A&#x27;,&#x27;Code B&#x27;,&#x27;Code C&#x27;,&#x27;Stop&#x27;,&#x27;Reverse Stop&#x27;]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-128/index.ts#L224">code-128/index.ts:224</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-128/index.ts#L224">code-128/index.ts:224</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2673,7 +2678,7 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">TBL_<wbr>C<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [&#x27;00&#x27;,&#x27;01&#x27;,&#x27;02&#x27;,&#x27;03&#x27;,&#x27;04&#x27;,&#x27;05&#x27;,&#x27;06&#x27;,&#x27;07&#x27;,&#x27;08&#x27;,&#x27;09&#x27;,&#x27;10&#x27;,&#x27;11&#x27;,&#x27;12&#x27;,&#x27;13&#x27;,&#x27;14&#x27;,&#x27;15&#x27;,&#x27;16&#x27;,&#x27;17&#x27;,&#x27;18&#x27;,&#x27;19&#x27;,&#x27;20&#x27;,&#x27;21&#x27;,&#x27;22&#x27;,&#x27;23&#x27;,&#x27;24&#x27;,&#x27;25&#x27;,&#x27;26&#x27;,&#x27;27&#x27;,&#x27;28&#x27;,&#x27;29&#x27;,&#x27;30&#x27;,&#x27;31&#x27;,&#x27;32&#x27;,&#x27;33&#x27;,&#x27;34&#x27;,&#x27;35&#x27;,&#x27;36&#x27;,&#x27;37&#x27;,&#x27;38&#x27;,&#x27;39&#x27;,&#x27;40&#x27;,&#x27;41&#x27;,&#x27;42&#x27;,&#x27;43&#x27;,&#x27;44&#x27;,&#x27;45&#x27;,&#x27;46&#x27;,&#x27;47&#x27;,&#x27;48&#x27;,&#x27;49&#x27;,&#x27;50&#x27;,&#x27;51&#x27;,&#x27;52&#x27;,&#x27;53&#x27;,&#x27;54&#x27;,&#x27;55&#x27;,&#x27;56&#x27;,&#x27;57&#x27;,&#x27;58&#x27;,&#x27;59&#x27;,&#x27;60&#x27;,&#x27;61&#x27;,&#x27;62&#x27;,&#x27;63&#x27;,&#x27;64&#x27;,&#x27;65&#x27;,&#x27;66&#x27;,&#x27;67&#x27;,&#x27;68&#x27;,&#x27;69&#x27;,&#x27;70&#x27;,&#x27;71&#x27;,&#x27;72&#x27;,&#x27;73&#x27;,&#x27;74&#x27;,&#x27;75&#x27;,&#x27;76&#x27;,&#x27;77&#x27;,&#x27;78&#x27;,&#x27;79&#x27;,&#x27;80&#x27;,&#x27;81&#x27;,&#x27;82&#x27;,&#x27;83&#x27;,&#x27;84&#x27;,&#x27;85&#x27;,&#x27;86&#x27;,&#x27;87&#x27;,&#x27;88&#x27;,&#x27;89&#x27;,&#x27;90&#x27;,&#x27;91&#x27;,&#x27;92&#x27;,&#x27;93&#x27;,&#x27;94&#x27;,&#x27;95&#x27;,&#x27;96&#x27;,&#x27;97&#x27;,&#x27;98&#x27;,&#x27;99&#x27;,&#x27;Code B&#x27;,&#x27;Code A&#x27;,&#x27;FNC 1&#x27;,&#x27;Code A&#x27;,&#x27;Code B&#x27;,&#x27;Code C&#x27;,&#x27;Stop&#x27;,&#x27;Reverse Stop&#x27;]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-128/index.ts#L335">code-128/index.ts:335</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-128/index.ts#L335">code-128/index.ts:335</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2683,7 +2688,7 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">WIDTH_<wbr>TBL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [&#x27;212222&#x27;,&#x27;222122&#x27;,&#x27;222221&#x27;,&#x27;121223&#x27;,&#x27;121322&#x27;,&#x27;131222&#x27;,&#x27;122213&#x27;,&#x27;122312&#x27;,&#x27;132212&#x27;,&#x27;221213&#x27;,&#x27;221312&#x27;,&#x27;231212&#x27;,&#x27;112232&#x27;,&#x27;122132&#x27;,&#x27;122231&#x27;,&#x27;113222&#x27;,&#x27;123122&#x27;,&#x27;123221&#x27;,&#x27;223211&#x27;,&#x27;221132&#x27;,&#x27;221231&#x27;,&#x27;213212&#x27;,&#x27;223112&#x27;,&#x27;312131&#x27;,&#x27;311222&#x27;,&#x27;321122&#x27;,&#x27;321221&#x27;,&#x27;312212&#x27;,&#x27;322112&#x27;,&#x27;322211&#x27;,&#x27;212123&#x27;,&#x27;212321&#x27;,&#x27;232121&#x27;,&#x27;111323&#x27;,&#x27;131123&#x27;,&#x27;131321&#x27;,&#x27;112313&#x27;,&#x27;132113&#x27;,&#x27;132311&#x27;,&#x27;211313&#x27;,&#x27;231113&#x27;,&#x27;231311&#x27;,&#x27;112133&#x27;,&#x27;112331&#x27;,&#x27;132131&#x27;,&#x27;113123&#x27;,&#x27;113321&#x27;,&#x27;133121&#x27;,&#x27;313121&#x27;,&#x27;211331&#x27;,&#x27;231131&#x27;,&#x27;213113&#x27;,&#x27;213311&#x27;,&#x27;213131&#x27;,&#x27;311123&#x27;,&#x27;311321&#x27;,&#x27;331121&#x27;,&#x27;312113&#x27;,&#x27;312311&#x27;,&#x27;332111&#x27;,&#x27;314111&#x27;,&#x27;221411&#x27;,&#x27;431111&#x27;,&#x27;111224&#x27;,&#x27;111422&#x27;,&#x27;121124&#x27;,&#x27;121421&#x27;,&#x27;141122&#x27;,&#x27;141221&#x27;,&#x27;112214&#x27;,&#x27;112412&#x27;,&#x27;122114&#x27;,&#x27;122411&#x27;,&#x27;142112&#x27;,&#x27;142211&#x27;,&#x27;241211&#x27;,&#x27;221114&#x27;,&#x27;413111&#x27;,&#x27;241112&#x27;,&#x27;134111&#x27;,&#x27;111242&#x27;,&#x27;121142&#x27;,&#x27;121241&#x27;,&#x27;114212&#x27;,&#x27;124112&#x27;,&#x27;124211&#x27;,&#x27;411212&#x27;,&#x27;421112&#x27;,&#x27;421211&#x27;,&#x27;212141&#x27;,&#x27;214121&#x27;,&#x27;412121&#x27;,&#x27;111143&#x27;,&#x27;111341&#x27;,&#x27;131141&#x27;,&#x27;114113&#x27;,&#x27;114311&#x27;,&#x27;411113&#x27;,&#x27;411311&#x27;,&#x27;113141&#x27;,&#x27;114131&#x27;,&#x27;311141&#x27;,&#x27;411131&#x27;,&#x27;211412&#x27;,&#x27;211214&#x27;,&#x27;211232&#x27;,&#x27;233111&#x27;,&#x27;211133&#x27;,&#x27;2331112&#x27;]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-128/index.ts#L1">code-128/index.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-128/index.ts#L1">code-128/index.ts:1</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2693,7 +2698,17 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">is<wbr>Node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = typeof process &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; process.release &amp;&amp; process.release.name &#x3D;&#x3D;&#x3D; &#x27;node&#x27;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/getImageDataFromSource.ts#L6">utilities/getImageDataFromSource.ts:6</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/getImageDataFromSource.ts#L6">utilities/getImageDataFromSource.ts:6</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-variable">
+				<a name="istestenv" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> is<wbr>Test<wbr>Env</h3>
+				<div class="tsd-signature tsd-kind-icon">is<wbr>Test<wbr>Env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = process &amp;&amp; process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;test&#x27;</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/index.ts#L16">index.ts:16</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2710,7 +2725,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/threshold/adaptiveThreshold.ts#L1">utilities/threshold/adaptiveThreshold.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/threshold/adaptiveThreshold.ts#L1">utilities/threshold/adaptiveThreshold.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2739,7 +2754,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/medianFilter.ts#L1">utilities/medianFilter.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/medianFilter.ts#L1">utilities/medianFilter.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2768,7 +2783,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/threshold/applySimpleThreshold.ts#L1">utilities/threshold/applySimpleThreshold.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/threshold/applySimpleThreshold.ts#L1">utilities/threshold/applySimpleThreshold.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2797,7 +2812,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/combineAllPossible.ts#L1">utilities/combineAllPossible.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/combineAllPossible.ts#L1">utilities/combineAllPossible.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2823,7 +2838,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-128/index.ts#L446">code-128/index.ts:446</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-128/index.ts#L446">code-128/index.ts:446</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2846,7 +2861,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/createImageData.ts#L3">utilities/createImageData.ts:3</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/createImageData.ts#L3">utilities/createImageData.ts:3</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2869,7 +2884,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L26">codabar/index.ts:26</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L26">codabar/index.ts:26</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2892,7 +2907,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/getImageDataFromSource.ts#L8">utilities/getImageDataFromSource.ts:8</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/getImageDataFromSource.ts#L8">utilities/getImageDataFromSource.ts:8</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2915,7 +2930,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/getLines.ts#L1">utilities/getLines.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/getLines.ts#L1">utilities/getLines.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2944,7 +2959,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/index.ts#L32">index.ts:32</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/index.ts#L34">index.ts:34</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2967,7 +2982,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/isUrl.ts#L1">utilities/isUrl.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/isUrl.ts#L1">utilities/isUrl.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2990,7 +3005,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/index.ts#L50">index.ts:50</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/index.ts#L52">index.ts:52</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3027,7 +3042,7 @@ javascriptBarcodeReader({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/utilities/median.ts#L1">utilities/median.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/utilities/median.ts#L1">utilities/median.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3049,10 +3064,10 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">CHAR_<wbr>SET<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> = [&#x27;nnwwn&#x27;,&#x27;wnnnw&#x27;,&#x27;nwnnw&#x27;,&#x27;wwnnn&#x27;,&#x27;nnwnw&#x27;,&#x27;wnwnn&#x27;,&#x27;nwwnn&#x27;,&#x27;nnnww&#x27;,&#x27;wnnwn&#x27;,&#x27;nwnwn&#x27;]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L1">codabar/index.ts:1</a></li>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L1">code-39/index.ts:1</a></li>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-93/index.ts#L5">code-93/index.ts:5</a></li>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code2of5/index.ts#L1">code2of5/index.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L1">codabar/index.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L1">code-39/index.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-93/index.ts#L5">code-93/index.ts:5</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code2of5/index.ts#L1">code2of5/index.ts:1</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -3061,7 +3076,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnnnwww<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Q&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L30">code-39/index.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L30">code-39/index.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3071,7 +3086,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnnww<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;0&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L4">codabar/index.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L4">codabar/index.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3081,7 +3096,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnnwwnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;G&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L20">code-39/index.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L20">code-39/index.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3091,7 +3106,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnwnnww<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;N&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L27">code-39/index.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L27">code-39/index.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3101,7 +3116,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnwnwwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;T&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L33">code-39/index.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L33">code-39/index.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3111,7 +3126,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnwwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;1&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L5">codabar/index.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L5">codabar/index.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3121,7 +3136,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnwwnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;D&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L17">code-39/index.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L17">code-39/index.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3131,7 +3146,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnnwwwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;J&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L23">code-39/index.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L23">code-39/index.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3141,7 +3156,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;2&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L6">codabar/index.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L6">codabar/index.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3151,7 +3166,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwnnwnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;7&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L11">code-39/index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L11">code-39/index.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3161,7 +3176,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwnwnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;%&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L46">code-39/index.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L46">code-39/index.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3171,7 +3186,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwnww<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;B&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L21">codabar/index.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L21">codabar/index.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3181,7 +3196,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;-&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L14">codabar/index.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L14">codabar/index.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3191,7 +3206,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwwnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;4&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L8">code-39/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L8">code-39/index.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3201,7 +3216,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwwnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;0&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L4">code-39/index.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L4">code-39/index.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3211,7 +3226,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnnwwwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;D&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L23">codabar/index.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L23">codabar/index.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3221,7 +3236,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwnnnnww<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;L&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L25">code-39/index.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L25">code-39/index.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3231,7 +3246,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwnnnwwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;S&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L32">code-39/index.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L32">code-39/index.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3241,7 +3256,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwnnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;4&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L8">codabar/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L8">codabar/index.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3251,7 +3266,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwnnwnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;B&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L15">code-39/index.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L15">code-39/index.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3261,7 +3276,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwnnwwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;I&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L22">code-39/index.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L22">code-39/index.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3271,7 +3286,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwnwnnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;P&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L29">code-39/index.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L29">code-39/index.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3281,7 +3296,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwnwwnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;F&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L19">code-39/index.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L19">code-39/index.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3291,7 +3306,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwwnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;$&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L15">codabar/index.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L15">codabar/index.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3301,7 +3316,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwwnnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;2&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L6">code-39/index.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L6">code-39/index.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3311,7 +3326,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwwnnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;9&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L13">code-39/index.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L13">code-39/index.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3321,7 +3336,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwwnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;A&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L20">codabar/index.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L20">codabar/index.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3331,7 +3346,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwwwnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;6&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L10">code-39/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L10">code-39/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3341,7 +3356,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nnwwwww<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;+&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L19">codabar/index.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L19">codabar/index.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3351,7 +3366,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;6&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L10">codabar/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L10">codabar/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3361,7 +3376,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnnnnwnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;-&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L40">code-39/index.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L40">code-39/index.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3371,7 +3386,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnnnwnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;+&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L45">code-39/index.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L45">code-39/index.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3381,7 +3396,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;7&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L11">codabar/index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L11">codabar/index.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3391,7 +3406,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnnwnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;X&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L37">code-39/index.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L37">code-39/index.ts:37</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3401,7 +3416,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnnwnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;*&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L47">code-39/index.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L47">code-39/index.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3411,7 +3426,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnwnnnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;/&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L44">code-39/index.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L44">code-39/index.ts:44</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3421,7 +3436,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnwnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;C&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L22">codabar/index.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L22">codabar/index.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3431,7 +3446,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwnwnwnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;$&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L43">code-39/index.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L43">code-39/index.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3441,7 +3456,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwwnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;8&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L12">codabar/index.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L12">codabar/index.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3451,7 +3466,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwwnnnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;V&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L35">code-39/index.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L35">code-39/index.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3461,7 +3476,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwwnnnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot; &quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L42">code-39/index.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L42">code-39/index.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3471,7 +3486,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">nwwnwnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Z&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L39">code-39/index.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L39">code-39/index.ts:39</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3481,7 +3496,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnnnnww<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;K&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L24">code-39/index.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L24">code-39/index.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3491,7 +3506,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnnnwwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;R&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L31">code-39/index.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L31">code-39/index.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3501,7 +3516,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;5&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L9">codabar/index.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L9">codabar/index.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3511,7 +3526,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnnwnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;A&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L14">code-39/index.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L14">code-39/index.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3521,7 +3536,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnnwwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;H&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L21">code-39/index.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L21">code-39/index.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3531,7 +3546,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnwnnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;O&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L28">code-39/index.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L28">code-39/index.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3541,7 +3556,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnwnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;:&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L16">codabar/index.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L16">codabar/index.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3551,7 +3566,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnnwwnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;E&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L18">code-39/index.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L18">code-39/index.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3561,7 +3576,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnwnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;9&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L13">codabar/index.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L13">codabar/index.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3571,7 +3586,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnwnnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;1&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L5">code-39/index.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L5">code-39/index.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3581,7 +3596,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnwnnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;8&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L12">code-39/index.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L12">code-39/index.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3591,7 +3606,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnnwwnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;5&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L9">code-39/index.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L9">code-39/index.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3601,7 +3616,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnwnnnnwn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;M&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L26">code-39/index.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L26">code-39/index.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3611,7 +3626,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnwnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;/&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L17">codabar/index.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L17">codabar/index.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3621,7 +3636,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnwnnwnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;C&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L16">code-39/index.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L16">code-39/index.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3631,7 +3646,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnwnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;.&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L18">codabar/index.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L18">codabar/index.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3641,7 +3656,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wnwwnnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;3&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L7">code-39/index.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L7">code-39/index.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3651,7 +3666,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wwnnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;3&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/codabar/index.ts#L7">codabar/index.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/codabar/index.ts#L7">codabar/index.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3661,7 +3676,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wwnnnnnnw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;U&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L34">code-39/index.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L34">code-39/index.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3671,7 +3686,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wwnnnnwnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;.&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L41">code-39/index.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L41">code-39/index.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3681,7 +3696,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wwnnwnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Y&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L38">code-39/index.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L38">code-39/index.ts:38</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3691,7 +3706,7 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">wwwnnnnnn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;W&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/code-39/index.ts#L36">code-39/index.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/code-39/index.ts#L36">code-39/index.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3702,8 +3717,8 @@ javascriptBarcodeReader({
 				<div class="tsd-signature tsd-kind-icon">UPC_<wbr>SET<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L1">ean-13/index.ts:1</a></li>
-						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L1">ean-8/index.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L1">ean-13/index.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L1">ean-8/index.ts:1</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -3712,8 +3727,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">1114<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;6&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L10">ean-13/index.ts:10</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L10">ean-8/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L10">ean-13/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L10">ean-8/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3723,8 +3738,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">1132<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;4&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L8">ean-13/index.ts:8</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L8">ean-8/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L8">ean-13/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L8">ean-8/index.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3734,8 +3749,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">1213<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;8&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L12">ean-13/index.ts:12</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L12">ean-8/index.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L12">ean-13/index.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L12">ean-8/index.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3745,8 +3760,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">1231<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;5&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L9">ean-13/index.ts:9</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L9">ean-8/index.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L9">ean-13/index.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L9">ean-8/index.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3756,8 +3771,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">1312<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;7&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L11">ean-13/index.ts:11</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L11">ean-8/index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L11">ean-13/index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L11">ean-8/index.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3767,8 +3782,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">1411<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;3&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L7">ean-13/index.ts:7</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L7">ean-8/index.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L7">ean-13/index.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L7">ean-8/index.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3778,8 +3793,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">2122<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;2&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L6">ean-13/index.ts:6</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L6">ean-8/index.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L6">ean-13/index.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L6">ean-8/index.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3789,8 +3804,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">2221<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;1&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L5">ean-13/index.ts:5</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L5">ean-8/index.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L5">ean-13/index.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L5">ean-8/index.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3800,8 +3815,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">3112<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;9&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L13">ean-13/index.ts:13</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L13">ean-8/index.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L13">ean-13/index.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L13">ean-8/index.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3811,8 +3826,8 @@ javascriptBarcodeReader({
 					<div class="tsd-signature tsd-kind-icon">3211<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;0&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-13/index.ts#L4">ean-13/index.ts:4</a></li>
-							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/1e7cfe0/src/ean-8/index.ts#L4">ean-8/index.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-13/index.ts#L4">ean-13/index.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/mubaidr/Javascript-Barcode-Reader/blob/c425cb9/src/ean-8/index.ts#L4">ean-8/index.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>

@@ -444,10 +444,9 @@ const TBL_C = [
 ]
 
 const computeGroup = (lines: number[]): number[] => {
-  let factor = lines.reduce((pre, item) => pre + item, 0) / (Math.ceil(lines.length / 6) * 11)
+  const factor = lines.reduce((pre, item) => pre + item, 0) / (Math.ceil(lines.length / 6) * 11)
 
-  factor = Math.round(factor * 10) / 10
-  console.log('TCL: factor', factor)
+  // factor = Math.round(factor * 10) / 10
 
   return lines.map(item => Math.round(item / factor) || 1)
 }
@@ -463,8 +462,6 @@ export function decoder(lines: number[]): string {
 
   const computedLines = computeGroup(lines)
 
-  console.log(lines, lines.length, computedLines, computedLines.length)
-
   if (!computedLines) return ''
 
   // extract terminal bar
@@ -473,6 +470,11 @@ export function decoder(lines: number[]): string {
   // skip check code and stop code using -12
   for (let i = 0; i * 6 < computedLines.length - 12; i += 1) {
     letterKey = computedLines.slice(i * 6, (i + 1) * 6).join('')
+
+    if (letterKey === '114141') {
+      letterKey = '113141'
+    }
+
     keyIndex = WIDTH_TBL.indexOf(letterKey)
     letterCode = lookupTBL[keyIndex]
     // sumOP += i * keyIndex
@@ -499,15 +501,11 @@ export function decoder(lines: number[]): string {
 
           letterCodePrev = letterCode
         } else {
-          // console.info(i, letterKey, keyIndex)
-
           code.push('?')
         }
         break
     }
   }
-
-  // console.log(code)
 
   // letterKey = computedLines.slice(0, 6).join('')
   // if (sumOP % 103 !== WIDTH_TBL.indexOf(letterKey)) return ''

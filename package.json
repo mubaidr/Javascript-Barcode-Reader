@@ -87,10 +87,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 85,
+        "branches": 80,
         "functions": 100,
-        "lines": 95,
-        "statements": 95
+        "lines": 90,
+        "statements": 90
       }
     },
     "moduleFileExtensions": [
@@ -158,5 +158,5 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
-  "version": "0.6.0"
+  "version": "0.6.1"
 }

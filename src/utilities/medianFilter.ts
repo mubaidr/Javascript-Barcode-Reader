@@ -27,7 +27,7 @@ export function applyMedianFilter(
         arr.push(v)
       }
 
-      const v = arr.sort((a, b) => a - b)[4] > 127 ? 255 : 0
+      const v = arr.sort((a, b) => a - b)[4] >= 127 ? 255 : 0
       data[i] = v
       data[i + 1] = v
       data[i + 2] = v
