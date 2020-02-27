@@ -99,7 +99,7 @@ export async function javascriptBarcodeReader({
   // check points for barcode location
   const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
   const slineStep = Math.round(height / sPoints.length)
-  const rowsToScan = Math.min(5, height)
+  const rowsToScan = Math.min(3, height)
 
   for (let i = 0; i < sPoints.length; i += 1) {
     const sPoint = sPoints[i]

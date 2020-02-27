@@ -13,7 +13,7 @@ export function getLines(data: Uint8ClampedArray, width: number, height: number)
       colSum += data[(row * width + col) * channels]
     }
 
-    // atleast 75% of the pixels are same in column
+    // atleast 50% of the pixels are same in column
     colAvg = colSum / height >= 127 ? 255 : 0
 
     // skip white padding in the start
