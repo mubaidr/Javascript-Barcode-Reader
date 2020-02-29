@@ -1,7 +1,8 @@
 export function applyMedianFilter(
   data: Uint8ClampedArray,
   width: number,
-  height: number
+  height: number,
+  filterSize = 3
 ): Uint8ClampedArray {
   const channels = data.length / (width * height)
   const window = [

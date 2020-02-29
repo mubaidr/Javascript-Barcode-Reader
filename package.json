@@ -26,17 +26,14 @@
     "@types/eslint": "^6.1.8",
     "@types/eslint-plugin-prettier": "^2.2.0",
     "@types/jest": "^25.1.3",
-    "@types/lodash.camelcase": "^4.3.6",
-    "@types/node": "^13.7.6",
+    "@types/node": "^13.7.7",
+    "@types/nodemon": "^1.19.0",
     "@types/prettier": "^1.19.0",
-    "@types/rimraf": "^2.0.3",
     "@types/rollup-plugin-json": "^3.0.2",
     "@types/semantic-release": "^15.13.1",
-    "@types/shelljs": "^0.8.6",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
     "canvas": "^2.6.1",
-    "colors": "^1.4.0",
     "commitizen": "^4.0.3",
     "coveralls": "^3.0.9",
     "cross-env": "^7.0.0",
@@ -50,27 +47,24 @@
     "jest-config": "^25.1.0",
     "jest-environment-jsdom": "^25.1.0",
     "lint-staged": "^10.0.8",
-    "lodash.camelcase": "^4.3.0",
+    "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
-    "prompt": "^1.0.0",
-    "replace-in-file": "^5.0.2",
-    "rimraf": "^3.0.2",
-    "rollup": "^1.31.1",
+    "rollup": "^1.32.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.5.0",
     "rollup-plugin-typescript2": "^0.26.0",
     "semantic-release": "^17.0.4",
-    "shelljs": "^0.8.3",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",
-    "typedoc": "^0.16.10",
-    "typescript": "^3.8.2"
+    "typedoc": "^0.16.11",
+    "typescript": "^3.8.3"
   },
   "engines": {
     "node": ">=6.0.0"
   },
   "files": [
+    "src",
     "dist"
   ],
   "homepage": "https://github.com/mubaidr/Javascript-Barcode-Reader#readme",
@@ -155,5 +149,5 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
-  "version": "0.6.2"
+  "version": "0.6.3"
 }

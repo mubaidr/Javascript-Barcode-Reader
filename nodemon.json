@@ -1,0 +1,11 @@
+{
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "exec": "ts-node --transpile-only src/tmp.ts",
+  "ext": "js,json,ts",
+  "ignore": ["dist", "*.test.ts", ".git", "node_modules/**/node_modules"],
+  "restartable": "rs",
+  "verbose": true,
+  "watch": ["src"]
+}
