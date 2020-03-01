@@ -2,6 +2,7 @@ import * as Jimp from 'jimp'
 import * as path from 'path'
 import { BARCODE_DECODERS, javascriptBarcodeReader } from '../src/index'
 import { combineAllPossible } from '../src/utilities/combineAllPossible'
+import getBitData from '../src/utilities/getBitData'
 import { getImageDataFromSource } from '../src/utilities/getImageDataFromSource'
 import { getLines } from '../src/utilities/getLines'
 import { isUrl } from '../src/utilities/isUrl'
@@ -38,6 +39,17 @@ beforeAll(async () => {
 
   document.body.appendChild(img)
   document.body.appendChild(canvas)
+})
+
+describe('Get bitData from pixel data', () => {
+  test('should get bit data', () => {
+    const data = Uint8ClampedArray.from([255, 255, 255, 255, 0, 0, 0, 255, 0, 0, 0, 0])
+    const bitData = getBitData(data, 3, 1)
+
+    expect(bitData[0]).toBe(255)
+    expect(bitData[1]).toBe(0)
+    expect(bitData[2]).toBe(0)
+  })
 })
 
 describe('Count lines in an image', () => {
@@ -159,7 +171,7 @@ describe('Median Filter', () => {
     const width = 9
     const height = 9
     const data = new Array(width * height).fill(undefined).map(() => Math.random() * 255)
-    const dataMedian = applyMedianFilter(Uint8ClampedArray.from(data), width, height)
+    const dataMedian = applyMedianFilter(data, width, height)
 
     expect(dataMedian.length).toBe(width * height)
   })

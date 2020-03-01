@@ -13,6 +13,8 @@ import { getLines } from './utilities/getLines'
 
 const isTestEnv = process && process.env.NODE_ENV === 'test'
 
+// TODO: add fuse.js for fuzzy search for bad quality barcodes
+
 export enum BARCODE_DECODERS {
   'code-128' = 'code-128',
   'code-2of5' = 'code-2of5',
