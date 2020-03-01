@@ -106,5 +106,5 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
-  "version": "0.6.3"
+  "version": "0.6.4"
 }
