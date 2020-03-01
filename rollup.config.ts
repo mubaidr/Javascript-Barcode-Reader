@@ -1,5 +1,4 @@
 import commonjs from '@rollup/plugin-commonjs'
-import camelCase from 'lodash.camelcase'
 import json from 'rollup-plugin-json'
 import resolve from 'rollup-plugin-node-resolve'
 import sourceMaps from 'rollup-plugin-sourcemaps'
@@ -7,33 +6,33 @@ import typescript from 'rollup-plugin-typescript2'
 
 const pkg = require('./package.json')
 
-const libraryName = 'javascript-barcode-reader'
+const libraryName = 'javascriptBarcodeReader'
 
 export default {
   input: `src/index.ts`,
   output: [
     {
       file: pkg.main,
-      name: camelCase(libraryName),
+      name: libraryName,
       format: 'umd',
       sourcemap: true,
       globals: {
-        jimp: 'Jimp'
-      }
+        jimp: 'Jimp',
+      },
     },
     {
       file: pkg.module,
       format: 'es',
       sourcemap: true,
       globals: {
-        jimp: 'Jimp'
-      }
-    }
+        jimp: 'Jimp',
+      },
+    },
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: ['jimp'],
   watch: {
-    include: 'src/**'
+    include: 'src/**',
   },
   plugins: [
     // Allow json resolution
@@ -48,6 +47,6 @@ export default {
     resolve(),
 
     // Resolve source maps to the original source
-    sourceMaps()
-  ]
+    sourceMaps(),
+  ],
 }
