@@ -68,46 +68,6 @@
     "dist"
   ],
   "homepage": "https://github.com/mubaidr/Javascript-Barcode-Reader#readme",
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,ts}"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/",
-      "/dist/",
-      "/docs/",
-      "/tools/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 100,
-        "lines": 90,
-        "statements": 90
-      }
-    },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "testEnvironment": "jsdom",
-    "testEnvironmentOptions": {
-      "resources": "usable"
-    },
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/src/",
-      "/dist/",
-      "/docs/",
-      "/tools/"
-    ],
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    }
-  },
   "keywords": [
     "barcode",
     "reader",
@@ -125,10 +85,6 @@
   "main": "dist/javascript-barcode-reader.umd.js",
   "module": "dist/javascript-barcode-reader.es5.js",
   "name": "javascript-barcode-reader",
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/mubaidr/Javascript-Barcode-Reader.git"
@@ -137,7 +93,7 @@
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
     "commit": "git-cz",
     "deploy-docs": "ts-node tools/gh-pages-publish",
-    "lint": "eslint --ext .js,.ts {src,test}/* --fix && prettier --write \"{test,src}/**/*.{js,ts}\"",
+    "lint": "eslint --ext .js,.ts {src,test}/* --fix && prettier --write \"{test,src,tools}/**/*.{js,ts}\"",
     "prebuild": "rimraf dist",
     "precommit": "lint-staged",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",

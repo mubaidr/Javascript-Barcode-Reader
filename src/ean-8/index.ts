@@ -10,7 +10,7 @@ const UPC_SET: {
   '1114': '6',
   '1312': '7',
   '1213': '8',
-  '3112': '9'
+  '3112': '9',
 }
 
 export function decoder(lines: number[]): string {

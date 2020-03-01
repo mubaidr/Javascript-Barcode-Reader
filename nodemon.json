@@ -2,7 +2,7 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "exec": "ts-node --transpile-only src/tmp.ts",
+  "exec": "ts-node --transpile-only ./tools/tmp.ts",
   "ext": "js,json,ts",
   "ignore": ["dist", "*.test.ts", ".git", "node_modules/**/node_modules"],
   "restartable": "rs",

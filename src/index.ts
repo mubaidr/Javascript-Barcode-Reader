@@ -6,12 +6,10 @@ import * as code93 from './code-93'
 import * as code2of5 from './code2of5'
 import * as ean13 from './ean-13'
 import * as ean8 from './ean-8'
-// utilities
+import { applyAdaptiveThreshold } from './utilities/adaptiveThreshold'
 import { combineAllPossible } from './utilities/combineAllPossible'
 import { getImageDataFromSource } from './utilities/getImageDataFromSource'
 import { getLines } from './utilities/getLines'
-import { applyAdaptiveThreshold } from './utilities/threshold/adaptiveThreshold'
-import { applySimpleThreshold } from './utilities/threshold/applySimpleThreshold'
 
 const isTestEnv = process && process.env.NODE_ENV === 'test'
 
@@ -22,7 +20,7 @@ export enum BARCODE_DECODERS {
   'code-93' = 'code-93',
   'ean-13' = 'ean-13',
   'ean-8' = 'ean-8',
-  'codabar' = 'codabar'
+  'codabar' = 'codabar',
 }
 
 export interface ImageDataLike {
@@ -53,7 +51,7 @@ export async function javascriptBarcodeReader({
   image,
   barcode,
   barcodeType,
-  options
+  options,
 }: JavascriptBarcodeReader): Promise<string> {
   let decoder: DecoderFunction
 
@@ -87,13 +85,12 @@ export async function javascriptBarcodeReader({
   const imageData = isImageLike(image) ? image : await getImageDataFromSource(image)
   const width = imageData.width
   const height = imageData.height
-  let data = imageData.data
-  const channels = data.length / (width * height)
+  const channels = imageData.data.length / (width * height)
   let finalResult = ''
 
   // apply adaptive threshold
   if (options && options.useAdaptiveThreshold) {
-    data = applyAdaptiveThreshold(data, width, height)
+    applyAdaptiveThreshold(imageData.data, width, height)
   }
 
   // check points for barcode location
@@ -105,13 +102,7 @@ export async function javascriptBarcodeReader({
     const sPoint = sPoints[i]
     const start = channels * width * Math.floor(slineStep * sPoint)
     const end = start + rowsToScan * channels * width
-    let dataSlice = data.slice(start, end)
-
-    if (!options || !options.useAdaptiveThreshold) {
-      dataSlice = applySimpleThreshold(dataSlice, width, height)
-    }
-
-    const lines = getLines(dataSlice, width, rowsToScan)
+    const lines = getLines(imageData.data.slice(start, end), width, rowsToScan)
 
     if (lines.length === 0) {
       if (useSinglePass) throw new Error('Failed to extract barcode!')

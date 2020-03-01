@@ -20,7 +20,7 @@ const CHAR_SET: {
   nnwwnwn: 'A',
   nnnwnww: 'B',
   nwnwnnw: 'C',
-  nnnwwwn: 'D'
+  nnnwwwn: 'D',
 }
 
 export function decoder(lines: number[]): string {

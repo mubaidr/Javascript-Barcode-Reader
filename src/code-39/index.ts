@@ -44,7 +44,7 @@ const CHAR_SET: {
   nwnwnnnwn: '/',
   nwnnnwnwn: '+',
   nnnwnwnwn: '%',
-  nwnnwnwnn: '*'
+  nwnnwnwnn: '*',
 }
 
 export function decoder(lines: number[]): string {

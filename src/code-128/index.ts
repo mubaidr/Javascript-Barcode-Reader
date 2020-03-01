@@ -107,7 +107,7 @@ const WIDTH_TBL = [
   '211232',
   '233111',
   '211133',
-  '2331112'
+  '2331112',
 ]
 
 const TBL_A = [
@@ -218,7 +218,7 @@ const TBL_A = [
   'Code B',
   'Code C',
   'Stop',
-  'Reverse Stop'
+  'Reverse Stop',
 ]
 
 const TBL_B = [
@@ -329,7 +329,7 @@ const TBL_B = [
   'Code B',
   'Code C',
   'Stop',
-  'Reverse Stop'
+  'Reverse Stop',
 ]
 
 const TBL_C = [
@@ -440,7 +440,7 @@ const TBL_C = [
   'Code B',
   'Code C',
   'Stop',
-  'Reverse Stop'
+  'Reverse Stop',
 ]
 
 const computeGroup = (lines: number[]): number[] => {

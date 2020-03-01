@@ -50,7 +50,7 @@ const CHAR_SET: CharValue[] = [
   { '111011010': '(%)' },
   { '111010110': '(/)' },
   { '100110010': '(+)' },
-  { '101011110': '*' }
+  { '101011110': '*' },
 ]
 
 export function decoder(lines: number[]): string {

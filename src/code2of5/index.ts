@@ -8,7 +8,7 @@ const CHAR_SET = [
   'nwwnn',
   'nnnww',
   'wnnwn',
-  'nwnwn'
+  'nwnwn',
 ]
 
 export function decoder(lines: number[], type?: string): string {

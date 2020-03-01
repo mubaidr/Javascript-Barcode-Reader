@@ -39,7 +39,7 @@ export async function getImageDataFromSource(
             resolve({
               data: Uint8ClampedArray.from(data),
               width,
-              height
+              height,
             })
           }
         })
