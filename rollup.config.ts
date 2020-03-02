@@ -12,15 +12,6 @@ export default {
   input: `src/index.ts`,
   output: [
     {
-      file: 'dist/javascript-barcode-reader.umd.js',
-      name: libraryName,
-      format: 'umd',
-      sourcemap: true,
-      globals: {
-        jimp: 'Jimp',
-      },
-    },
-    {
       file: 'dist/javascript-barcode-reader.umd.min.js',
       name: libraryName,
       format: 'umd',
@@ -29,14 +20,6 @@ export default {
         jimp: 'Jimp',
       },
       plugins: [terser()],
-    },
-    {
-      file: 'dist/javascript-barcode-reader.es5.js',
-      format: 'es',
-      sourcemap: true,
-      globals: {
-        jimp: 'Jimp',
-      },
     },
     {
       file: 'dist/javascript-barcode-reader.es5.min.js',

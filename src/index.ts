@@ -6,26 +6,20 @@ import * as code93 from './code-93'
 import * as code2of5 from './code2of5'
 import * as ean from './ean'
 import { applyAdaptiveThreshold } from './utilities/adaptiveThreshold'
+import { BARCODE_DECODERS } from './utilities/BARCODE_DECODERS'
 import { combineAllPossible } from './utilities/combineAllPossible'
 import { getImageDataFromSource } from './utilities/getImageDataFromSource'
 import { getLines } from './utilities/getLines'
+import { ImageDataLike } from './utilities/ImageDataLike'
 
-const isTestEnv = process && process.env.NODE_ENV === 'test'
-
-export enum BARCODE_DECODERS {
-  'code-128' = 'code-128',
-  'code-2of5' = 'code-2of5',
-  'code-39' = 'code-39',
-  'code-93' = 'code-93',
-  'ean-13' = 'ean-13',
-  'ean-8' = 'ean-8',
-  'codabar' = 'codabar',
-}
-
-export interface ImageDataLike {
-  data: Uint8ClampedArray
-  width: number
-  height: number
+// detect test env
+let isTestEnv: boolean
+try {
+  if (process && process.env.NODE_ENV === 'test') {
+    isTestEnv = true
+  }
+} catch {
+  isTestEnv = false
 }
 
 function isImageLike(object: any): object is ImageDataLike {
@@ -46,7 +40,7 @@ interface DecoderFunction {
   (lines: number[], type?: string): string
 }
 
-export async function javascriptBarcodeReader({
+export default async function javascriptBarcodeReader({
   image,
   barcode,
   barcodeType,

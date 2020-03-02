@@ -1,9 +1,5 @@
 {
   "author": "Muhammad Ubaid Raza <mubaidr@gmail.com>",
-  "browser": {
-    "dist/javascript-barcode-reader.es5.js": "dist/javascript-barcode-reader.es5.min.js",
-    "dist/javascript-barcode-reader.umd.js": "dist/javascript-barcode-reader.umd.min.js"
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -89,8 +85,8 @@
       "git add"
     ]
   },
-  "main": "dist/javascript-barcode-reader.umd.js",
-  "module": "dist/javascript-barcode-reader.es5.js",
+  "main": "dist/javascript-barcode-reader.umd.min.js",
+  "module": "dist/javascript-barcode-reader.es5.min.js",
   "name": "javascript-barcode-reader",
   "repository": {
     "type": "git",
@@ -112,5 +108,5 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
-  "version": "0.6.7"
+  "version": "0.6.8"
 }

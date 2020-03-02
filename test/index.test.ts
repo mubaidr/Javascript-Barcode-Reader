@@ -1,6 +1,6 @@
 import * as Jimp from 'jimp'
 import * as path from 'path'
-import { BARCODE_DECODERS, javascriptBarcodeReader } from '../src/index'
+import javascriptBarcodeReader from '../src/index'
 import { combineAllPossible } from '../src/utilities/combineAllPossible'
 import { getImageDataFromSource } from '../src/utilities/getImageDataFromSource'
 import { getLines } from '../src/utilities/getLines'
@@ -175,7 +175,7 @@ describe('extract barcode from local files', () => {
   test('should detect barcode codabar', async () => {
     const result = await javascriptBarcodeReader({
       image: path.resolve('./test/sample-images/codabar.jpg'),
-      barcode: BARCODE_DECODERS.codabar,
+      barcode: 'codabar',
     })
 
     expect(result).toBe('A40156C')
@@ -184,7 +184,7 @@ describe('extract barcode from local files', () => {
   test('should detect barcode codabar', async () => {
     const result = await javascriptBarcodeReader({
       image: path.resolve('./test/sample-images/codabar.jpg'),
-      barcode: BARCODE_DECODERS.codabar,
+      barcode: 'codabar',
       options: {
         singlePass: true,
       },

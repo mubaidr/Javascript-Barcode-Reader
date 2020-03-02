@@ -1,6 +1,6 @@
 import * as Jimp from 'jimp'
-import { ImageDataLike } from '..'
 import { createImageData } from './createImageData'
+import { ImageDataLike } from './ImageDataLike'
 import { isUrl } from './isUrl'
 
 const isNode = typeof process === 'object' && process.release && process.release.name === 'node'

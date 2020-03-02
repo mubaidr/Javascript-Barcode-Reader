@@ -1,4 +1,4 @@
-import { ImageDataLike } from '..'
+import { ImageDataLike } from './ImageDataLike'
 
 export function createImageData(image: HTMLImageElement): ImageDataLike {
   const canvas = document.createElement('canvas')
