@@ -7,13 +7,13 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "lib": ["esnext", "dom"],
-    "module": "esnext",
+    "lib": ["es2015", "dom"],
+    "module": "es2015",
     "moduleResolution": "node",
     "outDir": "dist/lib",
     "sourceMap": true,
     "strict": true,
-    "target": "esnext",
+    "target": "es2015",
     "typeRoots": ["node_modules/@types"]
   },
   "include": ["src", "test"]
