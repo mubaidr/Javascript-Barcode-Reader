@@ -35,6 +35,7 @@
     "@typescript-eslint/parser": "^2.21.0",
     "canvas": "^2.6.1",
     "commitizen": "^4.0.3",
+    "core-js": "3.6.4",
     "coveralls": "^3.0.9",
     "cross-env": "^7.0.0",
     "cz-conventional-changelog": "^3.1.0",
@@ -50,9 +51,11 @@
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "rollup": "^1.32.0",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.5.0",
+    "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
     "semantic-release": "^17.0.4",
     "ts-jest": "^25.2.1",
@@ -82,8 +85,8 @@
       "git add"
     ]
   },
-  "main": "dist/javascript-barcode-reader.umd.js",
-  "module": "dist/javascript-barcode-reader.es5.js",
+  "main": "dist/javascript-barcode-reader.umd.min.js",
+  "module": "dist/javascript-barcode-reader.es5.min.js",
   "name": "javascript-barcode-reader",
   "repository": {
     "type": "git",
@@ -105,5 +108,5 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
-  "version": "0.6.5"
+  "version": "0.6.6"
 }
