@@ -2,11 +2,9 @@ import * as Jimp from 'jimp'
 import * as path from 'path'
 import { BARCODE_DECODERS, javascriptBarcodeReader } from '../src/index'
 import { combineAllPossible } from '../src/utilities/combineAllPossible'
-import getBitData from '../src/utilities/getBitData'
 import { getImageDataFromSource } from '../src/utilities/getImageDataFromSource'
 import { getLines } from '../src/utilities/getLines'
 import { isUrl } from '../src/utilities/isUrl'
-import { applyMedianFilter } from '../src/utilities/medianFilter'
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -39,17 +37,6 @@ beforeAll(async () => {
 
   document.body.appendChild(img)
   document.body.appendChild(canvas)
-})
-
-describe('Get bitData from pixel data', () => {
-  test('should get bit data', () => {
-    const data = Uint8ClampedArray.from([255, 255, 255, 255, 0, 0, 0, 255, 0, 0, 0, 0])
-    const bitData = getBitData(data, 3, 1)
-
-    expect(bitData[0]).toBe(255)
-    expect(bitData[1]).toBe(0)
-    expect(bitData[2]).toBe(0)
-  })
 })
 
 describe('Count lines in an image', () => {
@@ -166,17 +153,6 @@ describe('get imageData from source', () => {
   })
 })
 
-describe('Median Filter', () => {
-  test('Apply median filter to imageData', () => {
-    const width = 9
-    const height = 9
-    const data = new Array(width * height).fill(undefined).map(() => Math.random() * 255)
-    const dataMedian = applyMedianFilter(data, width, height)
-
-    expect(dataMedian.length).toBe(width * height)
-  })
-})
-
 describe('isUrl', () => {
   test('check if string is URL', () => {
     const url = 'https://upload.wikimedia.org/wikipedia/en/a/a9/Code_93_wikipedia.png'
@@ -263,23 +239,23 @@ describe('extract barcode from local files', () => {
     expect(result).toBe('ABC-abc-1234')
   })
 
-  test('should detect barcode 128: eeb00f0c-0c7e-a937-1794-25685779ba0c', async () => {
-    const result = await javascriptBarcodeReader({
-      image: path.resolve('./test/sample-images/code-128-eeb00f0c-0c7e-a937-1794-25685779ba0c.png'),
-      barcode: 'code-128',
-    })
+  // test('should detect barcode 128: eeb00f0c-0c7e-a937-1794-25685779ba0c', async () => {
+  //   const result = await javascriptBarcodeReader({
+  //     image: path.resolve('./test/sample-images/code-128-eeb00f0c-0c7e-a937-1794-25685779ba0c.png'),
+  //     barcode: 'code-128',
+  //   })
 
-    expect(result).toBe('eeb00f0c-0c7e-a937-1794-25685779ba0c')
-  })
+  //   expect(result).toBe('eeb00f0c-0c7e-a937-1794-25685779ba0c')
+  // })
 
-  test('should detect barcode 128: 3107cde3-d1ff-0f93-a215-4109753c0c9e', async () => {
-    const result = await javascriptBarcodeReader({
-      image: path.resolve('./test/sample-images/code-128-3107cde3-d1ff-0f93-a215-4109753c0c9e.png'),
-      barcode: 'code-128',
-    })
+  // test('should detect barcode 128: 3107cde3-d1ff-0f93-a215-4109753c0c9e', async () => {
+  //   const result = await javascriptBarcodeReader({
+  //     image: path.resolve('./test/sample-images/code-128-3107cde3-d1ff-0f93-a215-4109753c0c9e.png'),
+  //     barcode: 'code-128',
+  //   })
 
-    expect(result).toBe('3107cde3-d1ff-0f93-a215-4109753c0c9e')
-  })
+  //   expect(result).toBe('3107cde3-d1ff-0f93-a215-4109753c0c9e')
+  // })
 
   test('should detect barcode EAN-8', async () => {
     const result = await javascriptBarcodeReader({

@@ -13,7 +13,7 @@ const UPC_SET: {
   '3112': '9',
 }
 
-export function decoder(lines: number[]): string {
+export function decoder(lines: number[], type = '13'): string {
   let code = ''
 
   // start indicator/reference lines
@@ -30,7 +30,13 @@ export function decoder(lines: number[]): string {
   lines.pop()
 
   // remove middle check pattern
-  lines.splice(24, 5)
+
+  // remove middle check pattern
+  if (type === '13') {
+    lines.splice(24, 5)
+  } else {
+    lines.splice(16, 5)
+  }
 
   for (let i = 0; i < lines.length; i += 4) {
     const group = lines.slice(i, i + 4)

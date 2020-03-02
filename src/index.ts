@@ -4,16 +4,13 @@ import * as code128 from './code-128'
 import * as code39 from './code-39'
 import * as code93 from './code-93'
 import * as code2of5 from './code2of5'
-import * as ean13 from './ean-13'
-import * as ean8 from './ean-8'
+import * as ean from './ean'
 import { applyAdaptiveThreshold } from './utilities/adaptiveThreshold'
 import { combineAllPossible } from './utilities/combineAllPossible'
 import { getImageDataFromSource } from './utilities/getImageDataFromSource'
 import { getLines } from './utilities/getLines'
 
 const isTestEnv = process && process.env.NODE_ENV === 'test'
-
-// TODO: add fuse.js for fuzzy search for bad quality barcodes
 
 export enum BARCODE_DECODERS {
   'code-128' = 'code-128',
@@ -74,55 +71,54 @@ export async function javascriptBarcodeReader({
       decoder = code2of5.decoder
       break
     case BARCODE_DECODERS['ean-13']:
-      decoder = ean13.decoder
+      decoder = ean.decoder
+      barcodeType = '13'
       break
     case BARCODE_DECODERS['ean-8']:
-      decoder = ean8.decoder
+      decoder = ean.decoder
+      barcodeType = '8'
       break
     default:
       throw new Error(`Invalid barcode specified. Available decoders: ${BARCODE_DECODERS}.`)
   }
 
   const useSinglePass = isTestEnv || (options && options.singlePass) || false
-  const imageData = isImageLike(image) ? image : await getImageDataFromSource(image)
-  const width = imageData.width
-  const height = imageData.height
-  const channels = imageData.data.length / (width * height)
+  const { data, width, height } = isImageLike(image) ? image : await getImageDataFromSource(image)
+  const channels = data.length / (width * height)
   let finalResult = ''
 
   // apply adaptive threshold
   if (options && options.useAdaptiveThreshold) {
-    applyAdaptiveThreshold(imageData.data, width, height)
+    applyAdaptiveThreshold(data, width, height)
   }
 
   // check points for barcode location
-  const sPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
-  const slineStep = Math.round(height / sPoints.length)
-  const rowsToScan = Math.min(3, height)
+  const searchPoints = [5, 6, 4, 7, 3, 8, 2, 9, 1]
+  const searchLineStep = Math.round(height / searchPoints.length)
+  const rowsToScan = Math.min(2, height)
 
-  for (let i = 0; i < sPoints.length; i += 1) {
-    const sPoint = sPoints[i]
-    const start = channels * width * Math.floor(slineStep * sPoint)
+  for (let i = 0; i < searchPoints.length; i += 1) {
+    const start = channels * width * Math.floor(searchLineStep * searchPoints[i])
     const end = start + rowsToScan * channels * width
-    const lines = getLines(imageData.data.slice(start, end), width, rowsToScan)
+    const lines = getLines(data.slice(start, end), width, rowsToScan)
 
     if (lines.length === 0) {
-      if (useSinglePass) throw new Error('Failed to extract barcode!')
+      if (useSinglePass || i === searchPoints.length - 1) {
+        throw new Error('Failed to detect lines in the image!')
+      }
+
       continue
     }
 
     // Run the decoder
     const result = decoder(lines, barcodeType)
 
-    if (useSinglePass) return result
     if (!result) continue
-    if (!result.includes('?')) return result
+    else if (useSinglePass || !result.includes('?')) return result
 
     finalResult = combineAllPossible(finalResult, result)
-
     if (!finalResult.includes('?')) return finalResult
-    if (i === sPoints.length - 1) return finalResult
   }
 
-  throw new Error('Failed to extract barcode!')
+  return finalResult
 }

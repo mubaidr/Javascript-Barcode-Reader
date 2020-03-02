@@ -11,7 +11,6 @@
     }
   },
   "dependencies": {
-    "fuse.js": "^3.4.6",
     "jimp": "^0.9.3"
   },
   "description": "Simple & Fast Barcode decoder for Browser and Node.js",
@@ -106,5 +105,5 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/javascript-barcode-reader.d.ts",
-  "version": "0.6.4"
+  "version": "0.6.5"
 }

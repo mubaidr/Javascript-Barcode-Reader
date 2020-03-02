@@ -1,21 +1,16 @@
-import getBitData from './getBitData'
-import { applyMedianFilter } from './medianFilter'
-
 export function getLines(data: Uint8ClampedArray, width: number, height: number): number[] {
-  let bitData = getBitData(data, width, height)
   const lines: number[] = []
+  const channels = data.length / (width * height)
   let count = 0
   let columnAverageLast = 0
-
-  bitData = applyMedianFilter(bitData, width, height)
 
   for (let column = 0; column < width; column += 1) {
     let columnSum = 0
     let columnAverage = 0
 
     for (let row = 0; row < height; row += 1) {
-      const index = row * width + column
-      columnSum += bitData[index]
+      const index = (row * width + column) * channels
+      columnSum += Math.sqrt((data[index] ** 2 + data[index + 1] ** 2 + data[index + 2] ** 2) / 3)
     }
 
     // pixels are same in column
