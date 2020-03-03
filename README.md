@@ -15,7 +15,7 @@ Simple & Fast Barcode decoder for Browsers and Node.js capapable of reading Code
 
 ## Try now
 
-https://jsfiddle.net/mubaidr/yqm29bxk/8/
+https://codesandbox.io/s/javascript-barcode-reader-liium
 
 ## Available decoders
 
