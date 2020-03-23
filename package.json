@@ -61,7 +61,7 @@
     "semantic-release": "^17.0.4",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",
-    "typedoc": "^0.16.11",
+    "typedoc": "^0.17.3",
     "typescript": "^3.8.3"
   },
   "engines": {
