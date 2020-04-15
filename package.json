@@ -11,7 +11,7 @@
     }
   },
   "dependencies": {
-    "jimp": "^0.9.5"
+    "jimp": "^0.10.2"
   },
   "description": "Simple & Fast Barcode decoder for Browser and Node.js",
   "devDependencies": {
