@@ -47,7 +47,7 @@
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "jest-config": "^25.1.0",
-    "jest-environment-jsdom": "^25.1.0",
+    "jest-environment-jsdom": "^26.0.1",
     "lint-staged": "^10.0.8",
     "nodemon": "^2.0.2",
     "prettier": "^2.0.4",
