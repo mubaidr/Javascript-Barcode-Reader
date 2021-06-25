@@ -108,6 +108,6 @@
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "test:watch": "jest --watch"
   },
-  "typings": "dist/types/javascript-barcode-reader.d.ts",
+  "typings": "dist/types/src/index.d.ts",
   "version": "0.6.8"
 }
