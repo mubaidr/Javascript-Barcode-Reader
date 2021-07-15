@@ -5441,7 +5441,7 @@ jest-cli@^27.0.6:
     prompts "^2.0.1"
     yargs "^16.0.3"
 
-jest-config@^27.0.6:
+jest-config@27.0.6, jest-config@^27.0.6:
   version "27.0.6"
   resolved "https://registry.npmjs.org/jest-config/-/jest-config-27.0.6.tgz"
   integrity sha512-JZRR3I1Plr2YxPBhgqRspDE2S5zprbga3swYNrvY3HfQGu7p/GjyLOqwrYad97tX3U3mzT53TPHVmozacfP/3w==
@@ -5506,7 +5506,7 @@ jest-each@^27.0.6:
     jest-util "^27.0.6"
     pretty-format "^27.0.6"
 
-jest-environment-jsdom@^27.0.6:
+jest-environment-jsdom@27.0.6, jest-environment-jsdom@^27.0.6:
   version "27.0.6"
   resolved "https://registry.npmjs.org/jest-environment-jsdom/-/jest-environment-jsdom-27.0.6.tgz"
   integrity sha512-FvetXg7lnXL9+78H+xUAsra3IeZRTiegA3An01cWeXBspKXUhAwMM9ycIJ4yBaR0L7HkoMPaZsozCLHh4T8fuw==
@@ -5813,7 +5813,7 @@ jest-worker@^27.0.6:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jest@^27.0.6:
+jest@27.0.6:
   version "27.0.6"
   resolved "https://registry.npmjs.org/jest/-/jest-27.0.6.tgz"
   integrity sha512-EjV8aETrsD0wHl7CKMibKwQNQc3gIRBXlTikBmmHUeVMKaPFxdcUIBfoDqTSXDoGJIivAYGqCWVlzCSaVjPQsA==
