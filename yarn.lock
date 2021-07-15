@@ -1984,10 +1984,10 @@
   resolved "https://registry.npmjs.org/@types/retry/-/retry-0.12.0.tgz"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
 
-"@types/rollup-plugin-json@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/@types/rollup-plugin-json/-/rollup-plugin-json-3.0.2.tgz"
-  integrity sha512-eTRym5nG4HEKDR/KrTnCMYwF7V0hgVjEesvtJCK3V8ho/aT0ZFRFgsDtx38VarM30HCsN372+i4FKYwnhcwiVA==
+"@types/rollup-plugin-json@3.0.3":
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/@types/rollup-plugin-json/-/rollup-plugin-json-3.0.3.tgz"
+  integrity sha512-5Y5fTYRCXS1llyLzQ3X1XhDRpw/31jkfWOMpDRgz000d9ABOsdLWDg/f6mqwT8BKGYV/+6tje4uGQnuebuk7dg==
   dependencies:
     "@types/node" "*"
     rollup "^0.63.4"
