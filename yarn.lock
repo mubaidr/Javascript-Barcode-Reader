@@ -1871,10 +1871,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/core-js@2.5.4":
-  version "2.5.4"
-  resolved "https://registry.npmjs.org/@types/core-js/-/core-js-2.5.4.tgz"
-  integrity sha512-Xwy8o12ak+iYgFr/KCVaVK5Sy+jFMiiPAID3+ObvMlBzy26XQJw5xu+a6rlHsrJENXj/AwJOGsJpVohUjAzSKQ==
+"@types/core-js@2.5.5":
+  version "2.5.5"
+  resolved "https://registry.npmjs.org/@types/core-js/-/core-js-2.5.5.tgz"
+  integrity sha512-C4vwOHrhsvxn7UFyk4NDQNUpgNKdWsT/bL39UWyD75KSEOObZSKa9mYDOCM5FGeJG2qtbG0XiEbUKND2+j0WOg==
 
 "@types/eslint-plugin-prettier@^3.1.0":
   version "3.1.0"
