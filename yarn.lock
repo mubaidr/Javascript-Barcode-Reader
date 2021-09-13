@@ -8572,10 +8572,10 @@ saxes@^5.0.1:
   dependencies:
     xmlchars "^2.2.0"
 
-semantic-release@^17.4.4:
-  version "17.4.4"
-  resolved "https://registry.npmjs.org/semantic-release/-/semantic-release-17.4.4.tgz"
-  integrity sha512-fQIA0lw2Sy/9+TcoM/BxyzKCSwdUd8EPRwGoOuBLgxKigPCY6kaKs8TOsgUVy6QrlTYwni2yzbMb5Q2107P9eA==
+semantic-release@17.4.7:
+  version "17.4.7"
+  resolved "https://registry.npmjs.org/semantic-release/-/semantic-release-17.4.7.tgz"
+  integrity sha512-3Ghu8mKCJgCG3QzE5xphkYWM19lGE3XjFdOXQIKBM2PBpBvgFQ/lXv31oX0+fuN/UjNFO/dqhNs8ATLBhg6zBg==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
