@@ -1992,10 +1992,10 @@
     "@types/node" "*"
     rollup "^0.63.4"
 
-"@types/semantic-release@^17.2.1":
-  version "17.2.1"
-  resolved "https://registry.npmjs.org/@types/semantic-release/-/semantic-release-17.2.1.tgz"
-  integrity sha512-Gw9LyDgBn3I2lP4fel7/SmsKqqon+6SfOXitNhURkJrt+oIi5q65oY5AsbYzwIduFVOasbFrJ5469dJMaSRCNw==
+"@types/semantic-release@17.2.3":
+  version "17.2.3"
+  resolved "https://registry.npmjs.org/@types/semantic-release/-/semantic-release-17.2.3.tgz"
+  integrity sha512-iSqx8cZbDRQSCi/VR1LtmUV4OFiDZVAvfpVdVeq3rPveXYU+xb3bzmVphXSw7wkFgE7LwAoaoE96RV4nkL0Rvg==
   dependencies:
     "@types/node" "*"
 

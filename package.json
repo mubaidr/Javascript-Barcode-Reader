@@ -32,7 +32,7 @@
     "@types/nodemon": "^1.19.1",
     "@types/prettier": "^2.3.2",
     "@types/rollup-plugin-json": "^3.0.2",
-    "@types/semantic-release": "^17.2.1",
+    "@types/semantic-release": "17.2.3",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "canvas": "^2.8.0",
