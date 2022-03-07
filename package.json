@@ -49,7 +49,7 @@
     "jest": "^27.0.6",
     "jest-config": "^27.0.6",
     "jest-environment-jsdom": "^27.0.6",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "11.2.6",
     "nodemon": "^2.0.9",
     "prettier": "^2.3.2",
     "rollup": "^2.52.8",
