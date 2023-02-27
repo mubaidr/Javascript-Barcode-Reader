@@ -61,7 +61,7 @@ javascriptBarcodeReader({
   barcode: 'code-2of5',
   // barcodeType: 'industrial',
   options: {    
-    // useAdaptiveThreshold: true // for images with sahded portions
+    // useAdaptiveThreshold: true // for images with shaded/ gradient portions
     // singlePass: true
   }
 })
@@ -84,7 +84,7 @@ javascriptBarcodeReader({
   barcode: 'code-2of5',
   // barcodeType: 'industrial',
   options: {
-    // useAdaptiveThreshold: true // for images with sahded portions
+    // useAdaptiveThreshold: true // for images with shaded/ gradient portions
     // singlePass: true
   }
 })
