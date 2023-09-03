@@ -1,6 +1,6 @@
 # Javascript-Barcode-Reader
 
-Simple & Fast Barcode decoder for Browsers and Node.js capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes.
+Simple && Fast Barcode decoder for Browsers and Node.js capapable of reading Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar and EAN-13 barcodes.
 
 [![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
 [![codebeat badge](https://codebeat.co/badges/8f27170b-909e-489f-ae93-459664c47422)](https://codebeat.co/projects/github-com-mubaidr-javascript-barcode-reader-master)
