@@ -87,8 +87,8 @@
       "git add"
     ]
   },
-  "main": "dist/javascript-barcode-reader.umd.min.js",
-  "module": "dist/javascript-barcode-reader.es5.min.js",
+  "main": "dist/lib/src/index.js",
+  "module": "dist/lib/src/index.js",
   "name": "javascript-barcode-reader",
   "repository": {
     "type": "git",
