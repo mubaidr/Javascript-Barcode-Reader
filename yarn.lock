@@ -3261,10 +3261,10 @@ core-js-compat@^3.14.0, core-js-compat@^3.15.0:
     browserslist "^4.16.6"
     semver "7.0.0"
 
-core-js@3.15.2:
-  version "3.15.2"
-  resolved "https://registry.npmjs.org/core-js/-/core-js-3.15.2.tgz"
-  integrity sha512-tKs41J7NJVuaya8DxIOCnl8QuPHx5/ZVbFo1oKgVl1qHFBBrDctzQGtuLjPpRdNTWmKPH6oEvgN/MUID+l485Q==
+core-js@3.38.1:
+  version "3.38.1"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.38.1.tgz"
+  integrity sha512-OP35aUorbU3Zvlx7pjsFdu1rGNnD4pgw/CWoYzRY3t2EzoVT7shKHY1dlAy3f41cGIO7ZDPQimhGFTlEYkG/Hw==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
