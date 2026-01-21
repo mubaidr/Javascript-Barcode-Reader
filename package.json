@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "^4.28.2",
     "canvas": "^2.8.0",
     "commitizen": "^4.2.4",
-    "core-js": "3.15.2",
+    "core-js": "3.48.0",
     "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
