@@ -31,7 +31,7 @@ export function decoder(lines: number[]): string {
   // Read one encoded character at a time.
   while (lines.length > 0) {
     const seg = lines.splice(0, 8).splice(0, 7)
-    const a = seg.map(line => (line < barThreshold ? 'n' : 'w')).join('')
+    const a = seg.map((line) => (line < barThreshold ? 'n' : 'w')).join('')
 
     code.push(CHAR_SET[a])
   }

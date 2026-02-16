@@ -85,7 +85,7 @@ export function decoder(lines: number[]): string {
 
   for (let i = 0; i < binary.length; i += 9) {
     const searcKey = binary.slice(i, i + 9).join('')
-    const char = CHAR_SET.filter(item => Object.keys(item)[0] === searcKey)
+    const char = CHAR_SET.filter((item) => Object.keys(item)[0] === searcKey)
     code.push(char[0][searcKey])
   }
 

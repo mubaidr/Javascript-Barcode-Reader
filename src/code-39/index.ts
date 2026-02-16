@@ -56,7 +56,7 @@ export function decoder(lines: number[]): string {
   while (lines.length > 0) {
     const sequenceBar = lines
       .splice(0, 10)
-      .map(line => (line > barThreshold ? 'w' : 'n'))
+      .map((line) => (line > barThreshold ? 'w' : 'n'))
       .slice(0, 9)
       .join('')
 

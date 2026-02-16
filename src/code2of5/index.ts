@@ -36,14 +36,14 @@ export function decoder(lines: number[], type?: string): string {
 
       const a = seg
         .filter((item, index) => index % 2 === 0)
-        .map(line => (line > barThreshold ? 'w' : 'n'))
+        .map((line) => (line > barThreshold ? 'w' : 'n'))
         .join('')
 
       code.push(CHAR_SET.indexOf(a))
 
       const b = seg
         .filter((item, index) => index % 2 !== 0)
-        .map(line => (line > barThreshold ? 'w' : 'n'))
+        .map((line) => (line > barThreshold ? 'w' : 'n'))
         .join('')
 
       code.push(CHAR_SET.indexOf(b))
@@ -69,7 +69,7 @@ export function decoder(lines: number[], type?: string): string {
       const a = lines
         .splice(0, 10)
         .filter((item, index) => index % 2 === 0)
-        .map(line => (line > barThreshold ? 'w' : 'n'))
+        .map((line) => (line > barThreshold ? 'w' : 'n'))
         .join('')
 
       code.push(CHAR_SET.indexOf(a))

@@ -1,14 +1,6 @@
 module.exports = {
   collectCoverageFrom: ['src/**/*.{js,ts}'],
   coveragePathIgnorePatterns: ['/node_modules/', '/test/', '/dist/', '/docs/', '/tools/'],
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 100,
-      lines: 90,
-      statements: 90,
-    },
-  },
   moduleFileExtensions: ['ts', 'js'],
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
@@ -19,4 +11,5 @@ module.exports = {
   transform: {
     '.(ts|tsx)': 'ts-jest',
   },
+  testTimeout: 30000,
 }

@@ -453,7 +453,7 @@ const computeGroup = (lines: number[]): number[] => {
     }, 0) /
     (Math.ceil(count / 6) * 11)
 
-  return lines.map(item => Math.round(item / factor) || 1)
+  return lines.map((item) => Math.round(item / factor) || 1)
 }
 
 export function decoder(lines: number[]): string {

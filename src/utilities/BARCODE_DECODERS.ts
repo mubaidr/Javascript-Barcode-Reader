@@ -5,5 +5,8 @@ export enum BARCODE_DECODERS {
   'code-93' = 'code-93',
   'ean-13' = 'ean-13',
   'ean-8' = 'ean-8',
+  'upc-a' = 'upc-a',
+  'upc-e' = 'upc-e',
   'codabar' = 'codabar',
+  'msi' = 'msi',
 }
