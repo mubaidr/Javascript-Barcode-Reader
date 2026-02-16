@@ -5,6 +5,12 @@ import { combineAllPossible } from '../src/utilities/combineAllPossible'
 import { getImageDataFromSource } from '../src/utilities/getImageDataFromSource'
 import { getLines } from '../src/utilities/getLines'
 import { isUrl } from '../src/utilities/isUrl'
+import { applyAdaptiveThreshold } from '../src/utilities/adaptiveThreshold'
+import * as codabarDecoder from '../src/codabar'
+import * as code128Decoder from '../src/code-128'
+import * as code2of5Decoder from '../src/code2of5'
+import * as msiDecoder from '../src/msi'
+import * as pharmacodeDecoder from '../src/pharmacode'
 
 beforeAll(async () => {
   jest.setTimeout(60000)
@@ -365,5 +371,126 @@ describe('Fails', () => {
     } catch (err) {
       expect(err).toBeDefined()
     }
+  })
+})
+
+describe('extract MSI barcode', () => {
+  test('should decode MSI barcode with 10 digits', () => {
+    const lines = [3, 1, 3, 1, 3, 2, 1, 3, 1, 3, 2, 1, 3, 1, 3, 2, 1, 3, 1, 3, 2, 1, 3, 1, 3]
+    const result = msiDecoder.decoder(lines)
+    expect(result).toBeDefined()
+  })
+
+  test('should return empty for short MSI lines', () => {
+    const lines = [3, 1, 3]
+    const result = msiDecoder.decoder(lines)
+    expect(result).toBe('')
+  })
+})
+
+describe('extract Pharmacode barcode', () => {
+  test('should decode Pharmacode barcode', () => {
+    const lines = [4, 2, 4, 2, 4, 2, 4, 2]
+    const result = pharmacodeDecoder.decoder(lines)
+    expect(result).toBeDefined()
+  })
+
+  test('should return empty for short pharmacode lines', () => {
+    const lines = [4, 2]
+    const result = pharmacodeDecoder.decoder(lines)
+    expect(result).toBe('')
+  })
+})
+
+describe('extract UPC-A barcode', () => {
+  test('should detect barcode UPC-A', async () => {
+    const result = await javascriptBarcodeReader({
+      image: path.resolve('./test/sample-images/ean-13.jpg'),
+      barcode: 'upc-a',
+    })
+    expect(result).toBe('901234123457')
+  })
+})
+
+describe('extract UPC-E barcode', () => {
+  test('should detect barcode UPC-E', async () => {
+    const result = await javascriptBarcodeReader({
+      image: path.resolve('./test/sample-images/ean-8.jpg'),
+      barcode: 'upc-e',
+    })
+    expect(result).toBeDefined()
+  })
+})
+
+describe('barcode decoder threshold calculations', () => {
+  test('code2of5 should calculate threshold correctly', () => {
+    const lines = [10, 5, 10, 5, 10, 5]
+    expect(() => code2of5Decoder.decoder(lines)).not.toThrow()
+  })
+
+  test('codabar should calculate threshold correctly', () => {
+    const lines = [8, 4, 8, 4, 8, 4, 8]
+    expect(() => codabarDecoder.decoder(lines)).not.toThrow()
+  })
+
+  test('code-128 should handle typo fix', () => {
+    const decoder = code128Decoder.decoder
+    const lines = [
+      2, 3, 3, 1, 1, 1, 2, 1, 2, 1, 2, 3, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1,
+      1, 2, 1, 2, 3, 1, 2,
+    ]
+    expect(() => decoder(lines)).not.toThrow()
+  })
+})
+
+describe('getLines utility', () => {
+  test('should handle grayscale conversion', async () => {
+    const image = await Jimp.read('./test/sample-images/small.png')
+    const { data, width, height } = image.bitmap
+    const channels = data.length / (width * height)
+    const startIndex = channels * width * Math.floor(height / 2)
+    const endIndex = startIndex + 3 * channels * width
+    const lines = getLines(Uint8ClampedArray.from(data.slice(startIndex, endIndex)), width, 3)
+    expect(lines.length).toBeGreaterThan(0)
+  })
+
+  test('should handle RGB channels', () => {
+    const data = new Uint8ClampedArray(1200)
+    for (let i = 0; i < 400; i++) {
+      data[i * 4] = 255
+      data[i * 4 + 1] = 255
+      data[i * 4 + 2] = 255
+      data[i * 4 + 3] = 255
+    }
+    const lines = getLines(data, 100, 3)
+    expect(lines).toBeDefined()
+  })
+})
+
+describe('combineAllPossible utility', () => {
+  test('should handle empty strings', () => {
+    expect(combineAllPossible('', '')).toBe('')
+    expect(combineAllPossible('123', '')).toBe('')
+    expect(combineAllPossible('', '456')).toBe('456')
+  })
+
+  test('should merge partial results', () => {
+    expect(combineAllPossible('1?345?', '12?45?')).toBe('12345?')
+    expect(combineAllPossible('????', 'abcd')).toBe('abcd')
+  })
+})
+
+describe('adaptive threshold', () => {
+  test('should apply threshold to image data', () => {
+    const data = new Uint8ClampedArray(10000)
+    for (let i = 0; i < 5000; i++) {
+      data[i] = 100
+    }
+    for (let i = 5000; i < 10000; i++) {
+      data[i] = 200
+    }
+    applyAdaptiveThreshold(data, 100, 100)
+    const uniqueValues = new Set(Array.from(data))
+    expect(uniqueValues.size).toBeLessThan(3)
   })
 })

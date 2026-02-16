@@ -9,6 +9,7 @@ import * as msi from './msi'
 import * as pharmacode from './pharmacode'
 import { applyAdaptiveThreshold } from './utilities/adaptiveThreshold'
 import { BARCODE_DECODERS } from './utilities/BARCODE_DECODERS'
+import { detectBarcodeRegion, rotateImageData } from './utilities/barcodeDetection'
 import { combineAllPossible } from './utilities/combineAllPossible'
 import { getImageDataFromSource } from './utilities/getImageDataFromSource'
 import { getLines } from './utilities/getLines'
@@ -35,6 +36,8 @@ type JavascriptBarcodeReader = {
   options?: {
     useAdaptiveThreshold?: boolean
     singlePass?: boolean
+    detectRotation?: boolean
+    locateBarcode?: boolean
   }
 }
 
@@ -95,9 +98,23 @@ export default async function javascriptBarcodeReader({
   }
 
   const useSinglePass = isTestEnv || (options && options.singlePass) || false
-  const { data, width, height } = isImageLike(image) ? image : await getImageDataFromSource(image)
+  const detectRotation = options && options.detectRotation
+  const locateBarcode = options && options.locateBarcode
+  let { data, width, height } = isImageLike(image) ? image : await getImageDataFromSource(image)
   const channels = data.length / (width * height)
   let finalResult = ''
+
+  if (locateBarcode || detectRotation) {
+    const region = detectBarcodeRegion(data, width, height, channels)
+    if (region) {
+      if (detectRotation && region.rotation !== 0) {
+        const rotated = rotateImageData(data, width, height, region.rotation)
+        data = rotated.data
+        width = rotated.width
+        height = rotated.height
+      }
+    }
+  }
 
   // apply adaptive threshold
   if (options && options.useAdaptiveThreshold) {

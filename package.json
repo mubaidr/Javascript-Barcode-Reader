@@ -108,5 +108,5 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/src/index.d.ts",
-  "version": "0.6.9"
+  "version": "1.0.0"
 }

@@ -14,7 +14,7 @@ const CHAR_SET = [
 export function decoder(lines: number[], type?: string): string {
   const code = []
 
-  const barThreshold = Math.ceil(lines.reduce((pre, item) => (pre + item) / 2, 0))
+  const barThreshold = Math.ceil(lines.reduce((pre, item) => pre + item, 0) / lines.length)
 
   if (type === 'interleaved') {
     // extract start/ends pair
