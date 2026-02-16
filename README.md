@@ -1,6 +1,6 @@
 # Javascript-Barcode-Reader
 
-Simple & Fast Barcode decoder for Browsers and Node.js capable of reading multiple barcode formats including Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar, EAN-13, EAN-8, UPC-A, UPC-E, and MSI barcodes.
+Simple & Fast Barcode decoder for Browsers and Node.js capable of reading multiple barcode formats including Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar, EAN-13, EAN-8, UPC-A, UPC-E, MSI, and Pharmacode.
 
 [![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
 [![codecov](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader/branch/master/graph/badge.svg)](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader)
@@ -27,6 +27,7 @@ https://codesandbox.io/s/javascript-barcode-reader-liium
 - Codabar
 - Code-128 (UCC/EAN-128)
 - MSI
+- Pharmacode
 
 ## Features
 
@@ -105,18 +106,19 @@ javascriptBarcodeReader({
 
 ### Supported Barcode Types
 
-| Barcode Type | Value         |
-| ------------ | ------------- |
-| EAN-13       | `'ean-13'`    |
-| EAN-8        | `'ean-8'`     |
-| UPC-A        | `'upc-a'`     |
-| UPC-E        | `'upc-e'`     |
-| Code-39      | `'code-39'`   |
-| Code-93      | `'code-93'`   |
-| Code-2of5    | `'code-2of5'` |
-| Codabar      | `'codabar'`   |
-| Code-128     | `'code-128'`  |
-| MSI          | `'msi'`       |
+| Barcode Type | Value          |
+| ------------ | -------------- |
+| EAN-13       | `'ean-13'`     |
+| EAN-8        | `'ean-8'`      |
+| UPC-A        | `'upc-a'`      |
+| UPC-E        | `'upc-e'`      |
+| Code-39      | `'code-39'`    |
+| Code-93      | `'code-93'`    |
+| Code-2of5    | `'code-2of5'`  |
+| Codabar      | `'codabar'`    |
+| Code-128     | `'code-128'`   |
+| MSI          | `'msi'`        |
+| Pharmacode   | `'pharmacode'` |
 
 ## Options
 

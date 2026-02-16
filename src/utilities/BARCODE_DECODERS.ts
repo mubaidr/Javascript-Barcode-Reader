@@ -9,4 +9,5 @@ export enum BARCODE_DECODERS {
   'upc-e' = 'upc-e',
   'codabar' = 'codabar',
   'msi' = 'msi',
+  'pharmacode' = 'pharmacode',
 }

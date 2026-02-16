@@ -6,6 +6,7 @@ import * as code93 from './code-93'
 import * as code2of5 from './code2of5'
 import * as ean from './ean'
 import * as msi from './msi'
+import * as pharmacode from './pharmacode'
 import { applyAdaptiveThreshold } from './utilities/adaptiveThreshold'
 import { BARCODE_DECODERS } from './utilities/BARCODE_DECODERS'
 import { combineAllPossible } from './utilities/combineAllPossible'
@@ -83,6 +84,9 @@ export default async function javascriptBarcodeReader({
       break
     case BARCODE_DECODERS.msi:
       decoder = msi.decoder
+      break
+    case BARCODE_DECODERS.pharmacode:
+      decoder = pharmacode.decoder
       break
     default:
       throw new Error(

@@ -39,7 +39,7 @@ export default {
     json(),
     resolve(),
     commonjs(),
-    typescript(),
+    typescript({ tsconfig: './tsconfig.rollup.json' }),
     babel({
       exclude: 'node_modules/**',
       babelHelpers: 'bundled',
