@@ -36,6 +36,8 @@ https://codesandbox.io/s/javascript-barcode-reader-liium
 - Supports multiple barcode formats
 - Adaptive thresholding for challenging images
 - Single-pass mode for faster decoding
+- Automatic barcode region detection
+- Automatic rotation detection and correction
 - TypeScript support
 
 ## Installation
@@ -71,6 +73,8 @@ javascriptBarcodeReader({
   options: {
     // useAdaptiveThreshold: true // for images with shaded/ gradient portions
     // singlePass: true
+    // detectRotation: true // auto-detect and correct rotation
+    // locateBarcode: true // auto-locate barcode region
   },
 })
   .then((code) => {
@@ -94,6 +98,8 @@ javascriptBarcodeReader({
   options: {
     // useAdaptiveThreshold: true // for images with shaded/ gradient portions
     // singlePass: true
+    // detectRotation: true // auto-detect and correct rotation
+    // locateBarcode: true // auto-locate barcode region
   },
 })
   .then((code) => {
@@ -124,11 +130,13 @@ javascriptBarcodeReader({
 
 - `useAdaptiveThreshold`: Apply adaptive thresholding for images with shading or gradients
 - `singlePass`: Use single-pass decoding for faster processing
+- `detectRotation`: Automatically detect and correct barcode rotation
+- `locateBarcode`: Automatically locate barcode region in image
 
 ## Note
 
-- This script does not implement logic to locate/rotate barcode in the given image.
-- Make sure the barcode image is the only thing in the image. Otherwise this script will most probably fail.
+- For best results, ensure barcode is relatively straight in the image
+- Works best when barcode occupies most of the image
 
 ## Contributing
 
