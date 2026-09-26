@@ -89,7 +89,7 @@ function decoder(lines) {
   for (let i = code.length - 1; i >= 0; i -= 1) {
     letter = code[i]
     Value = CHAR_SET.indexOf(CHAR_SET.filter(findValue)[0])
-    sum += Value * (1 + ((code.length - (i + 1)) % 20))
+    sum += Value * (1 + ((code.length - (i + 1)) % 15))
   }
   if (Object.values(CHAR_SET[sum % 47])[0] !== K) return ''
   const C = code.pop()
