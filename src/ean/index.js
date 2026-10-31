@@ -13,8 +13,22 @@ const UPC_SET = {
   1213: '8',
   3112: '9',
 }
+// EAN-13 encodes its first digit in the L/G parity of the six left-hand digits.
+const EAN13_FIRST_DIGIT = {
+  LLLLLL: '0',
+  LLGLGG: '1',
+  LLGGLG: '2',
+  LLGGGL: '3',
+  LGLLGG: '4',
+  LGGLLG: '5',
+  LGGGLL: '6',
+  LGLGLG: '7',
+  LGLGGL: '8',
+  LGGLGL: '9',
+}
 function decoder(lines, type = '13') {
   let code = ''
+  let parity = ''
   const bar = (lines[0] + lines[1] + lines[2]) / 3
   lines.shift()
   lines.shift()
@@ -34,12 +48,22 @@ function decoder(lines, type = '13') {
     const digits = [group[0] / bar, group[1] / bar, group[2] / bar, group[3] / bar].map((digit) =>
       digit === 1.5 ? 1 : Math.round(digit)
     )
-    const result = UPC_SET[digits.join('')] || UPC_SET[digits.reverse().join('')]
+    const direct = UPC_SET[digits.join('')]
+    const result = direct || UPC_SET[digits.reverse().join('')]
     if (result) {
       code += result
+      if (type === '13' && i < 24) {
+        parity += direct ? 'L' : 'G'
+      }
     } else {
       code += '?'
+      if (type === '13' && i < 24) {
+        parity += '?'
+      }
     }
+  }
+  if (type === '13') {
+    code = (EAN13_FIRST_DIGIT[parity] || '?') + code
   }
   if (type === 'E') {
     const lastDigit = code.charCodeAt(code.length - 1) - 48

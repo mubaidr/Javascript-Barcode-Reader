@@ -233,7 +233,7 @@ describe('extract barcode from local files', () => {
         image: path.resolve('./test/sample-images/ean-13-5901234123457.png'),
         barcode: 'ean-13',
       })
-      expect(result).toBe('901234123457')
+      expect(result).toBe('5901234123457')
     }))
   test('should detect barcode EAN-13 large', () =>
     __awaiter(void 0, void 0, void 0, function* () {
@@ -241,7 +241,7 @@ describe('extract barcode from local files', () => {
         image: path.resolve('./test/sample-images/ean-13.jpg'),
         barcode: 'ean-13',
       })
-      expect(result).toBe('901234123457')
+      expect(result).toBe('5901234123457')
     }))
   test('should detect barcode 128 without padding white bars', () =>
     __awaiter(void 0, void 0, void 0, function* () {

@@ -11,6 +11,7 @@ import * as code128Decoder from '../src/code-128'
 import * as code2of5Decoder from '../src/code2of5'
 import * as msiDecoder from '../src/msi'
 import * as pharmacodeDecoder from '../src/pharmacode'
+import * as eanDecoder from '../src/ean'
 
 beforeAll(async () => {
   jest.setTimeout(60000)
@@ -225,7 +226,7 @@ describe('extract barcode from local files', () => {
       barcode: 'ean-13',
     })
 
-    expect(result).toBe('901234123457')
+    expect(result).toBe('5901234123457')
   })
 
   test('should detect barcode EAN-13 large', async () => {
@@ -234,7 +235,7 @@ describe('extract barcode from local files', () => {
       barcode: 'ean-13',
     })
 
-    expect(result).toBe('901234123457')
+    expect(result).toBe('5901234123457')
   })
 
   test('should detect barcode 128 without padding white bars', async () => {
@@ -399,6 +400,69 @@ describe('extract Pharmacode barcode', () => {
     const lines = [4, 2]
     const result = pharmacodeDecoder.decoder(lines)
     expect(result).toBe('')
+  })
+})
+
+describe('EAN-13 first digit parity', () => {
+  const L_WIDTHS: { [digit: string]: number[] } = {
+    '0': [3, 2, 1, 1],
+    '1': [2, 2, 2, 1],
+    '2': [2, 1, 2, 2],
+    '3': [1, 4, 1, 1],
+    '4': [1, 1, 3, 2],
+    '5': [1, 2, 3, 1],
+    '6': [1, 1, 1, 4],
+    '7': [1, 3, 1, 2],
+    '8': [1, 2, 1, 3],
+    '9': [3, 1, 1, 2],
+  }
+  const FIRST_DIGIT_PARITY = [
+    'LLLLLL',
+    'LLGLGG',
+    'LLGGLG',
+    'LLGGGL',
+    'LGLLGG',
+    'LGGLLG',
+    'LGGGLL',
+    'LGLGLG',
+    'LGLGGL',
+    'LGGLGL',
+  ]
+
+  function buildEan13Lines(parity: string, left = '901234', right = '123457'): number[] {
+    const leftWidths: number[] = []
+    for (let i = 0; i < left.length; i += 1) {
+      const widths = L_WIDTHS[left[i]]
+      leftWidths.push(...(parity[i] === 'G' ? widths.slice().reverse() : widths))
+    }
+
+    const rightWidths: number[] = []
+    for (const digit of right) {
+      rightWidths.push(...L_WIDTHS[digit])
+    }
+
+    return [1, 1, 1, ...leftWidths, 1, 1, 1, 1, 1, ...rightWidths, 1, 1, 1]
+  }
+
+  test.each([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])(
+    'should decode first digit %i from parity',
+    (firstDigit) => {
+      const lines = buildEan13Lines(FIRST_DIGIT_PARITY[firstDigit])
+
+      expect(eanDecoder.decoder(lines, '13')).toBe(`${firstDigit}901234123457`)
+    }
+  )
+
+  test('should keep UPC-A at 12 digits', () => {
+    const lines = buildEan13Lines(FIRST_DIGIT_PARITY[5])
+
+    expect(eanDecoder.decoder(lines, 'A')).toBe('901234123457')
+  })
+
+  test('should prepend ? when parity is unknown to keep 13 positions', () => {
+    const lines = buildEan13Lines('GGGGGG')
+
+    expect(eanDecoder.decoder(lines, '13')).toBe('?901234123457')
   })
 })
 
