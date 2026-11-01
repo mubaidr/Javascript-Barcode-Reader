@@ -14,10 +14,17 @@ const CHAR_SET = [
 export function decoder(lines: number[], type?: string): string {
   const code = []
 
+  if (lines.length === 0) {
+    return ''
+  }
+
   const barThreshold = Math.ceil(lines.reduce((pre, item) => pre + item, 0) / lines.length)
 
   if (type === 'interleaved') {
     // extract start/ends pair
+    if (lines.length < 7) {
+      return ''
+    }
     const startChar = lines
       .splice(0, 4)
       .map((line: number) => (line > barThreshold ? 'w' : 'n'))
@@ -32,6 +39,10 @@ export function decoder(lines: number[], type?: string): string {
 
     // Read one encoded character at a time.
     while (lines.length > 0) {
+      if (lines.length < 10) {
+        code.push('?')
+        break
+      }
       const seg = lines.splice(0, 10)
 
       const a = seg
@@ -39,17 +50,22 @@ export function decoder(lines: number[], type?: string): string {
         .map((line) => (line > barThreshold ? 'w' : 'n'))
         .join('')
 
-      code.push(CHAR_SET.indexOf(a))
+      const aIndex = CHAR_SET.indexOf(a)
+      code.push(aIndex === -1 ? '?' : String(aIndex))
 
       const b = seg
         .filter((item, index) => index % 2 !== 0)
         .map((line) => (line > barThreshold ? 'w' : 'n'))
         .join('')
 
-      code.push(CHAR_SET.indexOf(b))
+      const bIndex = CHAR_SET.indexOf(b)
+      code.push(bIndex === -1 ? '?' : String(bIndex))
     }
   } else {
     // extract start/ends pair
+    if (lines.length < 11) {
+      return ''
+    }
     const startChar = lines
       .splice(0, 6)
       .filter((item: any, index: number) => index % 2 === 0)
@@ -66,13 +82,18 @@ export function decoder(lines: number[], type?: string): string {
 
     // Read one encoded character at a time.
     while (lines.length > 0) {
+      if (lines.length < 10) {
+        code.push('?')
+        break
+      }
       const a = lines
         .splice(0, 10)
         .filter((item, index) => index % 2 === 0)
         .map((line) => (line > barThreshold ? 'w' : 'n'))
         .join('')
 
-      code.push(CHAR_SET.indexOf(a))
+      const aIndex = CHAR_SET.indexOf(a)
+      code.push(aIndex === -1 ? '?' : String(aIndex))
     }
   }
 

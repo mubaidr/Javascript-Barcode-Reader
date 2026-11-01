@@ -12,49 +12,63 @@ const MSI_PATTERNS: { [key: string]: string } = {
 }
 
 const MSI_START = '110'
-const MSI_END = '1001'
+const MSI_STOP = '1001'
+const BITS_PER_DIGIT = 12
 
 function decodeMSI(encoded: string): string {
   let result = ''
   let i = 0
 
-  if (encoded.startsWith(MSI_START)) {
-    i += MSI_START.length
+  if (!encoded.startsWith(MSI_START)) {
+    return ''
+  }
+  i += MSI_START.length
+
+  while (i + BITS_PER_DIGIT <= encoded.length - MSI_STOP.length) {
+    const chunk = encoded.substring(i, i + BITS_PER_DIGIT)
+    const digit = MSI_PATTERNS[chunk]
+    if (digit === undefined) {
+      return ''
+    }
+    result += digit
+    i += BITS_PER_DIGIT
   }
 
-  while (i < encoded.length - MSI_END.length) {
-    const chunk = encoded.substring(i, i + 12)
-    const digit = MSI_PATTERNS[chunk]
-    if (digit) {
-      result += digit
-      i += 12
-    } else {
-      result += '?'
-      break
-    }
+  if (!encoded.endsWith(MSI_STOP) || i !== encoded.length - MSI_STOP.length) {
+    return ''
   }
 
   return result
 }
 
 export function decoder(lines: number[]): string {
-  if (lines.length < 20) {
+  if (lines.length === 0) {
     return ''
   }
 
-  const bar = (lines[0] + lines[1]) / 2
-  let encoded = ''
+  // Estimate the narrow unit width from the smallest positive run.
+  let unit = Infinity
+  for (const item of lines) {
+    if (item > 0 && item < unit) {
+      unit = item
+    }
+  }
+  if (!Number.isFinite(unit) || unit <= 0) {
+    return ''
+  }
 
-  for (let i = 0; i < lines.length; i++) {
-    const width = lines[i] / bar
-    if (width >= 0.5 && width < 1.5) {
-      encoded += '1'
-    } else if (width >= 1.5 && width < 2.5) {
-      encoded += '11'
-    } else if (width >= 2.5) {
-      encoded += '111'
-    } else {
-      encoded += '0'
+  // Rebuild module bits from run widths with alternating polarity: bars are 1s,
+  // spaces are 0s. Each run of width w contributes round(w / unit) modules.
+  let encoded = ''
+  for (let i = 0; i < lines.length; i += 1) {
+    const width = lines[i]
+    if (width <= 0) {
+      continue
+    }
+    const modules = Math.max(1, Math.round(width / unit))
+    const bit = i % 2 === 0 ? '1' : '0'
+    for (let m = 0; m < modules; m += 1) {
+      encoded += bit
     }
   }
 

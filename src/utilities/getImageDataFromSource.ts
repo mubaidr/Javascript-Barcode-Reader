@@ -25,24 +25,50 @@ export async function getImageDataFromSource(
 
         reject(new Error('Invalid image source specified!'))
       } else if (isUrl(source)) {
-        const img = new Image()
-        img.onerror = reject
-        img.onload = (): void => resolve(createImageData(img))
-        img.src = source
+        if (isNode) {
+          Jimp.read(source, (err, image) => {
+            if (err) {
+              reject(err)
+            } else {
+              const { data, width, height } = image.bitmap
+              resolve({
+                data: Uint8ClampedArray.from(data),
+                width,
+                height,
+              })
+            }
+          })
+        } else {
+          const img = new Image()
+          img.onerror = () => reject(new Error('Failed to load image source'))
+          img.onload = (): void => {
+            try {
+              resolve(createImageData(img))
+            } catch (err) {
+              reject(err)
+            }
+          }
+          img.src = source
+        }
       } else if (isNode) {
         Jimp.read(source, (err, image) => {
           if (err) {
             reject(err)
           } else {
             const { data, width, height } = image.bitmap
-
-            resolve({
-              data: Uint8ClampedArray.from(data),
-              width,
-              height,
-            })
+            if (!width || !height) {
+              reject(new Error('Zero-size image'))
+            } else {
+              resolve({
+                data: Uint8ClampedArray.from(data),
+                width,
+                height,
+              })
+            }
           }
         })
+      } else {
+        reject(new Error('Invalid image source specified!'))
       }
     } else if (source instanceof HTMLImageElement) {
       resolve(createImageData(source))
@@ -50,6 +76,8 @@ export async function getImageDataFromSource(
       const ctx = source.getContext('2d')
       if (!ctx) throw new Error('Cannot create canvas 2d context')
       resolve(ctx.getImageData(0, 0, source.width, source.height))
+    } else {
+      reject(new Error('Invalid image source specified!'))
     }
   })
 }

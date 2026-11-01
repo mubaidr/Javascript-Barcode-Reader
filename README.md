@@ -1,6 +1,6 @@
 # Javascript-Barcode-Reader
 
-Simple & Fast Barcode decoder for Browsers and Node.js capable of reading multiple barcode formats including Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar, EAN-13, EAN-8, UPC-A, UPC-E, MSI, and Pharmacode.
+Simple & Fast Barcode decoder for Browsers and Node.js capable of reading multiple barcode formats including Code128, Code93, Code39, Code 11, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar, EAN-13, EAN-8, UPC-A, UPC-E, MSI, and Pharmacode.
 
 [![Build Status](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master)](https://travis-ci.org/mubaidr/Javascript-Barcode-Reader)
 [![codecov](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader/branch/master/graph/badge.svg)](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader)
@@ -21,11 +21,12 @@ https://codesandbox.io/s/javascript-barcode-reader-liium
 - UPC-E
 - Code-39
 - Code-93
+- Code-11
 - Code-2of5
   - standard
   - Interleaved
 - Codabar
-- Code-128 (UCC/EAN-128)
+- Code-128
 - MSI
 - Pharmacode
 
@@ -35,9 +36,10 @@ https://codesandbox.io/s/javascript-barcode-reader-liium
 - Works in both Node.js and browser environments
 - Supports multiple barcode formats
 - Adaptive thresholding for challenging images
-- Single-pass mode for faster decoding
-- Automatic barcode region detection
-- Automatic rotation detection and correction
+- Single-pass mode (affects line-detection failure behavior)
+- Optional barcode region detection (`locateBarcode`)
+- Optional rotation retry scanning (`detectRotation`, 90/180/270)
+- Optional EAN/UPC check-digit validation (`validateChecksum`)
 - TypeScript support
 
 ## Installation
@@ -120,6 +122,7 @@ javascriptBarcodeReader({
 | UPC-E        | `'upc-e'`      |
 | Code-39      | `'code-39'`    |
 | Code-93      | `'code-93'`    |
+| Code-11      | `'code-11'`    |
 | Code-2of5    | `'code-2of5'`  |
 | Codabar      | `'codabar'`    |
 | Code-128     | `'code-128'`   |
@@ -129,19 +132,20 @@ javascriptBarcodeReader({
 ## Options
 
 - `useAdaptiveThreshold`: Apply adaptive thresholding for images with shading or gradients
-- `singlePass`: Use single-pass decoding for faster processing
-- `detectRotation`: Automatically detect and correct barcode rotation
-- `locateBarcode`: Automatically locate barcode region in image
+- `singlePass`: Affects line-detection failure behavior (stops at first scan point that finds no lines)
+- `detectRotation`: Retry scanning at 90/180/270 orientations if the normal scan yields no complete result
+- `locateBarcode`: Crop to the detected barcode region before scanning
+- `validateChecksum`: Validate EAN/UPC check digit (default `false`; invalid check yields no result)
 
 ## Note
 
 - For best results, ensure barcode is relatively straight in the image
 - Works best when barcode occupies most of the image
+- UPC-E is returned as its raw 8-digit value (number system + six payload digits + check digit)
 
 ## Contributing
 
-- Each decoder is defined in `src` directory as a module.
-- Tests are defined in the `test` directory using `Jest`.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup, committing conventions, and how releases are published to npm.
 
 ## License
 

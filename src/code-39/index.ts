@@ -50,6 +50,10 @@ const CHAR_SET: {
 export function decoder(lines: number[]): string {
   const code = []
 
+  if (lines.length === 0) {
+    return ''
+  }
+
   const barThreshold = Math.ceil(lines.reduce((pre, item) => pre + item, 0) / lines.length)
 
   // Read one encoded character at a time.
@@ -60,7 +64,11 @@ export function decoder(lines: number[]): string {
       .slice(0, 9)
       .join('')
 
-    code.push(CHAR_SET[sequenceBar])
+    const char = CHAR_SET[sequenceBar]
+    if (char === undefined) {
+      return ''
+    }
+    code.push(char)
   }
 
   if (code.pop() !== '*' || code.shift() !== '*') return ''

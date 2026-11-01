@@ -9,6 +9,8 @@ export function createImageData(image: HTMLImageElement): ImageDataLike {
   const width = image.naturalWidth
   const height = image.naturalHeight
 
+  if (!width || !height) throw new Error('Image has zero size')
+
   canvas.width = width
   canvas.height = height
   ctx.drawImage(image, 0, 0)

@@ -4,12 +4,14 @@ import * as code128 from './code-128'
 import * as code39 from './code-39'
 import * as code93 from './code-93'
 import * as code2of5 from './code2of5'
+import * as code11 from './code-11'
 import * as ean from './ean'
 import * as msi from './msi'
 import * as pharmacode from './pharmacode'
 import { applyAdaptiveThreshold } from './utilities/adaptiveThreshold'
 import { BARCODE_DECODERS } from './utilities/BARCODE_DECODERS'
 import { detectBarcodeRegion, rotateImageData } from './utilities/barcodeDetection'
+import { isValidChecksum } from './utilities/checksum'
 import { combineAllPossible } from './utilities/combineAllPossible'
 import { getImageDataFromSource } from './utilities/getImageDataFromSource'
 import { getLines } from './utilities/getLines'
@@ -38,6 +40,7 @@ type JavascriptBarcodeReader = {
     singlePass?: boolean
     detectRotation?: boolean
     locateBarcode?: boolean
+    validateChecksum?: boolean
   }
 }
 
@@ -65,6 +68,9 @@ export default async function javascriptBarcodeReader({
       break
     case BARCODE_DECODERS['code-93']:
       decoder = code93.decoder
+      break
+    case BARCODE_DECODERS['code-11']:
+      decoder = code11.decoder
       break
     case BARCODE_DECODERS['code-2of5']:
       decoder = code2of5.decoder
@@ -141,6 +147,18 @@ export default async function javascriptBarcodeReader({
 
     // Run the decoder
     const result = decoder(lines, barcodeType)
+
+    if (
+      options &&
+      options.validateChecksum &&
+      (barcode === BARCODE_DECODERS['ean-13'] ||
+        barcode === BARCODE_DECODERS['ean-8'] ||
+        barcode === BARCODE_DECODERS['upc-a'] ||
+        barcode === BARCODE_DECODERS['upc-e']) &&
+      !isValidChecksum(result, barcodeType!)
+    ) {
+      continue
+    }
 
     if (!result) continue
     else if (useSinglePass || !result.includes('?')) return result

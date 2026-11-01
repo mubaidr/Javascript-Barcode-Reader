@@ -29,6 +29,17 @@ const EAN13_FIRST_DIGIT: {
   LGGLGL: '9',
 }
 
+// UPC-E carries no centre guard; its number system and check digit are implied by
+// the L/G parity of the six decoded digits (ZXing parity tables).
+// Maps the six-bit L/G parity value to "numberSystem + checkDigit".
+const UPC_E_PAIRS: {
+  [key: string]: string
+} = {
+  '56': '00', '52': '01', '50': '02', '49': '03', '44': '04', '38': '05', '35': '06',
+  '42': '07', '41': '08', '37': '09', '7': '10', '11': '11', '13': '12', '14': '13',
+  '19': '14', '25': '15', '28': '16', '21': '17', '22': '18', '26': '19'
+}
+
 export function decoder(lines: number[], type = '13'): string {
   let code = ''
   let parity = ''
@@ -48,7 +59,7 @@ export function decoder(lines: number[], type = '13'): string {
   } else if (type === '8') {
     lines.splice(16, 5)
   } else if (type === 'E') {
-    lines.splice(20, 5)
+    lines.splice(24, 3)
   }
 
   for (let i = 0; i < lines.length; i += 4) {
@@ -64,13 +75,13 @@ export function decoder(lines: number[], type = '13'): string {
     if (result) {
       code += result
 
-      if (type === '13' && i < 24) {
+      if ((type === '13' || type === 'E') && i < 24) {
         parity += direct ? 'L' : 'G'
       }
     } else {
       code += '?'
 
-      if (type === '13' && i < 24) {
+      if ((type === '13' || type === 'E') && i < 24) {
         parity += '?'
       }
     }
@@ -81,30 +92,14 @@ export function decoder(lines: number[], type = '13'): string {
   }
 
   if (type === 'E') {
-    const lastDigit = code.charCodeAt(code.length - 1) - 48
-    const numberSystem = code.substring(0, 6)
-    let expanded = ''
-
-    switch (lastDigit) {
-      case 0:
-        expanded = numberSystem + '0000' + lastDigit
-        break
-      case 1:
-        expanded = numberSystem + '1000' + lastDigit
-        break
-      case 2:
-        expanded = numberSystem + '2000' + lastDigit
-        break
-      case 3:
-        expanded = numberSystem.substring(0, 3) + '0000' + numberSystem.substring(3)
-        break
-      case 4:
-        expanded = numberSystem.substring(0, 4) + '00000' + numberSystem.substring(4, 5)
-        break
-      default:
-        expanded = numberSystem + '00000' + lastDigit
+    let parityValue = 0
+    for (let i = 0; i < parity.length; i += 1) {
+      if (parity[i] > 'F' && parity[i] < 'H') {
+        parityValue |= 1 << (5 - i)
+      }
     }
-    code = expanded
+    const pair = UPC_E_PAIRS[String(parityValue)]
+    code = pair ? pair[0] + code + pair[1] : ''
   }
 
   return code

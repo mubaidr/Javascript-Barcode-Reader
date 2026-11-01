@@ -1,0 +1,518 @@
+plan_id: 20261031-barcode-correctness-features
+status: pending
+tldr: |
+  Harden all single-track decoders and image utilities, correct UPC-E parity/check-digit decoding,
+  add opt-in EAN/UPC checksum validation, add a Code 11 decoder, make locateBarcode and detectRotation
+  functional, then update README and verify. Wave 1 fans out over disjoint files; src/index.ts is
+  serialized through waves 2 and 3.
+created_at: '2026-10-31'
+created_by: gem-planner
+revision: 0
+replan_count: 0
+planner_revision_used: false
+
+decisions:
+  - "Wave 1 contains ten disjoint decoder/utility tasks; src/index.ts is not touched."
+  - "src/index.ts is single-owner in wave 2 (checksum + Code 11 dispatch) and wave 3 (locate/rotation) to keep the file conflict-free."
+  - "Code 11 pattern/decoder and BARCODE_DECODERS enum are added in wave 1; the src/index.ts switch is added in wave 2; README is updated only in wave 4 after behavior is final."
+  - "validateChecksum invalid or incomplete results are treated as an empty decode (''), not a throw; omitted/false preserves today's output."
+  - "detectRotation retries explicit 90/180/270 orientations after the normal scan yields no complete result; it does not gate retries on detectBarcodeRegion.rotation."
+  - "locateBarcode crops only when the option is true; default scan path stays unchanged apart from the scan-range clamp bug fix."
+  - "applyAdaptiveThreshold stays in-place because src/index.ts consumes the mutated buffer and is owned by later waves; copying would require an index.ts change outside this task."
+  - "No shared synthetic-fixture helper: parallel test files own local builders, avoiding a cross-task helper file."
+  - "MSI and Pharmacode tests use module/run-length builders so exact values are asserted instead of toBeDefined."
+  - "No changes to dist/, docs/ except this plan, node_modules/, generated typedoc, or add 2D symbologies."
+
+assumptions:
+  - "Jest resolves .ts before .js (moduleFileExtensions ['ts','js']), so src/**/*.ts and new test/*.test.ts files are authoritative."
+  - "test/index.test.js is a tracked compiled duplicate; new tests go in new files and existing exact expectations there are not changed."
+  - "The existing sample images and their expected outputs remain stable, including EAN-13 5901234123457."
+  - "jsdom does not provide a working canvas 2D implementation, so image/rotation tests use pure ImageDataLike buffers and pure helpers rather than canvas."
+  - "New test files are self-contained and may use Jimp only where the existing suite already uses it."
+
+tasks:
+  - id: t01-code93
+    title: Harden Code 93 decoder
+    description: |
+      Modify src/code-93/index.ts. Guard empty lines and minBarWidth <= 0 so run expansion cannot loop.
+      Replace the CHAR_SET.filter(...)[0][searcKey] lookup with a safe lookup that returns '' on an
+      unknown 9-bit pattern. Harden checksum lookups so an unresolved char cannot become index -1.
+      Add test/code93-robustness.test.ts covering empty/all-zero lines, zero-width runs, unknown
+      9-bit patterns, valid synthetic symbols, and regression expectations 123ABC/WIKIPEDIA via the
+      existing sample path.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "decoder([]), all-zero lines, and inputs producing minBarWidth <= 0 return '' and terminate without throwing or hanging."
+      - "An unknown 9-bit pattern returns '' and never throws TypeError / RangeError; output never contains undefined."
+      - "Existing Code 93 behavior is preserved: sample code-93.jpg -> 123ABC and code-93-no-padding.jpg -> WIKIPEDIA."
+      - "npx jest test/code93-robustness.test.ts test/code93-checksum.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts or other decoders."
+        - "Do not modify or regenerate tracked src/**/*.js files."
+        - "Preserve semicolon-free, single-quote, 2-space style."
+      relevant_context:
+        - "src/code-93/index.ts:48-118 is the unsafe lookup/checksum path."
+        - "test/code93-checksum.test.ts is an existing direct decoder regression suite."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t02-code2of5
+    title: Harden Code 2 of 5 decoder
+    description: |
+      Modify src/code2of5/index.ts so CHAR_SET.indexOf(...) === -1 never emits "-1". Emit '?' for an
+      unknown complete group and for a trailing short segment, while returning '' for invalid
+      start/end guards. Keep standard and interleaved valid outputs unchanged. Add
+      test/code2of5-robustness.test.ts with synthetic run-width arrays (copy inputs because the
+      decoder mutates), unknown patterns, trailing partial groups, and both sample expectations.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "No decoded result contains '-1'; unknown groups and trailing incomplete groups yield '?' at the correct position."
+      - "Invalid start/end guards return '' and do not read past the array."
+      - "Sample code-2of5.jpg -> 12345670 and code-2of5-interleaved.jpg -> 12345670 with barcodeType interleaved."
+      - "npx jest test/code2of5-robustness.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts or other decoders."
+        - "Do not regenerate tracked src/**/*.js files."
+      relevant_context:
+        - "src/code2of5/index.ts lines 17-78 contain the two splice branches and indexOf pushes."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t03-code39-codabar
+    title: Harden Code 39 and Codabar decoders
+    description: |
+      Modify src/code-39/index.ts and src/codabar/index.ts. In Code 39, reject unknown patterns by
+      returning '' instead of pushing undefined and letting join() silently drop it; keep star guards.
+      In Codabar, reject unknown patterns, require first and last characters to be guard A-D, and
+      preserve guards in successful output. Add test/code39-codabar-robustness.test.ts covering
+      unknown patterns, missing/invalid guards, trailing short segments, valid synthetic symbols,
+      and regression expectations 10023 and A40156C.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Unknown Code 39 patterns return ''; resulting output never contains undefined or silently drops a character."
+      - "Codabar accepts only A-D as first/last guard, rejects other guards and unknown patterns, and preserves A40156C for the sample."
+      - "Sample code-39.jpg -> 10023 and codabar.jpg -> A40156C, including the existing singlePass test."
+      - "npx jest test/code39-codabar-robustness.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts or other decoders."
+        - "Codabar output keeps start/stop guards for backward compatibility."
+        - "Do not regenerate tracked src/**/*.js files."
+      relevant_context:
+        - "src/code-39/index.ts:64-85; src/codabar/index.ts:26-40."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t04-msi
+    title: Rewrite MSI decode from run widths
+    description: |
+      Rewrite decoder in src/msi/index.ts. Rebuild the module bit string from run widths with
+      alternating polarity starting with a bar: bar runs become the corresponding count of 1s,
+      space runs become 0s. Normalize run widths by the narrow unit width, parse start 110,
+      consecutive 12-bit digits using the existing MSI_PATTERNS table, and stop 1001. Return '' on
+      missing/incorrect start/stop, misaligned bit count, or unknown digit. Add
+      test/msi-decode.test.ts with a local module-to-run encoder and exact assertions for "0", "00",
+      and "123456" using synthetic line-width arrays. Keep the existing short-input and
+      toBeDefined tests passing.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Synthetic run widths for MSI '0', '00', and '123456' decode exactly to those strings."
+      - "Malformed/misaligned input and missing start/stop return '', never a partial numeric string with '?'."
+      - "Existing MSI tests (10-digit sample toBeDefined and short input '') still pass."
+      - "npx jest test/msi-decode.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts or other decoders."
+        - "Start is 110; stop is 1001; digit maps stay as currently defined in the file."
+        - "Do not regenerate tracked src/**/*.js files."
+      relevant_context:
+        - "src/msi/index.ts:1-62; existing MSI test lines are test/index.test.ts:378-390."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t05-pharmacode
+    title: Rewrite one-track Pharmacode decode
+    description: |
+      Rewrite decoder in src/pharmacode/index.ts for one-track Pharmacode. Ignore spaces (odd
+      positions), classify bar widths as narrow/wide against a unit-width threshold derived from
+      the narrow bars, and decode left-to-right with value = value * 2 + (narrow ? 1 : 2). Accept
+      3..131070; remove the minimum 8-run gate. Return '' for out-of-range or malformed input. Add
+      test/pharmacode-decode.test.ts with synthetic bars/spaces and exact assertions for 3, 7, 31,
+      and 91.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Synthetic bars/spaces decode exactly to 3, 7, 31, and 91; spaces do not contribute symbols."
+      - "Values below 3 or above 131070, all-zero, and malformed input return ''."
+      - "Existing Pharmacode tests still pass, including short input ''."
+      - "npx jest test/pharmacode-decode.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts or other decoders."
+        - "Do not regenerate tracked src/**/*.js files."
+      relevant_context:
+        - "src/pharmacode/index.ts:1-44; existing test test/index.test.ts:392-404."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t06-getlines
+    title: Fix getLines channel handling
+    description: |
+      Modify src/utilities/getLines.ts to compute pixel value correctly for 1, 3, and 4 channel
+      data. Grayscale uses channel 0; RGB uses luminance; RGBA composites against white, treating
+      alpha < 128 as background (white) so transparent padding is skipped. Guard channel reads
+      against out-of-bounds indices and avoid NaN when width, height, or channel count is invalid.
+      Add test/getLines-channels.test.ts with synthetic grayscale, RGB, RGBA (transparent/opaque),
+      and short-buffer cases. Keep existing image line-count tests and adaptive-threshold image
+      tests passing.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Synthetic grayscale, RGB, and RGBA inputs produce the expected black/white line runs; transparent RGBA padding is treated as white."
+      - "Out-of-bounds or short data does not throw and does not read undefined channels."
+      - "Existing tests 'detect lines in barcode image' (27 lines) and 'without padding' (27 lines) still pass."
+      - "npx jest test/getLines-channels.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts or barcodeDetection.ts."
+        - "Keep the existing getLines(data, width, height) signature."
+      relevant_context:
+        - "src/utilities/getLines.ts:1-38 currently assumes channels >= 3 and reads indices 0..2."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t07-image-source
+    title: Fix image source error handling and URL routing
+    description: |
+      Modify src/utilities/getImageDataFromSource.ts, src/utilities/createImageData.ts, and
+      src/utilities/isUrl.ts. Ensure every branch settles the Promise: add a final else reject and
+      reject unsupported element/source types. Handle browser-relative, data:, and protocol-relative
+      // URLs safely; route Node http(s) strings through Jimp. Catch createImageData errors inside
+      img.onload and reject; reject zero-size images. Add test/image-source.test.ts covering the
+      existing Node file path, prompt rejection for invalid sources (await expect(...).rejects),
+      isUrl classification of http(s)/data/protocol-relative/relative/#, and URL-branch behavior
+      using a mocked Jimp.read or stubbed Image so no real network request occurs.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "getImageDataFromSource('not-a-real-source') rejects within the test timeout instead of leaving the Promise pending."
+      - "Node file path test/sample-images/codabar.jpg still resolves data, width, and height."
+      - "isUrl returns true for http(s), ftp, data:, and //host/path, and false for '#id', './image.png', 'image.png', and Windows-style paths."
+      - "Zero-size images and createImageData failures reject rather than resolve or hang; URL branch tests make no real network call."
+      - "npx jest test/image-source.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not modify src/index.ts, dist/, or generated docs."
+        - "Do not regenerate tracked src/**/*.js files."
+        - "Preserve the existing ImageDataLike return shape."
+      relevant_context:
+        - "src/utilities/getImageDataFromSource.ts:13-55 has no final else and no onload try/catch."
+        - "src/utilities/isUrl.ts:1-7 only recognizes ftp/http/https."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t08-adaptive-threshold
+    title: Fix adaptive threshold window math
+    description: |
+      Modify src/utilities/adaptiveThreshold.ts. Use inclusive integral-window bounds so the
+      window sum is not shifted by one pixel, and compute area as (x2-x1+1)*(y2-y1+1). For
+      width < 2 or height < 2, avoid the zero-area window by applying a fixed 127 threshold to
+      grayscale pixels instead of marking everything white. Keep the function in-place and
+      returning the same buffer because the main entry point consumes the mutated data and is
+      owned by later waves. Add test/adaptiveThreshold.test.ts with 1-row dark/white pixels, a small
+      gradient, constant regions, and non-mutation-of-shape checks. Existing adaptive-threshold
+      sample tests must pass.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Height 1 and width 1 inputs do not produce a zero-area window or all-white output for dark pixels (fixed-threshold path)."
+      - "Integral-window sum uses inclusive x1/y1 bounds and inclusive area; reference tests assert specific thresholded pixels."
+      - "Existing codabar/2of5/interleaved adaptive-threshold image tests still return their expected values."
+      - "npx jest test/adaptiveThreshold.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts; preserve in-place mutation semantics."
+        - "Keep the applyAdaptiveThreshold(data, width, height) signature."
+      relevant_context:
+        - "src/utilities/adaptiveThreshold.ts:35-68 contains the exclusive-window integral subtraction."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t09-upc-e
+    title: Correct UPC-E parity and expansion
+    description: |
+      Rewrite only the type === 'E' branch in src/ean/index.ts. After start-guard shift(3) and
+      end-guard pop(3), remove the remaining 3 end-guard runs with splice(24); decode six 4-run
+      digits; record L for direct UPC_SET lookup and G for reversed lookup. Build a six-bit parity
+      value with bit (5-i) set for G/even, then match ZXing UPC-E parity tables:
+      NS0 check 0-9 = 0x38,0x34,0x32,0x31,0x2C,0x26,0x23,0x2A,0x29,0x25;
+      NS1 check 0-9 = 0x07,0x0B,0x0D,0x0E,0x13,0x19,0x1C,0x15,0x16,0x1A.
+      Return the raw 8-digit UPC-E string: NS + six payload digits + check digit. Add
+      test/upc-e.test.ts with synthetic lines (3 start runs + 24 digit runs + 6 end-guard runs)
+      for all 10 check digits in both number systems, plus invalid parity/guard cases. If a digit or
+      parity cannot be resolved, return '' for UPC-E rather than guessing the NS/check digit.
+      Do not change EAN-13, EAN-8, or UPC-A outputs.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Synthetic UPC-E lines for NS 0 and NS 1 decode exactly to 8 characters for every check digit 0-9 (20 exact cases)."
+      - "L/G parity is recovered with bit 1 = G at position 1 << (5-i); unknown parity, unknown digit, or invalid guards return '' for UPC-E."
+      - "No regression: EAN-13 5901234123457, EAN-8 73127727, UPC-A 901234123457 remain unchanged."
+      - "npx jest test/upc-e.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Only edit the type 'E' branch and table constants; leave EAN-13/EAN-8/UPC-A parsing untouched."
+        - "The decoder mutates its lines array; tests must pass fresh arrays."
+        - "Do not regenerate tracked src/**/*.js files."
+      relevant_context:
+        - "src/ean/index.ts:60-110 contains the current type E splice(20,5) and wrong expansion."
+        - "UPC-E total runs: 3 start + 24 payload + 6 end guard; pop(3) then splice(24,3) leaves 24."
+      high_risk_signals:
+        - "UPC-E check-digit mapping is easy to invert; tests must assert both number systems."
+      critic_signals: []
+
+  - id: t10-code11-decoder
+    title: Add Code 11 decoder and enum value
+    description: |
+      Add src/code-11/index.ts with decoder(lines: number[]): string. Patterns are 5 elements
+      bar/space/bar/space/bar, 0=narrow and 1=wide:
+      0:00001, 1:10001, 2:01001, 3:11000, 4:00101, 5:10100, 6:01100, 7:00011,
+      8:10010, 9:10000, -:00100, start/stop:00110. Characters are separated by one narrow space.
+      Use a unit-width threshold derived from narrow runs to classify elements, validate both
+      start and stop guards, and return the payload without guards or '' on invalid input. Add
+      the 'code-11' = 'code-11' member to src/utilities/BARCODE_DECODERS.ts. Add
+      test/code-11.test.ts with synthetic lines for '0', '123-45', invalid start, invalid stop,
+      and malformed/empty input. Do not edit the main entry point in this task.
+    wave: 1
+    depends_on: []
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Synthetic Code 11 lines decode exactly to '0' and '123-45'."
+      - "Invalid start or stop guard, missing separator, empty input, or non-positive widths return '' and never throw."
+      - "BARCODE_DECODERS['code-11'] === 'code-11'; no src/index.ts change is made in this task."
+      - "npx jest test/code-11.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Do not edit src/index.ts; switch dispatch is owned by t11-checksum-dispatch."
+        - "Use 5-element patterns with one narrow inter-character separator."
+        - "Follow existing semicolon-free, single-quote, 2-space style."
+      relevant_context:
+        - "src/utilities/BARCODE_DECODERS.ts:1-13 is the enum to extend."
+        - "src/code-128/index.ts shows the existing decoder module shape."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t11-checksum-dispatch
+    title: Add validateChecksum and Code 11 dispatch
+    description: |
+      Add src/utilities/checksum.ts exporting isValidChecksum(value: string, barcodeType: string):
+      boolean. It applies GS1 mod-10 to EAN-13/EAN-8/UPC-A and expands raw 8-digit UPC-E to a
+      12-digit UPC-A before validating its check. Add options.validateChecksum?: boolean to
+      src/index.ts, default false. After a
+      decoder returns a non-empty result, when validateChecksum is true and the barcode is in the
+      EAN/UPC family, treat an invalid result as no result. False/omitted output stays identical.
+      Also import the new Code 11 decoder and add BARCODE_DECODERS['code-11'] to the switch.
+      Add test/checksum.test.ts for valid/invalid EAN-13/EAN-8/UPC-A and all UPC-E expansion
+      cases, plus an integration test on ean-13.jpg with validateChecksum true. Add
+      test/code-11-dispatch.test.ts that paints a synthetic Code 11 image into ImageDataLike and
+      verifies the reader dispatches to the decoder.
+    wave: 2
+    depends_on: [t09-upc-e, t10-code11-decoder]
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "isValidChecksum returns true for 5901234123457, 73127727, and 901234123457; false when the final digit is changed."
+      - "Raw UPC-E expansion covers payload last digits 0,1,2,3,4,5-9 and validates the expanded UPC-A check digit."
+      - "validateChecksum: true on ean-13.jpg returns 5901234123457; omitted/false produces the same outputs as before across all existing samples."
+      - "Code 11 dispatch decodes a synthetic painted image to 123-45 and invalid enum values still throw the existing error."
+      - "npx jest test/checksum.test.ts test/code-11-dispatch.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Only t11 owns src/index.ts in wave 2; do not edit barcodeDetection.ts or README."
+        - "Validation applies only to ean-13, ean-8, upc-a, upc-e; other symbologies are untouched."
+        - "Invalid checksum resolves as no decode (''), never a thrown checksum error."
+        - "No breaking API removal; validateChecksum is additive and optional."
+      relevant_context:
+        - "src/index.ts:32-42 option type; switch at 56-98; decoder call at 143."
+        - "src/ean/index.ts UPC-E now returns raw 8 digits, so expansion happens in the checksum utility."
+      high_risk_signals:
+        - "UPC-E raw output from t09 is a dependency; do not re-parse it as a 12-digit UPC-A."
+      critic_signals: []
+
+  - id: t12-locate-rotation
+    title: Make locateBarcode and detectRotation functional
+    description: |
+      Modify src/utilities/barcodeDetection.ts and src/index.ts. Fix cropBarcodeRegion padding to
+      use inclusive end coordinates as end-exclusive (endX + 1 + 5, endY + 1 + 5) and clamp all
+      bounds. Add an exported getScanRange(height, row) helper that returns a start row clamped to
+      [0, height-1] and rowsToScan <= remaining height; use it in src/index.ts so a slice never
+      spans past the image (prevents getLines inferring channels=2). When locateBarcode is true,
+      call detectBarcodeRegion and crop with cropBarcodeRegion before applying the optional
+      adaptive threshold and scanning. Implement pure-JS
+      90/180/270 rotation in rotateImageData for at least 3/4-channel data with exact pixel
+      mapping and swapped dimensions; non-cardinal angles may stay unsupported. Wrap each decoder
+      call in try/catch and continue to the next scan line/orientation. When detectRotation is
+      true, scan the normal orientation first, then retry 90/180/270 if no complete result was
+      found. Default behavior when both options are off must remain unchanged.
+      Add test/barcodeDetection.test.ts for crop dimensions, getScanRange edges, and exact
+      90/180/270 pixel/dimension results; test/locate-rotation.test.ts for an offset/rotated
+      synthetic EAN-13 decoded with the options; test/decoder-error-isolation.test.ts with a
+      module mock whose decoder throws, asserting the reader does not reject for that reason.
+    wave: 3
+    depends_on: [t06-getlines, t11-checksum-dispatch]
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "cropBarcodeRegion on a known region returns exact width/height with 5px padding and no out-of-bounds reads."
+      - "getScanRange clamps height 1, 2, and 100 correctly; every slice end is <= data length and rowsToScan never exceeds remaining height."
+      - "locateBarcode: true decodes an offset synthetic EAN-13 5901234123457; crop dimensions match the computed region."
+      - "rotateImageData returns exact pixels and swapped dimensions for 90/270, exact reversed pixels for 180, preserving alpha on 4-channel data."
+      - "detectRotation: true recovers a 90-degree-rotated synthetic barcode after the normal scan fails; options off still decode existing samples unchanged."
+      - "A throwing decoder is caught per scan line and does not reject the outer request; other scan lines remain eligible."
+      - "npx jest test/barcodeDetection.test.ts test/locate-rotation.test.ts test/decoder-error-isolation.test.ts --runInBand --coverage=false passes."
+    handoff:
+      constraints:
+        - "Only t12 owns src/index.ts in wave 3; do not edit README or decoders."
+        - "Do not use canvas APIs in rotateImageData; jsdom and Node must both work."
+        - "Keep options opt-in; no new default cropping/rotation/retry."
+        - "Do not change public output formats."
+      relevant_context:
+        - "src/utilities/barcodeDetection.ts:207-236 has inclusive endX/endY with +5 padding."
+        - "src/index.ts:124-150 has the scan slice and unguarded decoder call."
+        - "Existing detectBarcodeRegion returns a rotation hint; the retry path is explicit 90/180/270 per plan decision."
+      high_risk_signals:
+        - "src/index.ts is shared with t11; t12 must start after t11 completes."
+        - "Rotation retries must not alter singlePass/default behavior when detectRotation is false."
+      critic_signals: []
+
+  - id: t13-readme
+    title: Update README to match final behavior
+    description: |
+      Surgically update README.md after t09-t12 are complete. Add Code 11 to the decoder list and
+      supported-types table. Document raw 8-digit UPC-E output (NS + six payload + check), the
+      validateChecksum option (default false; invalid check yields no result), locateBarcode as
+      region cropping, and detectRotation as 90/180/270 retry scanning. Remove or correct false
+      claims: UCC/EAN-128 GS1 semantics, Industrial 2 of 5 if not implemented, and singlePass as a
+      general speed guarantee. Keep the existing section structure, table, install, and usage
+      blocks. Do not rewrite the README or add unverified behavior.
+    wave: 4
+    depends_on: [t09-upc-e, t10-code11-decoder, t11-checksum-dispatch, t12-locate-rotation]
+    agent: gem-documentation-writer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "README lists Code 11 in both the prose decoder list and the supported-types table with value 'code-11'."
+      - "README documents UPC-E as raw 8 digits and validateChecksum default false + invalid = no result."
+      - "README describes locateBarcode cropping and detectRotation 90/180/270 retry, not unsupported auto-correction claims."
+      - "False UCC/EAN-128 GS1, Industrial 2of5, and vague singlePass speed claims are removed or corrected; structure/table retained."
+      - "git diff -- README.md shows only targeted edits, no wholesale rewrite."
+    handoff:
+      constraints:
+        - "README.md only; no source or test edits."
+        - "Base statements on t09-t12 behavior, not aspirational behavior."
+        - "No new 2D symbology claims."
+      relevant_context:
+        - "README.md:3, 28-43, 77-114 contain the claims to correct."
+      high_risk_signals: []
+      critic_signals: []
+
+  - id: t14-verify
+    title: Final typecheck, tests, formatting, and fixes
+    description: |
+      Verification and minimal repair task after all implementation and docs tasks. Run
+      npx tsc --noEmit; npx jest --runInBand --coverage=false; and
+      npx prettier --check $(git status --porcelain | awk '{print $2}' | grep -E '\.ts$')
+      on every changed/new .ts file. Fix failures in the owning files without expanding scope. Confirm
+      test/index.test.js is untouched unless an existing exact expectation had to change (none is
+      expected); confirm no dist/, docs/ (except this plan), generated typedoc, node_modules/, or
+      tracked stale src/**/*.js edits. Report exact commands and final results.
+    wave: 5
+    depends_on: [t13-readme]
+    agent: gem-implementer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "npx tsc --noEmit exits 0."
+      - "npx jest --runInBand --coverage=false exits 0 with all existing and new tests passing."
+      - "npx prettier --check on each changed/new .ts file exits 0."
+      - "git status confirms no forbidden paths and no unintended test/index.test.js or src/**/*.js changes."
+      - "A short verification report lists commands, pass/fail, test count, and any fixed defects."
+    handoff:
+      constraints:
+        - "Fix only failures caused by this plan; do not implement new features or expand scope."
+        - "Do not modify dist/, docs/ except the plan, node_modules/, or generated typedoc."
+        - "Do not delete test/index.test.js or regenerate stale src/**/*.js."
+      relevant_context:
+        - "Jest config resolves ts before js; full suite baseline is 87 passing tests before additions."
+      high_risk_signals:
+        - "New tests are untracked, so use git status --porcelain rather than git diff --name-only for prettier discovery."
+      critic_signals: []
+
+  - id: t15-review
+    title: Independent review of the final diff
+    description: |
+      Read-only independent review of the complete diff for correctness and regressions. Verify:
+      UPC-E parity/check-digit mapping and raw 8-digit output; checksum math and opt-in behavior;
+      Code 11 patterns/guards; MSI and Pharmacode bit reconstruction; getLines channel/alpha
+      handling; image-source Promise settlement; adaptive-threshold window math; locate crop and
+      scan clamp; rotation pixel mapping and retry isolation; README claims; API compatibility;
+      forbidden-path hygiene. Run focused tests or tsc if needed to substantiate findings. Report
+      findings with file:line and severity; do not edit files.
+    wave: 6
+    depends_on: [t14-verify]
+    agent: gem-reviewer
+    status: pending
+    retries_used: 0
+    acceptance_criteria:
+      - "Review report covers every task's acceptance criteria and the preserved-output constraint list."
+      - "No blocking correctness, regression, security, or API-compatibility findings remain; any non-blocking findings are listed with file:line."
+      - "No files are modified by the review task."
+      - "Report confirms no dist/, docs/ (except plan), node_modules/, generated typedoc, 2D symbology, or tracked stale .js edits."
+    handoff:
+      constraints:
+        - "Read-only: do not edit source, tests, README, or the plan."
+        - "Treat the preserved outputs as non-negotiable: EAN-13 5901234123457, EAN-8 73127727, UPC-A 901234123457, codabar A40156C, code-2of5 12345670, code-39 10023, code-93 123ABC, code-128 ABC-abc-1234, MSI/Pharmacode existing tests."
+        - "Report only actionable findings; no style-only nits."
+      relevant_context:
+        - "All changed files are listed in t01-t13."
+        - "t14-verify report contains commands and final results."
+      high_risk_signals:
+        - "self-review is invalid; this task is independent of implementation."
+      critic_signals: []

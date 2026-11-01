@@ -53,14 +53,45 @@ const CHAR_SET: CharValue[] = [
   { '101011110': '*' },
 ]
 
+const findChar = (binary: string): string | undefined => {
+  for (const item of CHAR_SET) {
+    const key = Object.keys(item)[0]
+    if (key === binary) {
+      return item[key]
+    }
+  }
+  return undefined
+}
+
+const findIndex = (letter: string): number => {
+  for (let i = 0; i < CHAR_SET.length; i += 1) {
+    if (Object.values(CHAR_SET[i])[0] === letter) {
+      return i
+    }
+  }
+  return -1
+}
+
 export function decoder(lines: number[]): string {
   const code = []
   const binary = []
 
+  if (lines.length === 0) {
+    return ''
+  }
+
   // remove termination bar
   lines.pop()
 
+  if (lines.length === 0) {
+    return ''
+  }
+
   const barThreshold = Math.ceil(lines.reduce((pre, item) => pre + item, 0) / lines.length)
+
+  if (!Number.isFinite(barThreshold) || barThreshold <= 0) {
+    return ''
+  }
 
   const minBarWidth = Math.ceil(
     lines.reduce((pre, item) => {
@@ -68,6 +99,10 @@ export function decoder(lines: number[]): string {
       return pre
     }, 0)
   )
+
+  if (!Number.isFinite(minBarWidth) || minBarWidth <= 0) {
+    return ''
+  }
 
   // leave the padded *
   for (let i = 0; i < lines.length; i += 1) {
@@ -85,8 +120,11 @@ export function decoder(lines: number[]): string {
 
   for (let i = 0; i < binary.length; i += 9) {
     const searcKey = binary.slice(i, i + 9).join('')
-    const char = CHAR_SET.filter((item) => Object.keys(item)[0] === searcKey)
-    code.push(char[0][searcKey])
+    const char = findChar(searcKey)
+    if (char === undefined) {
+      return ''
+    }
+    code.push(char)
   }
 
   if (code.shift() !== '*' || code.pop() !== '*') return ''
@@ -99,7 +137,10 @@ export function decoder(lines: number[]): string {
 
   for (let i = code.length - 1; i >= 0; i -= 1) {
     letter = code[i]
-    Value = CHAR_SET.indexOf(CHAR_SET.filter(findValue)[0])
+    Value = findIndex(letter)
+    if (Value === -1) {
+      return ''
+    }
     sum += Value * (1 + ((code.length - (i + 1)) % 15))
   }
 
@@ -110,7 +151,10 @@ export function decoder(lines: number[]): string {
 
   for (let i = code.length - 1; i >= 0; i -= 1) {
     letter = code[i]
-    Value = CHAR_SET.indexOf(CHAR_SET.filter(findValue)[0])
+    Value = findIndex(letter)
+    if (Value === -1) {
+      return ''
+    }
     sum += Value * (1 + ((code.length - (i + 1)) % 20))
   }
 

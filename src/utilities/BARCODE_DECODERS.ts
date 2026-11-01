@@ -1,4 +1,5 @@
 export enum BARCODE_DECODERS {
+  'code-11' = 'code-11',
   'code-128' = 'code-128',
   'code-2of5' = 'code-2of5',
   'code-39' = 'code-39',
