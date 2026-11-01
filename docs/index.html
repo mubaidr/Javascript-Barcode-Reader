@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en" data-base="."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>javascript-barcode-reader</title><meta name="description" content="Documentation for javascript-barcode-reader"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">javascript-barcode-reader</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>javascript-barcode-reader</h1></div><div class="tsd-panel tsd-typography"><a id="javascript-barcode-reader" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Javascript-Barcode-Reader<a href="#javascript-barcode-reader" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><p>Simple &amp; Fast Barcode decoder for Browsers and Node.js capable of reading multiple barcode formats including Code128 (UCC/EAN-128), Code93, Code39, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar, EAN-13, EAN-8, UPC-A, UPC-E, MSI, and Pharmacode.</p>
+<!DOCTYPE html><html class="default" lang="en" data-base="."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>javascript-barcode-reader</title><meta name="description" content="Documentation for javascript-barcode-reader"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">javascript-barcode-reader</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>javascript-barcode-reader</h1></div><div class="tsd-panel tsd-typography"><a id="javascript-barcode-reader" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Javascript-Barcode-Reader<a href="#javascript-barcode-reader" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><p>Simple &amp; Fast Barcode decoder for Browsers and Node.js capable of reading multiple barcode formats including Code128, Code93, Code39, Code 11, Standard/Industrial 2 of 5, Interleaved 2 of 5, Codabar, EAN-13, EAN-8, UPC-A, UPC-E, MSI, and Pharmacode.</p>
 <p><a href="https://travis-ci.org/mubaidr/Javascript-Barcode-Reader"><img src="https://travis-ci.org/mubaidr/Javascript-Barcode-Reader.svg?branch=master" alt="Build Status"></a>
 <a href="https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader"><img src="https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader/branch/master/graph/badge.svg" alt="codecov"></a>
 <a href="https://www.npmjs.com/package/javascript-barcode-reader"><img src="https://img.shields.io/npm/v/javascript-barcode-reader.svg" alt="npm version"></a>
@@ -12,6 +12,7 @@
 <li>UPC-E</li>
 <li>Code-39</li>
 <li>Code-93</li>
+<li>Code-11</li>
 <li>Code-2of5
 <ul>
 <li>standard</li>
@@ -19,7 +20,7 @@
 </ul>
 </li>
 <li>Codabar</li>
-<li>Code-128 (UCC/EAN-128)</li>
+<li>Code-128</li>
 <li>MSI</li>
 <li>Pharmacode</li>
 </ul>
@@ -28,9 +29,10 @@
 <li>Works in both Node.js and browser environments</li>
 <li>Supports multiple barcode formats</li>
 <li>Adaptive thresholding for challenging images</li>
-<li>Single-pass mode for faster decoding</li>
-<li>Automatic barcode region detection</li>
-<li>Automatic rotation detection and correction</li>
+<li>Single-pass mode (affects line-detection failure behavior)</li>
+<li>Optional barcode region detection (<code>locateBarcode</code>)</li>
+<li>Optional rotation retry scanning (<code>detectRotation</code>, 90/180/270)</li>
+<li>Optional EAN/UPC check-digit validation (<code>validateChecksum</code>)</li>
 <li>TypeScript support</li>
 </ul>
 <a id="installation" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Installation<a href="#installation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Recommended way to install is by using package manager (npm, yarn etc):</p>
@@ -83,6 +85,10 @@
 <td><code>'code-93'</code></td>
 </tr>
 <tr>
+<td>Code-11</td>
+<td><code>'code-11'</code></td>
+</tr>
+<tr>
 <td>Code-2of5</td>
 <td><code>'code-2of5'</code></td>
 </tr>
@@ -106,17 +112,16 @@
 </table>
 <a id="options" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Options<a href="#options" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li><code>useAdaptiveThreshold</code>: Apply adaptive thresholding for images with shading or gradients</li>
-<li><code>singlePass</code>: Use single-pass decoding for faster processing</li>
-<li><code>detectRotation</code>: Automatically detect and correct barcode rotation</li>
-<li><code>locateBarcode</code>: Automatically locate barcode region in image</li>
+<li><code>singlePass</code>: Affects line-detection failure behavior (stops at first scan point that finds no lines)</li>
+<li><code>detectRotation</code>: Retry scanning at 90/180/270 orientations if the normal scan yields no complete result</li>
+<li><code>locateBarcode</code>: Crop to the detected barcode region before scanning</li>
+<li><code>validateChecksum</code>: Validate EAN/UPC check digit (default <code>false</code>; invalid check yields no result)</li>
 </ul>
 <a id="note" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Note<a href="#note" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li>For best results, ensure barcode is relatively straight in the image</li>
 <li>Works best when barcode occupies most of the image</li>
+<li>UPC-E is returned as its raw 8-digit value (number system + six payload digits + check digit)</li>
 </ul>
-<a id="contributing" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Contributing<a href="#contributing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
-<li>Each decoder is defined in <code>src</code> directory as a module.</li>
-<li>Tests are defined in the <code>test</code> directory using <code>Jest</code>.</li>
-</ul>
+<a id="contributing" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Contributing<a href="#contributing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>See <a href="media/CONTRIBUTING.md">CONTRIBUTING.md</a> for development setup, committing conventions, and how releases are published to npm.</p>
 <a id="license" class="tsd-anchor"></a><h2 class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>MIT</p>
 </div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#javascript-barcode-reader"><span>Javascript-<wbr/>Barcode-<wbr/>Reader</span></a><ul><li><a href="#try-now"><span>Try now</span></a></li><li><a href="#available-decoders"><span>Available decoders</span></a></li><li><a href="#features"><span>Features</span></a></li><li><a href="#installation"><span>Installation</span></a></li><li><a href="#usage"><span>Usage</span></a></li><li><ul><li><a href="#nodejs"><span>Node.js</span></a></li><li><a href="#browser"><span>Browser</span></a></li><li><a href="#supported-barcode-types"><span>Supported <wbr/>Barcode <wbr/>Types</span></a></li></ul></li><li><a href="#options"><span>Options</span></a></li><li><a href="#note"><span>Note</span></a></li><li><a href="#contributing"><span>Contributing</span></a></li><li><a href="#license"><span>License</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">javascript-barcode-reader</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

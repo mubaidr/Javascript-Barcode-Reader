@@ -93,7 +93,7 @@
     "url": "git://github.com/mubaidr/Javascript-Barcode-Reader.git"
   },
   "scripts": {
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --options typedoc.json",
+    "build": "tsc --module commonjs && rollup -c rollup.config.mjs && typedoc --options typedoc.json",
     "commit": "git-cz",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "lint": "eslint --ext .js,.ts src test --fix && prettier --write \"{test,src,tools}/**/*.{js,ts}\"",
@@ -102,7 +102,7 @@
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-    "start": "rollup -c rollup.config.ts -w",
+    "start": "rollup -c rollup.config.mjs -w",
     "test": "jest --coverage",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "test:watch": "jest --watch"
