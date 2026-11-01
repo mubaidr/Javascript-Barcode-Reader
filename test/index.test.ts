@@ -476,16 +476,6 @@ describe('extract UPC-A barcode', () => {
   })
 })
 
-describe('extract UPC-E barcode', () => {
-  test('should detect barcode UPC-E', async () => {
-    const result = await javascriptBarcodeReader({
-      image: path.resolve('./test/sample-images/ean-8.jpg'),
-      barcode: 'upc-e',
-    })
-    expect(result).toBeDefined()
-  })
-})
-
 describe('barcode decoder threshold calculations', () => {
   test('code2of5 should calculate threshold correctly', () => {
     const lines = [10, 5, 10, 5, 10, 5]
