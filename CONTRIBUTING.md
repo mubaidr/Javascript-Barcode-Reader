@@ -49,7 +49,7 @@ Publishing is automated via [semantic-release](https://semantic-release.gitbook.
 
 1. Merge a PR to `master` whose commits contain `feat:`/`fix:`/`chore:` conventional types.
 2. `semantic-release` runs on `master`, determines the next semantic version, updates `CHANGELOG.md`, and creates a GitHub release.
-3. The GitHub `release` event triggers `.github/workflows/npmpublish.yml`, which runs `npm publish` using the `npm_token` repository secret.
+3. The GitHub `release` event triggers `.github/workflows/npmpublish.yml`, which runs `npm publish` via npm trusted publishing (OIDC) — no long-lived `npm_token` secret is required.
 
 No manual `npm version` / `npm publish` step is required — doing so manually can conflict with semantic-release's version management.
 

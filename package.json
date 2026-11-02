@@ -90,7 +90,7 @@
   "name": "javascript-barcode-reader",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mubaidr/Javascript-Barcode-Reader.git"
+    "url": "https://github.com/mubaidr/Javascript-Barcode-Reader.git"
   },
   "scripts": {
     "build": "tsc --module commonjs && rollup -c rollup.config.mjs && typedoc --options typedoc.json",
