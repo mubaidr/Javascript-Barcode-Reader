@@ -108,8 +108,8 @@
     "test:watch": "jest --watch"
   },
   "typings": "dist/types/src/index.d.ts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "allowScripts": {
-    "core-js@3.48.0": true
+    "core-js": true
   }
 }
