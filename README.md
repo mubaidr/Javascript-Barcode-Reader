@@ -6,6 +6,7 @@ Simple & Fast Barcode decoder for Browsers and Node.js capable of reading multip
 [![codecov](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader/branch/master/graph/badge.svg)](https://codecov.io/gh/mubaidr/Javascript-Barcode-Reader)
 [![npm version](https://img.shields.io/npm/v/javascript-barcode-reader.svg)](https://www.npmjs.com/package/javascript-barcode-reader)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Package](https://github.com/mubaidr/Javascript-Barcode-Reader/actions/workflows/npmpublish.yml/badge.svg)](https://github.com/mubaidr/Javascript-Barcode-Reader/actions/workflows/npmpublish.yml)
 
 [![NPM](https://nodei.co/npm/javascript-barcode-reader.png)](https://nodei.co/npm/javascript-barcode-reader/)
 
